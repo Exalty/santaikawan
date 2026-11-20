@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Santai Kawan Kopi — Ruang Kelola Cafe</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#0038d2',
+              'blue-hover': '#002bb0',
+              'blue-light': '#eff4fc',
+              orange: '#ff8030',
+              'orange-hover': '#ea6d20',
+              'peach-bg': '#ffd8c8',
+              'peach-text': '#a04000',
+              green: '#00875a',
+              'green-bg': '#eafaf1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#eef2f8] min-h-screen text-slate-800 antialiased p-4 lg:p-7">
+
+  <!-- Desktop App Container -->
+  <div class="max-w-[1360px] mx-auto bg-white rounded-[32px] p-7 lg:p-9 shadow-[0_4px_35px_rgba(15,23,42,0.05)] border border-slate-100 flex flex-col gap-6">
+
+    <!-- 1. TOP HEADER / APP BAR -->
+    <header class="flex items-center justify-between pb-2 border-b border-slate-100/80">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchMainPage('Ringkasan')">
+        <img src="/images/logo.png" alt="Logo Santai Kawan Kopi" class="h-10 w-auto object-contain rounded-md">
+        <div>
+          <h1 class="text-[17px] font-extrabold text-slate-900 leading-tight tracking-tight">Santai Kawan Kopi</h1>
+          <p class="text-[10px] font-bold tracking-[0.18em] text-slate-400 uppercase mt-0.5">RUANG KELOLA CAFE</p>
+        </div>
+      </div>
+
+      <!-- Center Pill Navigation -->
+      <nav class="bg-[#f1f4f9] rounded-full p-1 inline-flex items-center gap-1 shadow-inner text-sm font-medium">
+        <button id="nav-btn-Ringkasan" class="nav-item-btn px-4 py-1.5 text-slate-600 hover:text-slate-900 rounded-full transition-all" onclick="switchMainPage('Ringkasan')">Ringkasan</button>
+        <button id="nav-btn-Penjualan" class="nav-item-btn px-4 py-1.5 text-slate-600 hover:text-slate-900 rounded-full transition-all" onclick="switchMainPage('Penjualan')">Penjualan</button>
+        <button id="nav-btn-Member" class="nav-item-btn px-5 py-1.5 bg-[#0038d2] text-white rounded-full shadow-sm font-semibold transition-all" onclick="switchMainPage('Member')">Member</button>
+        <button id="nav-btn-Menu" class="nav-item-btn px-4 py-1.5 text-slate-600 hover:text-slate-900 rounded-full transition-all" onclick="switchMainPage('Menu')">Menu</button>
+        <button id="nav-btn-Inventori" class="nav-item-btn px-4 py-1.5 text-slate-600 hover:text-slate-900 rounded-full transition-all" onclick="switchMainPage('Inventori')">Inventori</button>
+        <button id="nav-btn-Laporan" class="nav-item-btn px-4 py-1.5 text-slate-600 hover:text-slate-900 rounded-full transition-all" onclick="switchMainPage('Laporan')">Laporan</button>
+      </nav>
+
+      <!-- Right Action Tools & Profile -->
+      <div class="flex items-center gap-3">
+        <button class="w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition" title="Pencarian" onclick="openSearchModal()">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </button>
+        <button class="relative w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition" title="Notifikasi" onclick="toggleNotifications()">
+          <i data-lucide="bell" class="w-4 h-4"></i>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-[#ff8030] rounded-full ring-2 ring-white"></span>
+        </button>
+        <div class="w-9 h-9 rounded-full bg-[#0038d2] text-white font-bold text-xs flex items-center justify-center cursor-pointer shadow-sm hover:opacity-95 transition" title="Admin Kawan (AK)">
+          AK
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 1: MEMBER (CRM & KOMUNITAS CAFE) - DEFAULT                           -->
+    <!-- ========================================================================= -->
+    <main id="view-page-member" class="main-page-section flex flex-col gap-6">
+      
+      <!-- Sub-header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>CRM & KOMUNITAS CAFE</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Kawan setia, bisnis tumbuh.
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Pantau kebiasaan pelanggan setia dan dorong kunjungan berulang cafe.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="exportReport()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
+            <span>Ekspor Laporan</span>
+          </button>
+          <button onclick="openAddMemberModal()" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            <span>+ Tambah member baru</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sub-tabs & Filter Row -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <div class="flex items-center gap-1.5 text-sm font-medium">
+          <button id="tab-ikhtisar" onclick="switchSubTab('ikhtisar')" class="px-5 py-2 rounded-full bg-[#0038d2] text-white font-semibold transition">
+            Ikhtisar
+          </button>
+          <button id="tab-members" onclick="switchSubTab('members')" class="px-5 py-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+            Daftar member
+          </button>
+          <button id="tab-segmen" onclick="switchSubTab('segmen')" class="px-5 py-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+            Segmen
+          </button>
+          <button id="tab-loyalitas" onclick="switchSubTab('loyalitas')" class="px-5 py-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+            Program loyalitas
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2.5 text-xs font-medium">
+          <div class="bg-white border border-slate-200/90 text-slate-600 px-3.5 py-1.5 rounded-full flex items-center gap-2 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="badge-updated">Diperbarui 22.00 WIB</span>
+          </div>
+
+          <div class="relative">
+            <select class="appearance-none bg-white border border-slate-200/90 text-slate-700 font-medium pl-8 pr-7 py-1.5 rounded-full cursor-pointer hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20 text-xs shadow-xs">
+              <option>2–8 Nov 2026</option>
+              <option>26 Okt – 1 Nov 2026</option>
+            </select>
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <div class="relative">
+            <select class="appearance-none bg-white border border-slate-200/90 text-slate-700 font-medium pl-8 pr-7 py-1.5 rounded-full cursor-pointer hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20 text-xs shadow-xs">
+              <option>Semua cabang</option>
+              <option>Cabang Dago</option>
+              <option>Cabang Sudirman</option>
+            </select>
+            <i data-lucide="store" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview: Ikhtisar -->
+      <div id="view-ikhtisar" class="flex flex-col gap-6">
+        
+        <!-- 4 KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase">TOTAL MEMBER</span>
+              <div class="w-8 h-8 rounded-full bg-[#eff4fc] text-[#0038d2] flex items-center justify-center">
+                <i data-lucide="users" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+              <span id="kpi-total-member" class="text-3xl font-extrabold text-slate-900 tracking-tight">482</span>
+              <span class="text-slate-500 text-sm font-medium">kawan</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3 text-xs">
+              <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +14,2%
+              </span>
+              <span class="text-slate-500 text-[11px]">vs 422 minggu lalu</span>
+            </div>
+          </div>
+
+          <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase">MEMBER AKTIF (MINGGU INI)</span>
+              <div class="w-8 h-8 rounded-full bg-[#eff4fc] text-[#0038d2] flex items-center justify-center">
+                <i data-lucide="coffee" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+              <span id="kpi-active-member" class="text-3xl font-extrabold text-slate-900 tracking-tight">318</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3 text-xs">
+              <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                <i data-lucide="arrow-up" class="w-3 h-3"></i> +18,5%
+              </span>
+              <span class="text-slate-500 text-[11px]">66% dari total member</span>
+            </div>
+          </div>
+
+          <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase">MEMBER BARU MINGGU INI</span>
+              <div class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#ff8030] flex items-center justify-center">
+                <i data-lucide="party-popper" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+              <span id="kpi-new-member" class="text-3xl font-extrabold text-slate-900 tracking-tight">54</span>
+              <span class="text-slate-500 text-sm font-medium">kawan</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3 text-xs">
+              <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +22,0%
+              </span>
+              <span class="text-slate-500 text-[11px]">vs 44 kawan lalu</span>
+            </div>
+          </div>
+
+          <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase">RATA-RATA KUNJUNGAN</span>
+              <div class="w-8 h-8 rounded-full bg-[#eff4fc] text-slate-600 flex items-center justify-center">
+                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-1">
+              <span id="kpi-avg-visits" class="text-3xl font-extrabold text-slate-900 tracking-tight">3,4x</span>
+              <span class="text-slate-500 text-sm font-medium">/minggu</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3 text-xs">
+              <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +8,2%
+              </span>
+              <span class="text-slate-500 text-[11px] leading-tight">Anak nugas & langganan pagi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Section (2 Columns) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          <!-- Bar Chart Card -->
+          <div class="lg:col-span-7 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-6">
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900 leading-snug">Pertumbuhan & Aktivitas Kawan Setia</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">Jumlah member yang bertransaksi setiap hari (Senin – Minggu)</p>
+                </div>
+                <div class="bg-[#eff4fc] text-[#0038d2] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 shrink-0">
+                  <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+                  <span>Puncak: Sabtu (72 kawan)</span>
+                </div>
+              </div>
+
+              <div class="h-48 flex items-end justify-between gap-3 px-3 pb-2 pt-6">
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Senin: 32 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">32</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 60px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">SEN</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Selasa: 38 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">38</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 72px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">SEL</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Rabu: 45 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">45</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 86px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">RAB</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Kamis: 41 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">41</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 78px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">KAM</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Jumat: 56 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">56</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 108px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">JUM</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Sabtu: 72 kawan (Puncak)">
+                  <span class="text-xs font-black text-[#0038d2] flex items-center gap-0.5">⭐ 72</span>
+                  <div class="w-full bg-[#0038d2] hover:bg-[#002cb0] rounded-t-2xl bar-pill shadow-md transition-all" style="height: 138px;"></div>
+                  <span class="text-[11px] font-black text-[#0038d2]">SAB</span>
+                </div>
+                <div class="chart-bar-item flex-1 flex flex-col items-center gap-2 group cursor-pointer" title="Minggu: 59 kawan">
+                  <span class="text-xs font-bold text-slate-500 group-hover:text-[#0038d2] transition">59</span>
+                  <div class="w-full bg-[#e3e9f5] group-hover:bg-[#cbd9f2] rounded-t-2xl bar-pill transition-all" style="height: 114px;"></div>
+                  <span class="text-[11px] font-bold text-slate-500">MIN</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Frequency Distribution -->
+            <div class="mt-6 pt-5 border-t border-slate-200/80">
+              <div class="flex items-center justify-between mb-3 text-xs">
+                <span class="font-bold text-slate-800">Distribusi Frekuensi Kunjungan Member</span>
+                <span class="text-slate-400">Minggu ini</span>
+              </div>
+              <div class="grid grid-cols-3 gap-3">
+                <div class="bg-white rounded-2xl p-3 border border-slate-100 flex flex-col gap-1.5">
+                  <span class="text-[11px] text-slate-500 font-medium">1x Kunjungan</span>
+                  <div class="flex items-baseline justify-between">
+                    <span class="text-base font-extrabold text-slate-800">28%</span>
+                    <span class="text-[11px] text-slate-400">(89 kwn)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-slate-300 h-full rounded-full" style="width: 28%"></div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-2xl p-3 border border-slate-100 flex flex-col gap-1.5">
+                  <span class="text-[11px] text-slate-500 font-medium">2–3x Kunjungan</span>
+                  <div class="flex items-baseline justify-between">
+                    <span class="text-base font-extrabold text-[#0038d2]">48%</span>
+                    <span class="text-[11px] text-slate-400">(153 kwn)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-[#0038d2] h-full rounded-full" style="width: 48%"></div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-2xl p-3 border border-slate-100 flex flex-col gap-1.5">
+                  <span class="text-[11px] text-slate-500 font-medium">4x+ Kunjungan (Intens)</span>
+                  <div class="flex items-baseline justify-between">
+                    <span class="text-base font-extrabold text-[#ff8030]">24%</span>
+                    <span class="text-[11px] text-slate-400">(76 kwn)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-[#ff8030] h-full rounded-full" style="width: 24%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Revenue Contribution Card -->
+          <div class="lg:col-span-5 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-4">
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900 leading-snug">Dari mana omzetmu?</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">Kontribusi transaksi Member vs Tamu biasa (Non-member)</p>
+                </div>
+                <span class="text-xs text-slate-500 bg-white border border-slate-200/80 px-2.5 py-1 rounded-full font-medium">7 Hari Terakhir</span>
+              </div>
+
+              <div class="bg-[#f0f4fc] rounded-2xl p-4 flex items-center justify-between mb-5">
+                <div>
+                  <span class="text-[10px] font-bold text-slate-500 tracking-wider uppercase block">TOTAL PENDAPATAN TERKUMPUL</span>
+                  <span class="text-2xl lg:text-[26px] font-extrabold text-slate-900 tracking-tight mt-0.5 block">Rp18.480.000</span>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-white text-[#0038d2] shadow-sm flex items-center justify-center">
+                  <i data-lucide="banknote" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <div class="space-y-2 mb-6">
+                <div class="flex items-center justify-between text-xs font-semibold">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#0038d2]"></span>
+                    <span class="text-slate-800">Member Kawan Kopi</span>
+                  </div>
+                  <span class="text-slate-900 font-bold">68% · Rp12.566.400</span>
+                </div>
+                <div class="h-3.5 w-full bg-[#ff8030] rounded-full overflow-hidden flex shadow-inner">
+                  <div class="bg-[#0038d2] h-full" style="width: 68%;"></div>
+                </div>
+                <div class="flex items-center justify-between text-xs font-semibold pt-1">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#ff8030]"></span>
+                    <span class="text-slate-600">Pelanggan Biasa (Non-member)</span>
+                  </div>
+                  <span class="text-slate-700 font-bold">32% · Rp5.913.600</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-5 border-t border-slate-200/80">
+              <span class="text-[10px] font-bold text-slate-500 tracking-wider uppercase block mb-3">PERBANDINGAN RATA-RATA BELANJA (AOV)</span>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-100 flex flex-col justify-between">
+                  <div class="flex items-center gap-1.5 text-xs font-bold text-[#0038d2]">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>Member</span>
+                  </div>
+                  <div class="mt-2">
+                    <span class="text-xl font-extrabold text-slate-900 block tracking-tight">Rp39.500</span>
+                    <span class="text-[#00875a] text-[11px] font-bold flex items-center gap-1 mt-1">
+                      <i data-lucide="trending-up" class="w-3 h-3"></i> +63% lebih royal
+                    </span>
+                  </div>
+                </div>
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-100 flex flex-col justify-between">
+                  <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span>Non-member</span>
+                  </div>
+                  <div class="mt-2">
+                    <span class="text-xl font-extrabold text-slate-900 block tracking-tight">Rp24.200</span>
+                    <span class="text-slate-500 text-[11px] font-medium block mt-1">Rata-rata 1 cup & snack</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Lower Section (2 Columns) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          <!-- Segmen Card -->
+          <div class="lg:col-span-7 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900 leading-snug">Segmen Pelanggan Cafe</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">Karakteristik kebiasaan kawan berdasarkan transaksi & waktu mampir</p>
+                </div>
+                <button onclick="switchSubTab('segmen')" class="text-xs font-bold text-[#0038d2] hover:underline flex items-center gap-1 shrink-0">
+                  Lihat Semua Segmen <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+
+              <div class="space-y-3">
+                <div class="bg-[#eff4fc] rounded-2xl p-3.5 flex items-center justify-between hover:bg-[#e7eefb] transition">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-white text-[#0038d2] flex items-center justify-center shadow-xs shrink-0">
+                      <i data-lucide="laptop" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-900">Anak nugas / laptopan</span>
+                        <span class="bg-[#0038d2] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">34% · 164 kawan</span>
+                      </div>
+                      <span class="text-[11px] text-slate-500 block mt-0.5">Jam ramai: 13.00 – 18.00 (Fokus WiFi stabil & colokan)</span>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="text-xs font-bold text-slate-800">Fav: Americano Dingin</span>
+                  </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-[#ffedd5] text-[#ff8030] flex items-center justify-center shrink-0">
+                      <i data-lucide="sun" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-900">Langganan harian / ngopi pagi</span>
+                        <span class="bg-[#ffd8c8] text-[#a04000] text-[10px] font-bold px-2 py-0.5 rounded-full">28% · 135 kawan</span>
+                      </div>
+                      <span class="text-[11px] text-slate-500 block mt-0.5">Jam ramai: 08.00 – 11.00 (Rutinitas sebelum kerja/kuliah)</span>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="text-xs font-bold text-slate-800">Fav: Kopi Susu Kawan</span>
+                  </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
+                      <i data-lucide="moon" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-900">Pengunjung malam & nongkrong</span>
+                        <span class="bg-[#e9edf5] text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">22% · 106 kawan</span>
+                      </div>
+                      <span class="text-[11px] text-slate-500 block mt-0.5">Jam ramai: 19.00 – 23.00 (Ngobrol santai santai & musik)</span>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="text-xs font-bold text-slate-800">Fav: Manual Brew & Croissant</span>
+                  </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
+                      <i data-lucide="coffee" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-900">Pembeli sesekali / take-away</span>
+                        <span class="bg-[#e9edf5] text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">16% · 77 kawan</span>
+                      </div>
+                      <span class="text-[11px] text-slate-500 block mt-0.5">Jam acak · Cepat saji, bawa botol tumbler sendiri</span>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="text-xs font-bold text-slate-800">Fav: Cold Brew Bottle</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Retention & Target Cards -->
+          <div class="lg:col-span-5 flex flex-col gap-5 justify-between">
+            
+            <div class="bg-white border border-slate-200/80 rounded-3xl p-5 lg:p-6 shadow-xs hover:border-slate-300 transition">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#ff8030] flex items-center justify-center shrink-0">
+                    <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                  </div>
+                  <h4 class="text-sm font-bold text-slate-900">12 kawan lama belum mampir</h4>
+                </div>
+                <span class="bg-[#ffd8c8] text-[#a04000] text-[11px] font-bold px-2.5 py-0.5 rounded-full shrink-0">Butuh sapaan</span>
+              </div>
+              <p class="text-xs text-slate-500 leading-relaxed mt-2 mb-4">
+                Pelanggan rutin yang biasanya datang minimal 3x seminggu, kini sudah lebih dari 14 hari tidak bertransaksi di cafe.
+              </p>
+              <div class="flex items-center justify-between pt-1">
+                <div class="avatar-stack flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-[#ff8030] text-white text-[11px] font-bold flex items-center justify-center">DR</div>
+                  <div class="w-8 h-8 rounded-full bg-[#0038d2] text-white text-[11px] font-bold flex items-center justify-center">AS</div>
+                  <div class="w-8 h-8 rounded-full bg-[#e2e8f0] text-slate-700 text-[11px] font-bold flex items-center justify-center">BM</div>
+                  <div class="w-8 h-8 rounded-full bg-[#ea580c] text-white text-[11px] font-bold flex items-center justify-center">+9</div>
+                </div>
+                <button onclick="openReengageModal()" class="bg-[#ff8030] hover:bg-[#ea6d20] text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1.5 transition active:scale-95 shadow-sm">
+                  <span>Ajak balik sekarang</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 lg:p-6 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-[#eff4fc] text-[#0038d2] flex items-center justify-center shrink-0">
+                      <i data-lucide="flag" class="w-4 h-4"></i>
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-900">Target Loyalitas November</h4>
+                  </div>
+                  <span id="loyalty-pct" class="text-xl font-black text-[#0038d2]">92,4%</span>
+                </div>
+                <div class="w-full bg-[#e2e8f0] h-2.5 rounded-full overflow-hidden mb-2">
+                  <div id="loyalty-bar" class="bg-[#0038d2] h-full rounded-full transition-all duration-500" style="width: 92.4%"></div>
+                </div>
+                <div class="flex items-center justify-between text-xs font-semibold mb-3">
+                  <span id="loyalty-achieved" class="text-[#0038d2]">Tercapai: 482 member</span>
+                  <span id="loyalty-target" class="text-slate-500">Target: 500 member</span>
+                </div>
+              </div>
+              <div class="flex items-start gap-2 bg-white rounded-2xl p-3 border border-slate-100 text-xs text-slate-600 mt-1">
+                <i data-lucide="sparkles" class="w-4 h-4 text-[#0038d2] shrink-0 mt-0.5"></i>
+                <p id="loyalty-note" class="leading-relaxed">
+                  Kurang 18 kawan menuju target 500 member! Semangat seduh dan tawarkan loyalty card hari ini.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Subview: Daftar Member -->
+      <div id="view-members" class="hidden flex flex-col gap-4">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#f8fafc] p-4 rounded-2xl border border-slate-100">
+          <div class="relative w-full sm:w-80">
+            <input type="text" id="member-search" oninput="searchMembers()" placeholder="Cari nama, nomor HP, atau ID member..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <select id="filter-member-segment" onchange="filterMemberList()" class="bg-white border border-slate-200 text-xs text-slate-700 px-3 py-2 rounded-full focus:outline-none">
+              <option value="Semua">Semua Segmen</option>
+              <option value="Anak nugas / laptopan">Anak nugas / laptopan</option>
+              <option value="Langganan harian / ngopi pagi">Langganan harian / ngopi pagi</option>
+              <option value="Pengunjung malam & nongkrong">Pengunjung malam & nongkrong</option>
+              <option value="Pembeli sesekali / take-away">Pembeli sesekali / take-away</option>
+            </select>
+            <select id="filter-member-tier" onchange="filterMemberList()" class="bg-white border border-slate-200 text-xs text-slate-700 px-3 py-2 rounded-full focus:outline-none">
+              <option value="Semua">Semua Tier</option>
+              <option value="Kawan Akrab">Kawan Akrab (Gold)</option>
+              <option value="Kawan Dekat">Kawan Dekat (Silver)</option>
+              <option value="Kawan Baru">Kawan Baru (Bronze)</option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-x-auto rounded-2xl border border-slate-100">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-[#f8fafc] text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-100">
+              <tr>
+                <th class="p-3.5 pl-5">ID Member</th>
+                <th class="p-3.5">Nama & Kontak</th>
+                <th class="p-3.5">Segmen</th>
+                <th class="p-3.5">Tier Loyalitas</th>
+                <th class="p-3.5 text-center">Kunjungan</th>
+                <th class="p-3.5 text-center">Poin</th>
+                <th class="p-3.5">Status</th>
+                <th class="p-3.5 pr-5 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="members-table-body" class="divide-y divide-slate-100 bg-white"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Subview: Segmen Detail -->
+      <div id="view-segmen" class="hidden flex flex-col gap-5">
+        <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100">
+          <h3 class="text-lg font-bold text-slate-900 mb-1">Analisis Mendalam 4 Segmen Pelanggan</h3>
+          <p class="text-xs text-slate-500 mb-4">Strategi peningkatan retensi dan rekomendasi menu per segmen pelanggan cafe.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-100">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-slate-900 text-sm">💻 Anak nugas / laptopan (34%)</span>
+                <span class="text-xs text-[#0038d2] font-bold">164 Member</span>
+              </div>
+              <p class="text-xs text-slate-600 mb-2">Durasi duduk rata-rata 3,5 jam. Sangat sensitif terhadap kecepatan WiFi dan ketersediaan stopkontak.</p>
+              <div class="bg-blue-50 text-blue-700 text-[11px] p-2.5 rounded-xl font-medium">
+                💡 <strong>Rekomendasi:</strong> Tawarkan paket "Refill Americano Hemat" setelah 2 jam & combo snack kering.
+              </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-slate-900 text-sm">☀️ Langganan harian / ngopi pagi (28%)</span>
+                <span class="text-xs text-[#ff8030] font-bold">135 Member</span>
+              </div>
+              <p class="text-xs text-slate-600 mb-2">Kecepatan barista sangat krusial. Rata-rata transaksi 08.00–10.30 WIB sebelum jam kantor.</p>
+              <div class="bg-orange-50 text-orange-800 text-[11px] p-2.5 rounded-xl font-medium">
+                💡 <strong>Rekomendasi:</strong> Fitur 'Quick Order Barista' & promo roti pagi bundling Kopi Susu Kawan.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview: Program Loyalitas Detail -->
+      <div id="view-loyalitas" class="hidden flex flex-col gap-5">
+        <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100">
+          <h3 class="text-lg font-bold text-slate-900 mb-1">Skema Tingkatan (Tier) Loyalitas Cafe</h3>
+          <p class="text-xs text-slate-500 mb-5">Aturan reward dan hak istimewa member Santai Kawan Kopi.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-100">
+              <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">TIER 1</span>
+              <h4 class="text-base font-bold text-slate-900 mt-2">Kawan Baru (Bronze)</h4>
+              <p class="text-xs text-slate-500 mt-1">1–10 kunjungan</p>
+              <ul class="text-xs text-slate-600 space-y-1 mt-3">
+                <li>• 1 Poin per transaksi Rp 10.000</li>
+                <li>• Welcome voucher diskon 15%</li>
+              </ul>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100">
+              <span class="bg-[#ffd8c8] text-[#a04000] text-[10px] font-bold px-2 py-0.5 rounded-full">TIER 2</span>
+              <h4 class="text-base font-bold text-slate-900 mt-2">Kawan Dekat (Silver)</h4>
+              <p class="text-xs text-slate-500 mt-1">11–25 kunjungan</p>
+              <ul class="text-xs text-slate-600 space-y-1 mt-3">
+                <li>• 1,5x Poin per transaksi</li>
+                <li>• Gratis 1 cup di bulan ultah</li>
+              </ul>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border-2 border-[#0038d2] shadow-xs">
+              <span class="bg-[#0038d2] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">TIER 3 (VIP)</span>
+              <h4 class="text-base font-bold text-slate-900 mt-2">Kawan Akrab (Gold)</h4>
+              <p class="text-xs text-slate-500 mt-1">26+ kunjungan</p>
+              <ul class="text-xs text-slate-600 space-y-1 mt-3">
+                <li>• 2x Poin per transaksi</li>
+                <li>• Free upgrade size minuman</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 2: RINGKASAN (HALAMAN 37 PROTOTYPE)                                   -->
+    <!-- ========================================================================= -->
+    <main id="view-page-ringkasan" class="main-page-section hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>RINGKASAN PENJUALAN</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Bisnis Lancar, kawan.
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Secangkir insight untuk langkah cafe yang lebih baik.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="exportReport()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
+            <span>Unduh Laporan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Ringkasan KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL PENDAPATAN</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp18.480.000</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span class="text-slate-500 text-[11px]">vs Rp16.500.000 minggu lalu</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">LABA KOTOR</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp11.088.000</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +15,5%</span>
+            <span class="text-slate-500 text-[11px]">Margin 60% dari pendapatan</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL TRANSAKSI</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">616</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +10,0%</span>
+            <span class="text-slate-500 text-[11px]">vs 560 transaksi minggu lalu</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">MENU TERJUAL</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">840</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span class="text-slate-500 text-[11px]">vs 750 item minggu lalu</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ringkasan Charts & Tables -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Daily revenue chart -->
+        <div class="lg:col-span-7 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-lg font-bold text-slate-900">Pendapatan Harian</h3>
+                <p class="text-xs text-slate-500">Rp18,48 jt dalam 7 hari &bull; Rata-rata per hari: Rp2.640.000</p>
+              </div>
+              <span class="text-xs font-semibold text-[#0038d2] bg-[#eff4fc] px-3 py-1 rounded-full">7 Hari Terakhir</span>
+            </div>
+
+            <div class="h-44 flex items-end justify-between gap-3 px-3 pb-2 pt-6">
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">2,2 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 60px;"></div>
+                <span class="text-xs font-bold text-slate-500">Sen</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">2,4 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 66px;"></div>
+                <span class="text-xs font-bold text-slate-500">Sel</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">2,5 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 70px;"></div>
+                <span class="text-xs font-bold text-slate-500">Rab</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">2,3 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 64px;"></div>
+                <span class="text-xs font-bold text-slate-500">Kam</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">3,1 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 88px;"></div>
+                <span class="text-xs font-bold text-slate-500">Jum</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-black text-[#0038d2]">⭐ 3,6 jt</span>
+                <div class="w-full bg-[#0038d2] rounded-t-xl shadow-md" style="height: 110px;"></div>
+                <span class="text-xs font-black text-[#0038d2]">Sab</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-2">
+                <span class="text-[11px] font-bold text-slate-500">2,4 jt</span>
+                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 68px;"></div>
+                <span class="text-xs font-bold text-slate-500">Min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+            <span>Hari paling ramai: <strong>Sabtu (120 transaksi)</strong></span>
+            <span class="text-[#00875a] font-bold">+56 transaksi dari minggu lalu</span>
+          </div>
+        </div>
+
+        <!-- Favorit para kawan (Top menus) -->
+        <div class="lg:col-span-5 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-lg font-bold text-slate-900">Favorit Para Kawan</h3>
+                <p class="text-xs text-slate-500">4 menu terlaris dari 18 menu aktif minggu ini</p>
+              </div>
+              <button onclick="switchMainPage('Menu')" class="text-xs font-bold text-[#0038d2] hover:underline">Lihat semua ↗</button>
+            </div>
+
+            <div class="space-y-3">
+              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-900 text-xs">Kopi Susu Kawan</div>
+                  <div class="text-[11px] text-slate-400">Kopi &bull; Rp24.000</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-[#0038d2] text-xs">210 item</div>
+                  <div class="text-[10px] text-slate-500">Rp5.040.000</div>
+                </div>
+              </div>
+
+              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-900 text-xs">Kopi Aren Santai</div>
+                  <div class="text-[11px] text-slate-400">Kopi &bull; Rp30.000</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-[#0038d2] text-xs">120 item</div>
+                  <div class="text-[10px] text-slate-500">Rp3.600.000</div>
+                </div>
+              </div>
+
+              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-900 text-xs">Matcha Latte</div>
+                  <div class="text-[11px] text-slate-400">Non-kopi &bull; Rp30.000</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-[#0038d2] text-xs">84 item</div>
+                  <div class="text-[10px] text-slate-500">Rp2.520.000</div>
+                </div>
+              </div>
+
+              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-900 text-xs">Butter Croissant</div>
+                  <div class="text-[11px] text-slate-400">Pastry &bull; Rp20.000</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-[#0038d2] text-xs">72 item</div>
+                  <div class="text-[10px] text-slate-500">Rp1.440.000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-200/80 bg-white p-3.5 rounded-2xl border border-slate-100">
+            <div class="flex items-center justify-between text-xs font-bold mb-1.5">
+              <span class="text-slate-800">Target Mingguan</span>
+              <span class="text-[#0038d2]">92,4%</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-1.5">
+              <div class="bg-[#0038d2] h-full" style="width: 92.4%"></div>
+            </div>
+            <p class="text-[11px] text-slate-500">Kurang Rp1.520.000 menuju target Rp20.000.000 pekan ini.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 3: PENJUALAN (HALAMAN 36 PROTOTYPE)                                  -->
+    <!-- ========================================================================= -->
+    <main id="view-page-penjualan" class="main-page-section hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>TRANSAKSI KASIR</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Penjualan
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Pantau setiap transaksi, dari pesanan pertama hingga tutup cafe.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="exportReport()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
+            <span>Unduh Laporan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Penjualan KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL PENDAPATAN</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp18.480.000</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span class="text-slate-500 text-[11px]">vs Rp16.500.000</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">RATA-RATA TRANSAKSI</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp30.000</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Total pendapatan ÷ 616 transaksi</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL TRANSAKSI</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">616</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +10,0%</span>
+            <span class="text-slate-500 text-[11px]">vs 560 transaksi</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">MENU TERJUAL</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">840</span>
+          <div class="flex items-center gap-2 mt-3 text-xs">
+            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span class="text-slate-500 text-[11px]">vs 750 item</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Penjualan Table -->
+      <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100 flex flex-col gap-4">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Semua Transaksi Realtime</h3>
+            <p class="text-xs text-slate-500">Menampilkan pesanan kasir periode 2–8 November 2026</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" placeholder="Cari nomor transaksi / pelanggan..." class="bg-white border border-slate-200 text-xs px-3.5 py-1.5 rounded-full focus:outline-none w-64">
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-slate-200/60 bg-white">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-[#f1f4f9] text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200/60">
+              <tr>
+                <th class="p-3 pl-4">No. Transaksi</th>
+                <th class="p-3">Waktu</th>
+                <th class="p-3">Pelanggan</th>
+                <th class="p-3">Jenis Pesanan</th>
+                <th class="p-3">Pembayaran</th>
+                <th class="p-3">Total</th>
+                <th class="p-3 pr-4 text-right">Status</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-table-body" class="divide-y divide-slate-100">
+              <!-- Dynamically populated or static rows -->
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">SKK-0616</td>
+                <td class="p-3 text-slate-500">8 Nov 2026 · 21.48</td>
+                <td class="p-3 font-bold text-slate-900">Novaldo</td>
+                <td class="p-3">Di cafe · Meja 05</td>
+                <td class="p-3 font-semibold text-slate-700">QRIS</td>
+                <td class="p-3 font-bold text-slate-900">Rp72.000</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Lunas</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">SKK-0615</td>
+                <td class="p-3 text-slate-500">8 Nov 2026 · 21.35</td>
+                <td class="p-3 font-bold text-slate-900">Ariel Saputra</td>
+                <td class="p-3">Bawa pulang</td>
+                <td class="p-3 font-semibold text-slate-700">Tunai</td>
+                <td class="p-3 font-bold text-slate-900">Rp54.000</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Lunas</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">SKK-0614</td>
+                <td class="p-3 text-slate-500">8 Nov 2026 · 21.21</td>
+                <td class="p-3 font-bold text-slate-900">Azzaky Raihan</td>
+                <td class="p-3">Di cafe · Meja 02</td>
+                <td class="p-3 font-semibold text-slate-700">QRIS</td>
+                <td class="p-3 font-bold text-slate-900">Rp30.000</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Lunas</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">SKK-0613</td>
+                <td class="p-3 text-slate-500">8 Nov 2026 · 21.08</td>
+                <td class="p-3 font-bold text-slate-900">Gabriel Bukit</td>
+                <td class="p-3">Bawa pulang</td>
+                <td class="p-3 font-semibold text-slate-700">Debit</td>
+                <td class="p-3 font-bold text-slate-900">Rp45.000</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Lunas</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">SKK-0612</td>
+                <td class="p-3 text-slate-500">8 Nov 2026 · 20.54</td>
+                <td class="p-3 font-bold text-slate-900">Sinta Ayu</td>
+                <td class="p-3">Di cafe · Meja 08</td>
+                <td class="p-3 font-semibold text-slate-700">QRIS</td>
+                <td class="p-3 font-bold text-slate-900">Rp68.000</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Lunas</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 4: MENU (HALAMAN 39 PROTOTYPE)                                       -->
+    <!-- ========================================================================= -->
+    <main id="view-page-menu" class="main-page-section hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>KATALOG HIDANGAN & RACIKAN</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Daftar Menu Kawan
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Kelola sajian kopi, non-kopi, dan pastry favorit para kawan.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="showToast('Impor CSV template menu')" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+            <i data-lucide="upload" class="w-4 h-4 text-slate-600"></i>
+            <span>Impor CSV</span>
+          </button>
+          <button onclick="showToast('Form Tambah Menu Baru')" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>+ Tambah menu baru</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL MENU</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">32 Sajian</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">840 porsi terjual pekan ini (+12,4%)</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">MENU TERLARIS</span>
+          <span class="text-2xl font-extrabold text-slate-900 tracking-tight block">Sawan</span>
+          <div class="mt-3 text-xs text-[#0038d2] font-semibold text-[11px]">280 terjual &bull; Rp6.440.000</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">RATA-RATA MARGIN</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">68,5%</span>
+          <div class="mt-3 text-xs text-[#00875a] font-semibold text-[11px]">HPP aman di bawah 35% (Sehat)</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">PERHATIAN STOK</span>
+          <span class="text-3xl font-extrabold text-[#ea580c] tracking-tight block">2 Menu</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Espresso & Matcha tipis</div>
+        </div>
+      </div>
+
+      <!-- Menu Grid Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <div class="bg-[#f8fafc] p-5 rounded-3xl border border-slate-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold bg-[#eff4fc] text-[#0038d2] px-2 py-0.5 rounded-full">Signature &bull; SIG-01</span>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Bahan aman</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mt-1">Sawan (Signature)</h4>
+            <div class="flex items-center gap-3 text-xs text-slate-500 mt-2">
+              <span>HPP: Rp8.000</span>
+              <span>&bull;</span>
+              <span class="text-[#00875a] font-bold">Margin 65,2%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
+            <span class="text-sm font-extrabold text-slate-900">Rp23.000</span>
+            <span class="text-xs text-slate-500 font-medium">280 terjual</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] p-5 rounded-3xl border border-slate-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold bg-[#eff4fc] text-[#0038d2] px-2 py-0.5 rounded-full">Signature &bull; SIG-02</span>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Bahan aman</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mt-1">Misoka (Aren Santai)</h4>
+            <div class="flex items-center gap-3 text-xs text-slate-500 mt-2">
+              <span>HPP: Rp7.500</span>
+              <span>&bull;</span>
+              <span class="text-[#00875a] font-bold">Margin 65,9%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
+            <span class="text-sm font-extrabold text-slate-900">Rp22.000</span>
+            <span class="text-xs text-slate-500 font-medium">195 terjual</span>
+          </div>
+        </div>
+
+        <div class="bg-[#f8fafc] p-5 rounded-3xl border border-slate-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full">Coffee &bull; COF-01</span>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Bahan aman</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mt-1">Caffe Latte</h4>
+            <div class="flex items-center gap-3 text-xs text-slate-500 mt-2">
+              <span>HPP: Rp7.500</span>
+              <span>&bull;</span>
+              <span class="text-[#00875a] font-bold">Margin 67,4%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
+            <span class="text-sm font-extrabold text-slate-900">Rp23.000</span>
+            <span class="text-xs text-slate-500 font-medium">142 terjual</span>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 5: INVENTORI (HALAMAN 40 PROTOTYPE)                                   -->
+    <!-- ========================================================================= -->
+    <main id="view-page-inventori" class="main-page-section hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>PUSAT LOGISTIK & GUDANG BARISTA</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Inventori & Stok Bahan
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Pantau ketersediaan biji kopi, susu, sirup, dan bahan baku cafe secara realtime.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="showToast('Riwayat Stok Masuk/Keluar')" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+            <i data-lucide="history" class="w-4 h-4 text-slate-600"></i>
+            <span>Riwayat Stok</span>
+          </button>
+          <button onclick="showToast('Modal Catat Bahan Masuk')" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Catat Bahan Masuk</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Inventori KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL BAHAN</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">48 Item</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Bahan baku aktif di gudang & bar</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">STOK MENIPIS</span>
+          <span class="text-3xl font-extrabold text-[#ea580c] tracking-tight block">4 Bahan</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Perlu segera belanja ulang / restock</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">STOK HABIS</span>
+          <span class="text-3xl font-extrabold text-[#00875a] tracking-tight block">0 Bahan</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Semua menu saat ini bisa disajikan</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">ESTIMASI NILAI STOK</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp14.850.000</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Valuasi tersimpan per 8 Nov 2026</div>
+        </div>
+      </div>
+
+      <!-- Critical Alert Banner -->
+      <div class="bg-amber-50 border border-amber-200/80 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+          <p class="text-xs text-amber-900 leading-relaxed">
+            <strong>Perhatian kawan!</strong> Biji Kopi House Blend & Sirup Aren tersisa &lt; 2 hari operasional. Disarankan buat pesanan ke supplier sebelum pukul 15.00 WIB untuk jadwal kirim besok pagi.
+          </p>
+        </div>
+        <button onclick="showToast('Membuka Purchase Order')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-full whitespace-nowrap shadow-xs">
+          Buat Purchase Order
+        </button>
+      </div>
+
+      <!-- Inventory Table -->
+      <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200/60 bg-white">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-[#f1f4f9] text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200/60">
+              <tr>
+                <th class="p-3 pl-4">Kode</th>
+                <th class="p-3">Nama Bahan</th>
+                <th class="p-3">Supplier</th>
+                <th class="p-3">Kategori</th>
+                <th class="p-3">Sisa Stok</th>
+                <th class="p-3 pr-4 text-right">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-001</td>
+                <td class="p-3 font-bold text-slate-900">Biji Kopi House Blend Arabica</td>
+                <td class="p-3 text-slate-500">Tani Kopi Malabar</td>
+                <td class="p-3">Kopi & Biji</td>
+                <td class="p-3 font-bold text-red-600">3.2 kg</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Kritis (&lt;2 hari)</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-002</td>
+                <td class="p-3 font-bold text-slate-900">Susu Fresh Milk Diamond</td>
+                <td class="p-3 text-slate-500">PT Sukanda Djaya</td>
+                <td class="p-3">Susu & Dairy</td>
+                <td class="p-3 font-bold text-slate-800">18.0 L</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Aman</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-003</td>
+                <td class="p-3 font-bold text-slate-900">Sirup Gula Aren Organik</td>
+                <td class="p-3 text-slate-500">Aren Nusantara Craft</td>
+                <td class="p-3">Sirup & Gula</td>
+                <td class="p-3 font-bold text-red-600">2.5 L</td>
+                <td class="p-3 pr-4 text-right"><span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Kritis (&lt;2 hari)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 6: LAPORAN (HALAMAN 38 PROTOTYPE)                                    -->
+    <!-- ========================================================================= -->
+    <main id="view-page-laporan" class="main-page-section hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+            <span>PUSAT LAPORAN & ARSIP</span>
+          </div>
+          <h2 class="text-3xl lg:text-[34px] font-extrabold text-slate-900 tracking-tight leading-tight">
+            Katalog Dokumen & Laporan Finansial
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Unduh rekap penjualan, analisis laba rugi, dan performa cafe dalam format siap pakai.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="showToast('Sinkronisasi data kasir terbaru')" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            <span>Tarik Data Kasir</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Laporan KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">OMZET TERVERIFIKASI</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp18.480.000</span>
+          <div class="mt-3 text-xs text-[#00875a] font-semibold text-[11px]">100% rekonsiliasi kasir lunas</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL PENGELUARAN HPP</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp6.098.400</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Rasio HPP 33% thd pendapatan</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">ESTIMASI LABA BERSIH</span>
+          <span class="text-3xl font-extrabold text-[#0038d2] tracking-tight block">Rp12.381.600</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Sebelum beban sewa & utilitas</div>
+        </div>
+
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">DOKUMEN SIAP UNDUH</span>
+          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">6 Laporan</span>
+          <div class="mt-3 text-xs text-slate-500 text-[11px]">Diperbarui tiap tutup kasir</div>
+        </div>
+      </div>
+
+      <!-- Document Cards List -->
+      <div class="space-y-4">
+        
+        <!-- Doc 1 -->
+        <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+          <div class="max-w-2xl">
+            <span class="text-[10px] font-bold bg-[#eff4fc] text-[#0038d2] px-2.5 py-0.5 rounded-full uppercase">Mingguan & Harian</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Laporan Penjualan Lengkap</h4>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+              Rincian seluruh transaksi kasir, rincian metode bayar (QRIS, Tunai, Kartu Debit), pemisahan nominal PB1/pajak daerah, serta rekapitulasi void & refund.
+            </p>
+            <div class="flex items-center gap-4 text-xs font-semibold text-slate-600 mt-3">
+              <span>TOTAL: 542 Transaksi</span>
+              <span>&bull;</span>
+              <span>METODE UTAMA: QRIS (68.4%)</span>
+              <span>&bull;</span>
+              <span class="text-slate-400">1.4 MB (.xlsx)</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="exportReport()" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-full shadow-2xs">Unduh PDF</button>
+            <button onclick="exportReport()" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xs">Unduh Excel (.xlsx)</button>
+          </div>
+        </div>
+
+        <!-- Doc 2 -->
+        <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+          <div class="max-w-2xl">
+            <span class="text-[10px] font-bold bg-emerald-50 text-emerald-800 px-2.5 py-0.5 rounded-full uppercase">P&L Operasional</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Laporan Laba Rugi & HPP</h4>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+              Analisa margin laba kotor, perincian biaya bahan baku per porsi menu, total pengeluaran belanja harian bar, dan evaluasi efisiensi modal produksi cafe.
+            </p>
+            <div class="flex items-center gap-4 text-xs font-semibold text-slate-600 mt-3">
+              <span class="text-[#00875a]">MARGIN KOTOR: 67.0%</span>
+              <span>&bull;</span>
+              <span>TOTAL BEBAN HPP: Rp6.098.400</span>
+              <span>&bull;</span>
+              <span class="text-emerald-700 font-bold">Status: Sangat Sehat</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="exportReport()" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-full shadow-2xs">Unduh PDF</button>
+            <button onclick="exportReport()" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xs">Unduh Excel (.xlsx)</button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- 7. FOOTER BAR -->
+    <footer class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+      <div class="flex items-center gap-2">
+        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+        <span>Semua nilai dalam Rupiah · Periode 2–8 Nov 2026</span>
+      </div>
+      <div class="flex items-center gap-1.5 font-medium text-slate-500">
+        <span>Santai Kawan Kopi · Dibuat untuk tumbuh bersama.</span>
+        <i data-lucide="coffee" class="w-3.5 h-3.5 text-[#ff8030]"></i>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==================== MODAL: TAMBAH MEMBER BARU ==================== -->
+  <div id="modal-add-member" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-7 max-w-md w-full shadow-2xl border border-slate-100 modal-content">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-[#eff4fc] text-[#0038d2] flex items-center justify-center">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">Tambah Member Baru</h3>
+        </div>
+        <button onclick="closeAddMemberModal()" class="w-7 h-7 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-add-member" onsubmit="submitNewMember(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nama Lengkap *</label>
+          <input type="text" id="input-name" required placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nomor WhatsApp *</label>
+          <input type="tel" id="input-phone" required placeholder="Contoh: 0812-3456-7890" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Email</label>
+          <input type="email" id="input-email" placeholder="Contoh: budi@gmail.com" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Karakter / Segmen Pelanggan</label>
+          <select id="input-segment" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white">
+            <option value="Anak nugas / laptopan">Anak nugas / laptopan</option>
+            <option value="Langganan harian / ngopi pagi">Langganan harian / ngopi pagi</option>
+            <option value="Pengunjung malam & nongkrong">Pengunjung malam & nongkrong</option>
+            <option value="Pembeli sesekali / take-away">Pembeli sesekali / take-away</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Menu Kesukaan</label>
+          <input type="text" id="input-fav" placeholder="Contoh: Kopi Susu Kawan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3">
+          <button type="button" onclick="closeAddMemberModal()" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 font-semibold">
+            Batal
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm">
+            Simpan Member
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: AJAK BALIK (RE-ENGAGE) ==================== -->
+  <div id="modal-reengage" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-7 max-w-lg w-full shadow-2xl border border-slate-100 modal-content">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-[#ffedd5] text-[#ff8030] flex items-center justify-center">
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Ajak Balik 12 Kawan Lama</h3>
+            <p class="text-[11px] text-slate-500">Kirim sapaan otomatis dan voucher santai lewat WhatsApp</p>
+          </div>
+        </div>
+        <button onclick="closeReengageModal()" class="w-7 h-7 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3.5 text-xs">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+          <span class="font-bold text-slate-700 block mb-1">Daftar Penerima Broadcast (12 Kawan):</span>
+          <div class="text-[11px] text-slate-600 space-y-1">
+            <div class="flex justify-between"><span>• Dimas Raditya (0812-3498-1122)</span><span class="text-amber-600 font-medium">16 hari absent</span></div>
+            <div class="flex justify-between"><span>• Alya Safitri (0813-8821-4433)</span><span class="text-amber-600 font-medium">18 hari absent</span></div>
+            <div class="flex justify-between"><span>• Bima Maulana (0857-1920-5544)</span><span class="text-amber-600 font-medium">21 hari absent</span></div>
+            <div class="text-slate-400 italic mt-1">+ 9 pelanggan setia lainnya yang lama belum mampir</div>
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Kode Voucher Loyalitas</label>
+          <input type="text" id="reengage-voucher" value="KANGENKOPI20" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono font-bold text-slate-800 bg-white">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Template Pesan WhatsApp</label>
+          <textarea id="reengage-message" rows="3" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-slate-700 bg-white leading-relaxed">Halo Kak! Meja favoritmu di Santai Kawan Kopi kangen nih. Mampir lagi yuk, pakai voucher KANGENKOPI20 untuk diskon 20% minuman favoritmu! ☕</textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeReengageModal()" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 font-semibold">
+            Batal
+          </button>
+          <button type="button" onclick="sendBroadcastReengage()" class="px-5 py-2 rounded-full bg-[#ff8030] text-white font-bold hover:bg-[#ea6d20] transition shadow-sm flex items-center gap-1.5">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Kirim Broadcast Sekarang</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 transition-all">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Pesan berhasil dikirim</span>
+  </div>
+
+  <!-- App Script -->
+  <script src="/js/app.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+{
+  "dashboard": {
+    "title": "CRM & KOMUNITAS CAFE",
+    "headline": "Kawan setia, bisnis tumbuh.",
+    "subtitle": "Pantau kebiasaan pelanggan setia dan dorong kunjungan berulang cafe.",
+    "last_updated": "Diperbarui 22.00 WIB",
+    "period": "2–8 Nov 2026",
+    "branch": "Semua cabang",
+    "kpi": {
+      "total_member": {
+        "value": 482,
+        "unit": "kawan",
+        "growth": "+14,2%",
+        "comparison": "vs 422 minggu lalu"
+      },
+      "active_member": {
+        "value": 318,
+        "growth": "+18,5%",
+        "comparison": "66% dari total member"
+      },
+      "new_member": {
+        "value": 54,
+        "unit": "kawan",
+        "growth": "+22,0%",
+        "comparison": "vs 44 kawan lalu"
+      },
+      "avg_visits": {
+        "value": "3,4x",
+        "unit": "/minggu",
+        "growth": "+8,2%",
+        "comparison": "Anak nugas & langganan pagi"
+      }
+    },
+    "weekly_traffic": [
+      { "day": "SEN", "count": 32 },
+      { "day": "SEL", "count": 38 },
+      { "day": "RAB", "count": 45 },
+      { "day": "KAM", "count": 41 },
+      { "day": "JUM", "count": 56 },
+      { "day": "SAB", "count": 72, "peak": true },
+      { "day": "MIN", "count": 59 }
+    ],
+    "frequency_dist": [
+      { "label": "1x Kunjungan", "pct": 28, "count": "89 kwn" },
+      { "label": "2–3x Kunjungan", "pct": 48, "count": "153 kwn" },
+      { "label": "4x+ Kunjungan (Intens)", "pct": 24, "count": "76 kwn" }
+    ],
+    "revenue": {
+      "total": 18480000,
+      "member_pct": 68,
+      "member_amount": 12566400,
+      "non_member_pct": 32,
+      "non_member_amount": 5913600
+    },
+    "aov": {
+      "member": 39500,
+      "member_growth": "+63% lebih royal",
+      "non_member": 24200,
+      "non_member_desc": "Rata-rata 1 cup & snack"
+    },
+    "segments": [
+      {
+        "id": "seg_1",
+        "name": "Anak nugas / laptopan",
+        "pct": 34,
+        "count": 164,
+        "time": "Jam ramai: 13.00 – 18.00 (Fokus WiFi stabil & colokan)",
+        "fav": "Americano Dingin",
+        "icon": "laptop"
+      },
+      {
+        "id": "seg_2",
+        "name": "Langganan harian / ngopi pagi",
+        "pct": 28,
+        "count": 135,
+        "time": "Jam ramai: 08.00 – 11.00 (Rutinitas sebelum kerja/kuliah)",
+        "fav": "Kopi Susu Kawan",
+        "icon": "sun"
+      },
+      {
+        "id": "seg_3",
+        "name": "Pengunjung malam & nongkrong",
+        "pct": 22,
+        "count": 106,
+        "time": "Jam ramai: 19.00 – 23.00 (Ngobrol santai santai & musik)",
+        "fav": "Manual Brew & Croissant",
+        "icon": "moon"
+      },
+      {
+        "id": "seg_4",
+        "name": "Pembeli sesekali / take-away",
+        "pct": 16,
+        "count": 77,
+        "time": "Jam acak · Cepat saji, bawa botol tumbler sendiri",
+        "fav": "Cold Brew Bottle",
+        "icon": "coffee"
+      }
+    ],
+    "churn_alert": {
+      "title": "12 kawan lama belum mampir",
+      "badge": "Butuh sapaan",
+      "desc": "Pelanggan rutin yang biasanya datang minimal 3x seminggu, kini sudah lebih dari 14 hari tidak bertransaksi di cafe.",
+      "avatars": [
+        { "initials": "DR", "name": "Dimas Raditya", "days_absent": 16 },
+        { "initials": "AS", "name": "Alya Safitri", "days_absent": 18 },
+        { "initials": "BM", "name": "Bima Maulana", "days_absent": 21 },
+        { "initials": "+9", "name": "9 Kawan Lainnya", "days_absent": 15 }
+      ]
+    },
+    "loyalty_target": {
+      "title": "Target Loyalitas November",
+      "pct": 92.4,
+      "achieved": 482,
+      "target": 500,
+      "remaining": 18,
+      "note": "Kurang 18 kawan menuju target 500 member! Semangat seduh dan tawarkan loyalty card hari ini."
+    }
+  },
+  "ringkasan": {
+    "headline": "Bisnis Lancar, kawan.",
+    "subtitle": "Secangkir insight untuk langkah cafe yang lebih baik.",
+    "kpi": {
+      "pendapatan": "Rp18.480.000",
+      "pendapatan_growth": "+12,0%",
+      "pendapatan_prev": "vs Rp16.500.000 minggu lalu",
+      "laba_kotor": "Rp11.088.000",
+      "laba_growth": "+15,5%",
+      "laba_desc": "Margin 60% dari pendapatan",
+      "total_transaksi": 616,
+      "transaksi_growth": "+10,0%",
+      "transaksi_prev": "vs 560 transaksi minggu lalu",
+      "menu_terjual": 840,
+      "menu_growth": "+12,0%",
+      "menu_prev": "vs 750 item minggu lalu"
+    },
+    "daily_revenue": [
+      { "day": "Sen", "val": 2.2, "height": 60 },
+      { "day": "Sel", "val": 2.4, "height": 66 },
+      { "day": "Rab", "val": 2.5, "height": 70 },
+      { "day": "Kam", "val": 2.3, "height": 64 },
+      { "day": "Jum", "val": 3.1, "height": 88 },
+      { "day": "Sab", "val": 3.6, "height": 110, "peak": true },
+      { "day": "Min", "val": 2.38, "height": 68 }
+    ],
+    "top_menus": [
+      { "name": "Kopi Susu Kawan", "category": "Kopi", "price": "Rp24.000", "sold": 210, "revenue": "Rp5.040.000" },
+      { "name": "Kopi Aren Santai", "category": "Kopi", "price": "Rp30.000", "sold": 120, "revenue": "Rp3.600.000" },
+      { "name": "Matcha Latte", "category": "Non-kopi", "price": "Rp30.000", "sold": 84, "revenue": "Rp2.520.000" },
+      { "name": "Butter Croissant", "category": "Pastry", "price": "Rp20.000", "sold": 72, "revenue": "Rp1.440.000" }
+    ],
+    "target": {
+      "pct": 92.4,
+      "desc": "Kurang Rp1.520.000 menuju target Rp20.000.000 pekan ini."
+    }
+  },
+  "penjualan": {
+    "headline": "Penjualan",
+    "subtitle": "Pantau setiap transaksi, dari pesanan pertama hingga tutup cafe.",
+    "kpi": {
+      "pendapatan": "Rp18.480.000",
+      "pendapatan_growth": "+12,0%",
+      "avg_trx": "Rp30.000",
+      "avg_desc": "Total pendapatan ÷ 616 transaksi",
+      "total_trx": 616,
+      "trx_growth": "+10,0%",
+      "menu_terjual": 840,
+      "menu_growth": "+12,0%"
+    },
+    "transactions": [
+      { "id": "SKK-0616", "time": "8 Nov 2026 · 21.48", "customer": "Novaldo", "type": "Di cafe · Meja 05", "payment": "QRIS", "total": "Rp72.000", "status": "Lunas" },
+      { "id": "SKK-0615", "time": "8 Nov 2026 · 21.35", "customer": "Ariel Saputra", "type": "Bawa pulang", "payment": "Tunai", "total": "Rp54.000", "status": "Lunas" },
+      { "id": "SKK-0614", "time": "8 Nov 2026 · 21.21", "customer": "Azzaky Raihan", "type": "Di cafe · Meja 02", "payment": "QRIS", "total": "Rp30.000", "status": "Lunas" },
+      { "id": "SKK-0613", "time": "8 Nov 2026 · 21.08", "customer": "Gabriel Bukit", "type": "Bawa pulang", "payment": "Debit", "total": "Rp45.000", "status": "Lunas" },
+      { "id": "SKK-0612", "time": "8 Nov 2026 · 20.54", "customer": "Sinta Ayu", "type": "Di cafe · Meja 08", "payment": "QRIS", "total": "Rp68.000", "status": "Lunas" },
+      { "id": "SKK-0611", "time": "8 Nov 2026 · 20.42", "customer": "Dimas Rhito", "type": "Bawa pulang", "payment": "Tunai", "total": "Rp24.000", "status": "Lunas" },
+      { "id": "SKK-0610", "time": "8 Nov 2026 · 20.30", "customer": "Sigma Hebat", "type": "Di cafe · Meja 03", "payment": "QRIS", "total": "Rp39.000", "status": "Lunas" },
+      { "id": "SKK-0609", "time": "8 Nov 2026 · 20.18", "customer": "Fajar Hidayat", "type": "Bawa pulang", "payment": "QRIS", "total": "Rp28.000", "status": "Lunas" }
+    ]
+  },
+  "menu_catalog": {
+    "headline": "Daftar Menu Kawan",
+    "subtitle": "Kelola sajian kopi, non-kopi, dan pastry favorit para kawan.",
+    "kpi": {
+      "total_menu": "32 Sajian",
+      "total_desc": "840 porsi terjual pekan ini (+12,4%)",
+      "terlaris": "Sawan (Signature)",
+      "terlaris_desc": "280 terjual · Rp6.440.000",
+      "margin": "68,5%",
+      "margin_desc": "HPP aman di bawah 35%",
+      "perhatian": "2 Menu",
+      "perhatian_desc": "Espresso & Matcha tipis"
+    },
+    "items": [
+      { "sku": "SIG-01", "name": "Sawan (Signature)", "category": "Signature", "hpp": "Rp8.000", "margin": "65,2%", "sold": 280, "price": "Rp23.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
+      { "sku": "SIG-02", "name": "Misoka (Aren Santai)", "category": "Signature", "hpp": "Rp7.500", "margin": "65,9%", "sold": 195, "price": "Rp22.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
+      { "sku": "COF-01", "name": "Caffe Latte", "category": "Coffee-Based", "hpp": "Rp7.500", "margin": "67,4%", "sold": 142, "price": "Rp23.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
+      { "sku": "RCB-01", "name": "Nasi Goreng SKK", "category": "Noodles, Rice & Pasta", "hpp": "Rp9.000", "margin": "59,1%", "sold": 110, "price": "Rp22.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
+      { "sku": "SNK-01", "name": "Tahu Cabai Garam", "category": "Snacks & Toast", "hpp": "Rp5.500", "margin": "67,6%", "sold": 98, "price": "Rp17.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
+      { "sku": "PST-01", "name": "Butter Croissant", "category": "Snacks & Toast", "hpp": "Rp6.000", "margin": "70,0%", "sold": 72, "price": "Rp20.000", "status": "Aktif di Kasir", "stock": "Bahan aman" }
+    ]
+  },
+  "inventori": {
+    "headline": "Inventori & Stok Bahan",
+    "subtitle": "Pantau ketersediaan biji kopi, susu, sirup, dan bahan baku cafe secara realtime.",
+    "kpi": {
+      "total_bahan": "48 Item",
+      "total_desc": "Bahan baku aktif di gudang & bar cafe",
+      "stok_menipis": "4 Bahan",
+      "stok_menipis_desc": "Perlu segera belanja ulang atau restock",
+      "stok_habis": "0 Bahan",
+      "stok_habis_desc": "Semua menu saat ini masih bisa disajikan",
+      "nilai_stok": "Rp14.850.000",
+      "nilai_desc": "Valuasi bahan tersimpan per 8 Nov 2026"
+    },
+    "alert": {
+      "message": "Perhatian kawan! Biji Kopi House Blend & Sirup Aren tersisa < 2 hari operasional. Disarankan buat pesanan ke supplier langganan hari ini sebelum pukul 15.00 WIB untuk jadwal kirim besok pagi."
+    },
+    "items": [
+      { "code": "BBI-001", "name": "Biji Kopi House Blend Arabica", "supplier": "Tani Kopi Malabar", "category": "Kopi & Biji", "stock": "3.2 kg", "unit": "kg", "status": "Kritis (<2 hari)" },
+      { "code": "BBI-002", "name": "Susu Fresh Milk Diamond", "supplier": "PT Sukanda Djaya", "category": "Susu & Dairy", "stock": "18.0 L", "unit": "Liter", "status": "Aman" },
+      { "code": "BBI-003", "name": "Sirup Gula Aren Organik", "supplier": "Aren Nusantara Craft", "category": "Sirup & Gula", "stock": "2.5 L", "unit": "Liter", "status": "Kritis (<2 hari)" },
+      { "code": "BBI-004", "name": "Pure Matcha Powder Uji", "supplier": "Kyoto Direct Import", "category": "Bubuk & Rasa", "stock": "1.1 kg", "unit": "kg", "status": "Menipis" },
+      { "code": "BBI-005", "name": "Cup Cold 16oz + Tutup Lid", "supplier": "Kemasan Jaya Abadi", "category": "Kemasan", "stock": "420 pcs", "unit": "pcs", "status": "Aman" },
+      { "code": "BBI-006", "name": "Sedotan Kertas Ramah Lingkungan", "supplier": "Green Packaging ID", "category": "Kemasan", "stock": "600 pcs", "unit": "pcs", "status": "Aman" }
+    ]
+  },
+  "laporan": {
+    "headline": "Pusat Laporan & Arsip",
+    "subtitle": "Unduh rekap penjualan, analisis laba rugi, dan performa cafe dalam format siap pakai.",
+    "kpi": {
+      "omzet": "Rp18.480.000",
+      "omzet_desc": "100% rekonsiliasi kasir lunas",
+      "hpp": "Rp6.098.400",
+      "hpp_desc": "Rasio HPP 33% thd pendapatan",
+      "laba_bersih": "Rp12.381.600",
+      "laba_desc": "Sebelum beban sewa & utilitas",
+      "dokumen": "6 Laporan",
+      "dokumen_desc": "Diperbarui tiap tutup kasir"
+    },
+    "documents": [
+      {
+        "id": "DOC-01",
+        "title": "Laporan Penjualan Lengkap",
+        "tag": "Mingguan & Harian",
+        "desc": "Rincian seluruh transaksi kasir, rincian metode bayar (QRIS, Tunai, Kartu Debit), pemisahan nominal PB1/pajak daerah, serta rekapitulasi void & refund.",
+        "stat1_label": "TOTAL STRUK",
+        "stat1_val": "542 Transaksi",
+        "stat2_label": "METODE TERBANYAK",
+        "stat2_val": "QRIS (68.4%)",
+        "stat3_label": "UKURAN FILE",
+        "stat3_val": "1.4 MB (.xlsx)"
+      },
+      {
+        "id": "DOC-02",
+        "title": "Laporan Laba Rugi & HPP",
+        "tag": "P&L Operasional",
+        "desc": "Analisa margin laba kotor, perincian biaya bahan baku per porsi menu, total pengeluaran belanja harian bar, dan evaluasi efisiensi modal produksi cafe.",
+        "stat1_label": "MARGIN KOTOR",
+        "stat1_val": "67.0%",
+        "stat2_label": "TOTAL BEBAN HPP",
+        "stat2_val": "Rp6.098.400",
+        "stat3_label": "STATUS MARGIN",
+        "stat3_val": "Sangat Sehat"
+      },
+      {
+        "id": "DOC-03",
+        "title": "Laporan Performa Menu & Kategori",
+        "tag": "Analisis Menu Mix",
+        "desc": "Peringkat menu terlaris (Stars), kontribusi omzet per kategori (Espresso Base, Non-Kopi, Bakery & Pastry), dan rekomendasi evaluasi sajian slow-moving.",
+        "stat1_label": "TOP MENU",
+        "stat1_val": "Sawan (280 cup)",
+        "stat2_label": "KATEGORI UTAMA",
+        "stat2_val": "Coffee-based",
+        "stat3_label": "VARIAN AKTIF",
+        "stat3_val": "32 Sajian"
+      }
+    ]
+  },
+  "members": [
+    {
+      "id": "SKK-001",
+      "name": "Dimas Raditya",
+      "phone": "0812-3498-1122",
+      "email": "dimas.raditya@gmail.com",
+      "segment": "Anak nugas / laptopan",
+      "tier": "Kawan Akrab",
+      "points": 340,
+      "visits": 24,
+      "last_visit": "16 hari lalu",
+      "status": "Butuh Sapaan",
+      "fav_menu": "Americano Dingin"
+    },
+    {
+      "id": "SKK-002",
+      "name": "Alya Safitri",
+      "phone": "0813-8821-4433",
+      "email": "alya.safitri@yahoo.com",
+      "segment": "Langganan harian / ngopi pagi",
+      "tier": "Kawan Akrab",
+      "points": 410,
+      "visits": 31,
+      "last_visit": "18 hari lalu",
+      "status": "Butuh Sapaan",
+      "fav_menu": "Kopi Susu Kawan"
+    },
+    {
+      "id": "SKK-003",
+      "name": "Bima Maulana",
+      "phone": "0857-1920-5544",
+      "email": "bima.maulana@outlook.com",
+      "segment": "Pengunjung malam & nongkrong",
+      "tier": "Kawan Dekat",
+      "points": 180,
+      "visits": 15,
+      "last_visit": "21 hari lalu",
+      "status": "Butuh Sapaan",
+      "fav_menu": "Manual Brew V60"
+    },
+    {
+      "id": "SKK-004",
+      "name": "Reza Pratama",
+      "phone": "0878-1122-3344",
+      "email": "reza.pratama@gmail.com",
+      "segment": "Anak nugas / laptopan",
+      "tier": "Kawan Akrab",
+      "points": 520,
+      "visits": 42,
+      "last_visit": "Hari ini (08 Nov)",
+      "status": "Aktif",
+      "fav_menu": "Americano Dingin"
+    },
+    {
+      "id": "SKK-005",
+      "name": "Sarah Amalia",
+      "phone": "0821-5566-7788",
+      "email": "sarah.amalia@gmail.com",
+      "segment": "Langganan harian / ngopi pagi",
+      "tier": "Kawan Dekat",
+      "points": 210,
+      "visits": 18,
+      "last_visit": "Kemarin (07 Nov)",
+      "status": "Aktif",
+      "fav_menu": "Kopi Susu Kawan"
+    },
+    {
+      "id": "SKK-006",
+      "name": "Farhan Alamsyah",
+      "phone": "0813-9988-7766",
+      "email": "farhan.alam@gmail.com",
+      "segment": "Pengunjung malam & nongkrong",
+      "tier": "Kawan Baru",
+      "points": 80,
+      "visits": 6,
+      "last_visit": "06 Nov 2026",
+      "status": "Aktif",
+      "fav_menu": "Manual Brew & Croissant"
+    },
+    {
+      "id": "SKK-007",
+      "name": "Nadia Putri",
+      "phone": "0856-3344-5566",
+      "email": "nadia.putri@hotmail.com",
+      "segment": "Pembeli sesekali / take-away",
+      "tier": "Kawan Baru",
+      "points": 60,
+      "visits": 5,
+      "last_visit": "05 Nov 2026",
+      "status": "Aktif",
+      "fav_menu": "Cold Brew Bottle"
+    },
+    {
+      "id": "SKK-008",
+      "name": "Hendra Wijaya",
+      "phone": "0819-2233-4455",
+      "email": "hendra.w@gmail.com",
+      "segment": "Anak nugas / laptopan",
+      "tier": "Kawan Akrab",
+      "points": 460,
+      "visits": 35,
+      "last_visit": "Hari ini (08 Nov)",
+      "status": "Aktif",
+      "fav_menu": "Americano Dingin"
+    }
+  ]
+}

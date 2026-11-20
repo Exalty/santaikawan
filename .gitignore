@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Large binary / PDF design assets (>100MB exceeds GitHub limit)
+*.pdf
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment & runtime
+.env
+.DS_Store
+Thumbs.db

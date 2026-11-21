@@ -65,10 +65,144 @@
         <button class="w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition" title="Pencarian" onclick="openSearchModal()">
           <i data-lucide="search" class="w-4 h-4"></i>
         </button>
-        <button class="relative w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition" title="Notifikasi" onclick="toggleNotifications()">
-          <i data-lucide="bell" class="w-4 h-4"></i>
-          <span class="absolute top-2 right-2 w-2 h-2 bg-[#ff8030] rounded-full ring-2 ring-white"></span>
-        </button>
+
+        <!-- Notification Trigger & Dropdown -->
+        <div class="relative">
+          <button id="btn-notification-trigger" class="relative w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition" title="Notifikasi" onclick="toggleNotifications(event)">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="badge-notif-dot" class="absolute top-2 right-2 w-2 h-2 bg-[#ff8030] rounded-full ring-2 ring-white"></span>
+          </button>
+
+          <!-- Notification Dropdown Panel -->
+          <div id="dropdown-notifications" class="hidden absolute right-0 top-12 w-[380px] sm:w-[420px] max-w-[calc(100vw-2rem)] bg-white rounded-3xl shadow-2xl border border-slate-100 z-50 overflow-hidden modal-content">
+            
+            <!-- Dropdown Header -->
+            <div class="p-4 bg-gradient-to-r from-slate-50 to-[#eff4fc] border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-[#0038d2] text-white flex items-center justify-center shadow-xs">
+                  <i data-lucide="bell" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900 leading-tight">Notifikasi Cafe</h4>
+                  <p class="text-[11px] text-slate-500">Peringatan operasional & aktivitas kawan</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="badge-notif-count" class="bg-[#ff8030] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-2xs">3 Baru</span>
+                <button onclick="markAllNotificationsAsRead()" class="text-[11px] text-[#0038d2] hover:underline font-semibold" title="Tandai semua telah dibaca">Tandai Dibaca</button>
+              </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="px-4 py-2.5 bg-white border-b border-slate-100 flex items-center gap-1.5 text-xs font-semibold">
+              <button onclick="filterNotifTab('all')" id="btn-notif-tab-all" class="px-3 py-1 rounded-full bg-[#0038d2] text-white shadow-2xs">Semua (4)</button>
+              <button onclick="filterNotifTab('warning')" id="btn-notif-tab-warning" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">Perhatian</button>
+              <button onclick="filterNotifTab('crm')" id="btn-notif-tab-crm" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">CRM Member</button>
+            </div>
+
+            <!-- Notification Items List -->
+            <div id="notifications-list" class="max-h-[380px] overflow-y-auto divide-y divide-slate-100 text-xs">
+              
+              <!-- Item 1: Stok Kritis -->
+              <div class="p-3.5 hover:bg-amber-50/50 transition flex items-start gap-3 notif-item notif-warning">
+                <div class="w-8 h-8 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-900 text-xs">Stok Kritis: Biji Kopi & Sirup Aren</span>
+                    <span class="text-[10px] text-slate-400">10m lalu</span>
+                  </div>
+                  <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                    Tersisa &lt; 2 hari operasional. Disarankan buat pesanan ke supplier sebelum 15.00 WIB.
+                  </p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <button onclick="switchMainPage('Inventori'); closeNotifications()" class="px-3 py-1 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-[10px] transition shadow-2xs">
+                      Buka Gudang & Inventori ↗
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2: CRM Re-engage -->
+              <div class="p-3.5 hover:bg-orange-50/50 transition flex items-start gap-3 notif-item notif-crm">
+                <div class="w-8 h-8 rounded-2xl bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="user-x" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-900 text-xs">12 Kawan Lama Belum Mampir</span>
+                    <span class="text-[10px] text-slate-400">35m lalu</span>
+                  </div>
+                  <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                    Lebih dari 14 hari tidak berkunjung. Siarkan voucher <strong>KANGENKOPI20</strong> lewat WhatsApp.
+                  </p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <button onclick="closeNotifications(); openReengageModal()" class="px-3 py-1 rounded-full bg-[#ff8030] hover:bg-[#ea6d20] text-white font-bold text-[10px] transition shadow-2xs">
+                      Ajak Balik Sekarang 💬
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3: Target Penjualan -->
+              <div class="p-3.5 hover:bg-emerald-50/50 transition flex items-start gap-3 notif-item notif-warning">
+                <div class="w-8 h-8 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="trending-up" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-900 text-xs">Target Mingguan Capai 92,4%</span>
+                    <span class="text-[10px] text-slate-400">2j lalu</span>
+                  </div>
+                  <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                    Total pendapatan Rp18.480.000. Kurang Rp1.520.000 menuju target Rp20.000.000 pekan ini!
+                  </p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <button onclick="switchMainPage('Ringkasan'); closeNotifications()" class="px-3 py-1 rounded-full bg-[#0038d2] hover:bg-[#002bb0] text-white font-bold text-[10px] transition shadow-2xs">
+                      Lihat Analitik Penjualan ↗
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4: Member Baru -->
+              <div class="p-3.5 hover:bg-blue-50/50 transition flex items-start gap-3 notif-item notif-crm">
+                <div class="w-8 h-8 rounded-2xl bg-blue-100 text-[#0038d2] flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="user-plus" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-900 text-xs">54 Member Baru Terdaftar</span>
+                    <span class="text-[10px] text-slate-400">4j lalu</span>
+                  </div>
+                  <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                    Komunitas cafe bertambah menjadi total 482 kawan terdaftar (pertumbuhan +14,2%).
+                  </p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <button onclick="switchMainPage('Member'); switchSubTab('members'); closeNotifications()" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[10px] transition">
+                      Buka Direktori Kawan ↗
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Dropdown Footer -->
+            <div class="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Pusat Notifikasi Aktif</span>
+              </span>
+              <button onclick="closeNotifications()" class="px-3 py-1 text-xs text-slate-600 hover:text-slate-900 font-semibold hover:bg-slate-200 rounded-full transition">
+                Tutup
+              </button>
+            </div>
+
+          </div>
+        </div>
+
         <div class="w-9 h-9 rounded-full bg-[#0038d2] text-white font-bold text-xs flex items-center justify-center cursor-pointer shadow-sm hover:opacity-95 transition" title="Admin Kawan (AK)">
           AK
         </div>

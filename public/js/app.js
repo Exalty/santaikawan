@@ -585,10 +585,85 @@ function exportReport() {
   showToast('📥 Mengunduh Laporan_CRM_SantaiKawanKopi.csv...');
 }
 
-// Notifications drawer / trigger
-function toggleNotifications() {
-  showToast('🔔 Notifikasi: 54 member baru terdaftar & 12 kawan butuh sapaan.');
+// Notification Dropdown Panel
+function toggleNotifications(event) {
+  if (event) event.stopPropagation();
+  const dropdown = document.getElementById('dropdown-notifications');
+  if (!dropdown) return;
+
+  const isHidden = dropdown.classList.contains('hidden');
+  if (isHidden) {
+    dropdown.classList.remove('hidden');
+    lucide.createIcons();
+  } else {
+    dropdown.classList.add('hidden');
+  }
 }
+
+function closeNotifications() {
+  const dropdown = document.getElementById('dropdown-notifications');
+  if (dropdown) dropdown.classList.add('hidden');
+}
+
+function markAllNotificationsAsRead() {
+  const badgeDot = document.getElementById('badge-notif-dot');
+  const badgeCount = document.getElementById('badge-notif-count');
+  if (badgeDot) badgeDot.classList.add('hidden');
+  if (badgeCount) {
+    badgeCount.innerText = '0 Baru';
+    badgeCount.className = 'bg-slate-200 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full';
+  }
+  showToast('✓ Semua notifikasi telah ditandai dibaca.');
+}
+
+function filterNotifTab(category) {
+  const tabs = {
+    'all': document.getElementById('btn-notif-tab-all'),
+    'warning': document.getElementById('btn-notif-tab-warning'),
+    'crm': document.getElementById('btn-notif-tab-crm')
+  };
+
+  Object.keys(tabs).forEach(k => {
+    const btn = tabs[k];
+    if (btn) {
+      if (k === category) {
+        btn.className = 'px-3 py-1 rounded-full bg-[#0038d2] text-white shadow-2xs';
+      } else {
+        btn.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900';
+      }
+    }
+  });
+
+  const items = document.querySelectorAll('.notif-item');
+  items.forEach(el => {
+    if (category === 'all') {
+      el.classList.remove('hidden');
+    } else if (category === 'warning') {
+      if (el.classList.contains('notif-warning')) el.classList.remove('hidden');
+      else el.classList.add('hidden');
+    } else if (category === 'crm') {
+      if (el.classList.contains('notif-crm')) el.classList.remove('hidden');
+      else el.classList.add('hidden');
+    }
+  });
+}
+
+// Click outside or Escape to close notification dropdown
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('dropdown-notifications');
+  const trigger = document.getElementById('btn-notification-trigger');
+  if (dropdown && !dropdown.classList.contains('hidden')) {
+    if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeNotifications();
+  }
+});
 
 // Search Modal / Input
 function openSearchModal() {

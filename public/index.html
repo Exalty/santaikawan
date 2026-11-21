@@ -1831,111 +1831,198 @@
 
       <!-- Navigation tabs like Page 5 -->
       <div class="flex items-center border-b border-slate-200 mt-4 text-xs font-bold text-slate-500">
-        <button type="button" class="pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2]">Rincian Pengadaan & HPP</button>
-        <button type="button" class="pb-2.5 px-3 hover:text-slate-800">Stok & Penempatan Bar</button>
-        <button type="button" class="pb-2.5 px-3 hover:text-slate-800">Riwayat & Supplier</button>
+        <button type="button" id="tab-btn-restock-hpp" onclick="switchRestockTab('hpp')" class="pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2] flex items-center gap-1.5 transition">
+          <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+          <span>Rincian Pengadaan & HPP</span>
+        </button>
+        <button type="button" id="tab-btn-restock-storage" onclick="switchRestockTab('storage')" class="pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition">
+          <i data-lucide="package" class="w-3.5 h-3.5"></i>
+          <span>Stok & Penempatan Bar</span>
+        </button>
+        <button type="button" id="tab-btn-restock-supplier" onclick="switchRestockTab('supplier')" class="pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition">
+          <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+          <span>Riwayat & Supplier</span>
+        </button>
       </div>
 
       <!-- Form -->
-      <form id="form-restock" onsubmit="submitRestock(event)" class="space-y-4 pt-4 text-xs">
+      <form id="form-restock" onsubmit="submitRestock(event)" class="pt-4 text-xs">
         
-        <!-- Pilihan Bahan -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Pilih Bahan Baku *</label>
-            <select id="restock-select-item" onchange="onRestockItemSelect(this.value)" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
-              <option value="">-- Pilih dari Daftar Bahan --</option>
-              <option value="BBI-001" data-name="Biji Kopi House Blend Arabica" data-unit="kg" data-supplier="Tani Kopi Malabar">BBI-001 · Biji Kopi House Blend Arabica</option>
-              <option value="BBI-002" data-name="Susu Fresh Milk Diamond" data-unit="L" data-supplier="PT Sukanda Djaya">BBI-002 · Susu Fresh Milk Diamond</option>
-              <option value="BBI-003" data-name="Sirup Gula Aren Organik" data-unit="L" data-supplier="Aren Nusantara Craft">BBI-003 · Sirup Gula Aren Organik</option>
-              <option value="BBI-004" data-name="Pure Matcha Powder Uji" data-unit="kg" data-supplier="Kyoto Direct Import">BBI-004 · Pure Matcha Powder Uji</option>
-              <option value="BBI-005" data-name="Cup Cold 16oz + Tutup Lid" data-unit="pcs" data-supplier="Kemasan Jaya Abadi">BBI-005 · Cup Cold 16oz + Tutup Lid</option>
-              <option value="BBI-006" data-name="Sedotan Kertas Ramah Lingkungan" data-unit="pcs" data-supplier="Green Packaging ID">BBI-006 · Sedotan Kertas Ramah Lingkungan</option>
-              <option value="custom">+ Bahan Baru Lainnya...</option>
-            </select>
+        <!-- ================= TAB 1: RINCIAN PENGADAAN & HPP ================= -->
+        <div id="panel-restock-hpp" class="space-y-4">
+          <!-- Pilihan Bahan -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Pilih Bahan Baku *</label>
+              <select id="restock-select-item" onchange="onRestockItemSelect(this.value)" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
+                <option value="">-- Pilih dari Daftar Bahan --</option>
+                <option value="BBI-001" data-name="Biji Kopi House Blend Arabica" data-unit="kg" data-supplier="Tani Kopi Malabar">BBI-001 · Biji Kopi House Blend Arabica</option>
+                <option value="BBI-002" data-name="Susu Fresh Milk Diamond" data-unit="L" data-supplier="PT Sukanda Djaya">BBI-002 · Susu Fresh Milk Diamond</option>
+                <option value="BBI-003" data-name="Sirup Gula Aren Organik" data-unit="L" data-supplier="Aren Nusantara Craft">BBI-003 · Sirup Gula Aren Organik</option>
+                <option value="BBI-004" data-name="Pure Matcha Powder Uji" data-unit="kg" data-supplier="Kyoto Direct Import">BBI-004 · Pure Matcha Powder Uji</option>
+                <option value="BBI-005" data-name="Cup Cold 16oz + Tutup Lid" data-unit="pcs" data-supplier="Kemasan Jaya Abadi">BBI-005 · Cup Cold 16oz + Tutup Lid</option>
+                <option value="BBI-006" data-name="Sedotan Kertas Ramah Lingkungan" data-unit="pcs" data-supplier="Green Packaging ID">BBI-006 · Sedotan Kertas Ramah Lingkungan</option>
+                <option value="custom">+ Bahan Baru Lainnya...</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Kode SKU / Kode Bahan</label>
+              <input type="text" id="restock-code" placeholder="Contoh: BBI-001" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono text-slate-800 bg-slate-50">
+            </div>
           </div>
 
           <div>
-            <label class="font-bold text-slate-700 block mb-1">Kode SKU / Kode Bahan</label>
-            <input type="text" id="restock-code" placeholder="Contoh: BBI-001" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono text-slate-800 bg-slate-50">
+            <label class="font-bold text-slate-700 block mb-1">Nama Bahan Baku *</label>
+            <input type="text" id="restock-name" required placeholder="Contoh: Susu Fresh Milk Diamond" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+          </div>
+
+          <!-- Jumlah & Satuan & Harga (Page 5 Style) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Jumlah Bahan Masuk *</label>
+              <input type="number" step="0.1" id="restock-qty" oninput="calcRestockHpp()" required placeholder="Contoh: 12" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-bold text-slate-900">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Satuan Beli Gudang</label>
+              <select id="restock-unit" onchange="calcRestockHpp()" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
+                <option value="kg">kg (Kilogram)</option>
+                <option value="L">L (Liter)</option>
+                <option value="pcs">pcs (Pieces / Buah)</option>
+                <option value="karton">karton (Karton Box)</option>
+                <option value="pack">pack (Kemasan Pack)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Harga Beli Faktur (Rp)</label>
+              <input type="text" id="restock-price" oninput="calcRestockHpp()" placeholder="42.000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Simulation / Auto HPP Calculation Box (Halaman 5 Style) -->
+          <div class="bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+            <div class="border-b sm:border-b-0 sm:border-r border-slate-200/60 pb-2 sm:pb-0 pr-0 sm:pr-2">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">HARGA BELI FAKTUR</span>
+              <span id="calc-restock-faktur" class="text-sm font-extrabold text-slate-800">Rp42.000 / Satuan</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Satuan grosir masuk</span>
+            </div>
+            <div class="border-b sm:border-b-0 sm:border-r border-slate-200/60 pb-2 sm:pb-0 pr-0 sm:pr-2">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">BIAYA SATUAN PAKAI</span>
+              <span id="calc-restock-per-unit" class="text-sm font-extrabold text-[#0038d2]">Rp42 / ml atau gram</span>
+              <span class="text-[10px] text-emerald-600 font-semibold block mt-0.5">Auto konversi HPP</span>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">SIMULASI PORSI RESEP</span>
+              <span id="calc-restock-portion" class="text-sm font-extrabold text-emerald-700">Rp8.400 / porsi</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Efisiensi resep 94.2%</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Nama Bahan Baku *</label>
-          <input type="text" id="restock-name" required placeholder="Contoh: Susu Fresh Milk Diamond" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
-        </div>
+        <!-- ================= TAB 2: STOK & PENEMPATAN BAR ================= -->
+        <div id="panel-restock-storage" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Lokasi Simpan di Bar / Cafe *</label>
+              <select id="restock-location" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+                <option value="Chiller Bar Kiri (Kulkas Utama)">Chiller Bar Kiri (Kulkas Utama)</option>
+                <option value="Chiller Bar Bawah Espresso">Chiller Bar Bawah Espresso</option>
+                <option value="Rak Biji Kopi Bar Atas">Rak Biji Kopi Bar Atas</option>
+                <option value="Gudang Kering Belakang">Gudang Kering Belakang</option>
+                <option value="Lemari Sirup & Powder">Lemari Sirup & Powder</option>
+              </select>
+            </div>
 
-        <!-- Jumlah & Satuan & Harga (Page 5 Style) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Jumlah Bahan Masuk *</label>
-            <input type="number" step="0.1" id="restock-qty" required placeholder="Contoh: 12" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-bold text-slate-900">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Batas Minimum / Stok Kritis</label>
+              <input type="text" id="restock-min-stock" placeholder="Contoh: 6 Liter / kg (Batas Aman)" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Kondisi Kemasan / Fisik Bahan</label>
+              <select id="restock-condition" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+                <option value="Segel Pabrik Utuh & Rapat">Segel Pabrik Utuh & Rapat</option>
+                <option value="Suhu Dingin Terjaga (<4°C)">Suhu Dingin Terjaga (&lt;4°C)</option>
+                <option value="Kemasan Bersih & Bebas Bocor">Kemasan Bersih & Bebas Bocor</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Tanggal Kedaluwarsa (Expired Date)</label>
+              <input type="date" id="restock-exp-date" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white">
+            </div>
           </div>
 
           <div>
-            <label class="font-bold text-slate-700 block mb-1">Satuan Beli Gudang</label>
-            <select id="restock-unit" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
-              <option value="kg">kg (Kilogram)</option>
-              <option value="L">L (Liter)</option>
-              <option value="pcs">pcs (Pieces / Buah)</option>
-              <option value="karton">karton (Karton Box)</option>
-              <option value="pack">pack (Kemasan Pack)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Harga Beli per Satuan (Rp)</label>
-            <input type="text" id="restock-price" placeholder="42.000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
-          </div>
-        </div>
-
-        <!-- Penempatan Bar & Supplier (Page 5: Stok Fisik & Penempatan Bar) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Lokasi Simpan di Bar / Cafe</label>
-            <select id="restock-location" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
-              <option value="Chiller Bar Kiri (Kulkas Utama)">Chiller Bar Kiri (Kulkas Utama)</option>
-              <option value="Chiller Bar Bawah Espresso">Chiller Bar Bawah Espresso</option>
-              <option value="Rak Biji Kopi Bar Atas">Rak Biji Kopi Bar Atas</option>
-              <option value="Gudang Kering Belakang">Gudang Kering Belakang</option>
-              <option value="Lemari Sirup & Powder">Lemari Sirup & Powder</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Supplier / Vendor</label>
-            <input type="text" id="restock-supplier" placeholder="Contoh: PT Sukanda Djaya" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            <label class="font-bold text-slate-700 block mb-1">Instruksi Khusus Barista & Penanganan Suhu</label>
+            <textarea id="restock-storage-notes" rows="2" placeholder="Contoh: Simpan di chiller suhu 2-4°C. Gunakan metode FIFO (First-In First-Out) saat racikan kopi." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none"></textarea>
           </div>
         </div>
 
-        <!-- PIC & Faktur -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Petugas Penerima (PIC)</label>
-            <input type="text" id="restock-pic" value="Barista Lead" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        <!-- ================= TAB 3: RIWAYAT & SUPPLIER ================= -->
+        <div id="panel-restock-supplier" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Supplier / Vendor Pengadaan *</label>
+              <input type="text" id="restock-supplier" placeholder="Contoh: PT Sumber Dairy Kawan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Petugas Penerima (PIC) *</label>
+              <input type="text" id="restock-pic" value="Barista Lead / Admin" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Nomor Faktur / DO Pengadaan</label>
+              <input type="text" id="restock-notes" placeholder="Contoh: PO-SKK-2026-1108" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Metode Pembayaran Pengadaan</label>
+              <select id="restock-pay-method" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+                <option value="Transfer Bank Operasional">Transfer Bank Operasional</option>
+                <option value="Kas Bon Tunai Bar">Kas Bon Tunai Bar</option>
+                <option value="Tempo 14 Hari (Invoicing)">Tempo 14 Hari (Invoicing)</option>
+              </select>
+            </div>
           </div>
 
           <div>
-            <label class="font-bold text-slate-700 block mb-1">Nomor Faktur / Catatan PO</label>
-            <input type="text" id="restock-notes" placeholder="Contoh: Faktur PO-2026-1108" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            <label class="font-bold text-slate-700 block mb-1">Catatan Bukti Penerimaan Barang</label>
+            <input type="text" id="restock-qc-note" placeholder="Contoh: Barang diterima lengkap, kemasan utuh, dan telah dicocokkan dengan surat jalan." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
           </div>
         </div>
 
         <!-- Highlight Note matching Page 5 -->
-        <div class="p-3 bg-blue-50/80 rounded-2xl border border-blue-100 flex items-center gap-2.5 text-blue-900 text-xs">
+        <div class="p-3 bg-blue-50/80 rounded-2xl border border-blue-100 flex items-center gap-2.5 text-blue-900 text-xs mt-4">
           <i data-lucide="check-circle-2" class="w-4 h-4 text-[#0038d2] shrink-0"></i>
           <span>Perubahan stok akan tercatat otomatis di kartu inventori & laporan HPP.</span>
         </div>
 
         <!-- Footer Buttons -->
-        <div class="flex items-center justify-end gap-2.5 pt-2">
-          <button type="button" onclick="closeRestockModal()" class="px-5 py-2.5 rounded-full text-slate-600 hover:bg-slate-100 font-semibold transition">
-            Batal
-          </button>
-          <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm active:scale-95">
-            Simpan Bahan Baku
-          </button>
+        <div class="flex items-center justify-between pt-4 mt-2 border-t border-slate-100">
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-restock-prev" onclick="navRestockTab(-1)" class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition hidden">
+              &larr; Kembali
+            </button>
+            <button type="button" id="btn-restock-next" onclick="navRestockTab(1)" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold transition">
+              Lanjut &rarr;
+            </button>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <button type="button" onclick="closeRestockModal()" class="px-5 py-2.5 rounded-full text-slate-600 hover:bg-slate-100 font-semibold transition">
+              Batal
+            </button>
+            <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm active:scale-95">
+              Simpan Bahan Baku
+            </button>
+          </div>
         </div>
 
       </form>
@@ -1944,7 +2031,7 @@
 
   <!-- ==================== MODAL: TAMBAH MENU BARU & HITUNG HPP (HALAMAN 2 & 39) ==================== -->
   <div id="modal-add-menu" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 lg:p-7 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 modal-content">
+    <div class="bg-white rounded-3xl p-6 lg:p-7 max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-100 modal-content">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
@@ -1962,77 +2049,203 @@
 
       <!-- Navigation Tabs (Page 2 Style) -->
       <div class="flex items-center border-b border-slate-200 mt-4 text-xs font-bold text-slate-500">
-        <button type="button" class="pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2]">Rincian Resep & Bahan (HPP)</button>
-        <button type="button" class="pb-2.5 px-3 hover:text-slate-800">Informasi & Foto Menu</button>
+        <button type="button" id="tab-btn-menu-hpp" onclick="switchAddMenuTab('hpp')" class="pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2] flex items-center gap-1.5 transition">
+          <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+          <span>Rincian Resep & Bahan (HPP)</span>
+        </button>
+        <button type="button" id="tab-btn-menu-info" onclick="switchAddMenuTab('info')" class="pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span>Informasi & Foto Menu</span>
+        </button>
       </div>
 
       <!-- Form Tambah Menu -->
-      <form id="form-add-menu" onsubmit="submitNewMenu(event)" class="space-y-4 pt-4 text-xs">
+      <form id="form-add-menu" onsubmit="submitNewMenu(event)" class="pt-4 text-xs">
         
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Nama Sajian Menu *</label>
-          <input type="text" id="input-menu-name" required placeholder="Contoh: Kopi Susu Pandan Santai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <!-- ================= TAB 1: RINCIAN RESEP & BAHAN (HPP) ================= -->
+        <div id="panel-menu-hpp" class="space-y-4">
           <div>
-            <label class="font-bold text-slate-700 block mb-1">Kategori Menu *</label>
-            <select id="input-menu-category" onchange="autoGenerateSku()" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
-              <option value="Signature">Signature Kopi</option>
-              <option value="Coffee-Based">Coffee-Based</option>
-              <option value="Tea & Squash">Tea & Squash</option>
-              <option value="Meals & Pasta">Meals & Pasta</option>
-              <option value="Snacks & Pastry">Snacks & Pastry</option>
-            </select>
+            <label class="font-bold text-slate-700 block mb-1">Nama Sajian Menu *</label>
+            <input type="text" id="input-menu-name" required placeholder="Contoh: Kopi Susu Pandan Santai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
           </div>
 
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Kode SKU</label>
-            <input type="text" id="input-menu-sku" placeholder="Contoh: SIG-03" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono text-slate-800 bg-slate-50">
-          </div>
-        </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Kategori Menu *</label>
+              <select id="input-menu-category" onchange="autoGenerateSku()" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
+                <option value="Signature">Signature Kopi</option>
+                <option value="Coffee-Based">Coffee-Based</option>
+                <option value="Tea & Squash">Tea & Squash</option>
+                <option value="Meals & Pasta">Meals & Pasta</option>
+                <option value="Snacks & Pastry">Snacks & Pastry</option>
+              </select>
+            </div>
 
-        <!-- Harga Jual & HPP & Margin Calculator (Page 2) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Harga Jual Kasir (Rp) *</label>
-            <input type="number" id="input-menu-price" oninput="calcMenuMargin()" required placeholder="23000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-bold text-slate-900">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Kode SKU</label>
+              <input type="text" id="input-menu-sku" placeholder="Contoh: SIG-03" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono text-slate-800 bg-slate-50">
+            </div>
           </div>
 
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Estimasi Total HPP (Rp) *</label>
-            <input type="number" id="input-menu-hpp" oninput="calcMenuMargin()" required placeholder="8000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+          <!-- Harga Jual & HPP & Margin Calculator (Page 2) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Harga Jual Kasir (Rp) *</label>
+              <input type="number" id="input-menu-price" oninput="calcMenuMargin()" required placeholder="23000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-bold text-slate-900">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Estimasi Total HPP (Rp) *</label>
+              <input type="number" id="input-menu-hpp" oninput="calcMenuMargin()" required placeholder="8000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Estimasi Margin Laba</label>
+              <div id="display-menu-margin" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-emerald-50 text-emerald-800 font-extrabold flex items-center justify-between">
+                <span>65.2%</span>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Sehat</span>
+              </div>
+            </div>
           </div>
 
+          <!-- Resep Bahan Singkat (Page 2: Komposisi Bahan & Takaran) -->
           <div>
-            <label class="font-bold text-slate-700 block mb-1">Estimasi Margin Laba</label>
-            <div id="display-menu-margin" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-emerald-50 text-emerald-800 font-extrabold flex items-center justify-between">
-              <span>65.2%</span>
-              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Sehat</span>
+            <label class="font-bold text-slate-700 block mb-1">Komposisi Takaran Resep Barista</label>
+            <input type="text" id="input-menu-recipe" placeholder="Contoh: 18g Espresso Blend + 120ml Susu + 25ml Pandan + 1 Cup 16oz" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-slate-700">
+          </div>
+
+          <!-- Rincian Bahan Inventori (Page 2 Table Style) -->
+          <div class="bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-3.5 space-y-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Simulasi Bahan Terpotong Otomatis</span>
+            <div class="space-y-1.5 text-[11px] text-slate-600">
+              <div class="flex items-center justify-between">
+                <span>• Espresso House Blend (18 gr)</span>
+                <span class="font-semibold text-slate-800">Rp3.600</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>• Fresh Milk Pasteurisasi (120 ml)</span>
+                <span class="font-semibold text-slate-800">Rp2.160</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>• Sirup Khas Kawan / Flavour (25 ml)</span>
+                <span class="font-semibold text-slate-800">Rp1.240</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>• Cup Cold 16oz + Tutup & Sedotan (1 set)</span>
+                <span class="font-semibold text-slate-800">Rp1.000</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Resep Bahan Singkat (Page 2: Komposisi Bahan & Takaran) -->
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Komposisi Takaran Resep Barista</label>
-          <input type="text" id="input-menu-recipe" placeholder="Contoh: 18g Espresso Blend + 120ml Susu + 25ml Pandan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-slate-700">
+        <!-- ================= TAB 2: INFORMASI & FOTO MENU ================= -->
+        <div id="panel-menu-info" class="space-y-4 hidden">
+          
+          <!-- Foto Menu Section -->
+          <div>
+            <label class="font-bold text-slate-700 block mb-1.5">Foto Sajian Menu *</label>
+            <div class="flex flex-col sm:flex-row items-center gap-4 p-4 border border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+              <!-- Image Preview Box -->
+              <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border border-slate-200 bg-white overflow-hidden shrink-0 flex items-center justify-center shadow-xs">
+                <img id="preview-menu-img" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80" alt="Preview Foto Menu" class="w-full h-full object-cover">
+              </div>
+
+              <!-- Upload Actions & Preset -->
+              <div class="space-y-2 text-left w-full">
+                <input type="file" id="input-menu-file" accept="image/*" onchange="handleMenuPhotoUpload(event)" class="hidden">
+                <input type="hidden" id="input-menu-image-url" value="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80">
+                
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="document.getElementById('input-menu-file').click()" class="px-3.5 py-1.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition text-[11px] flex items-center gap-1.5 shadow-2xs">
+                    <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                    <span>Unggah Foto</span>
+                  </button>
+                  <span class="text-[10px] text-slate-400">JPG, PNG atau WebP (Max 5MB)</span>
+                </div>
+
+                <!-- Quick Preset Thumbnails -->
+                <div>
+                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Atau Pilih Foto Cepat:</span>
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <button type="button" onclick="setPresetMenuPhoto('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80', 'Sawan Iced')" class="px-2 py-0.5 rounded-lg border border-slate-200 bg-white hover:border-[#0038d2] text-[10px] font-medium text-slate-600 transition">☕ Kopi Aren</button>
+                    <button type="button" onclick="setPresetMenuPhoto('https://images.unsplash.com/photo-1534778101976-62847782c213?w=300&auto=format&fit=crop&q=80', 'Latte Art')" class="px-2 py-0.5 rounded-lg border border-slate-200 bg-white hover:border-[#0038d2] text-[10px] font-medium text-slate-600 transition">🥛 Latte Art</button>
+                    <button type="button" onclick="setPresetMenuPhoto('https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80', 'Matcha Uji')" class="px-2 py-0.5 rounded-lg border border-slate-200 bg-white hover:border-[#0038d2] text-[10px] font-medium text-slate-600 transition">🍵 Matcha</button>
+                    <button type="button" onclick="setPresetMenuPhoto('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80', 'Croissant')" class="px-2 py-0.5 rounded-lg border border-slate-200 bg-white hover:border-[#0038d2] text-[10px] font-medium text-slate-600 transition">🥐 Pastry</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deskripsi & Karakter Rasa -->
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Deskripsi & Karakter Rasa</label>
+            <textarea id="input-menu-desc" rows="2" placeholder="Contoh: Racikan espresso house blend dengan susu segar dan aroma pandan wangi khas Santai Kawan Kopi." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none"></textarea>
+          </div>
+
+          <!-- Suhu & Format Sajian -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Pilihan Suhu Penyajian</label>
+              <select id="input-menu-temp" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+                <option value="Dingin (Iced)">Dingin (Iced Cup)</option>
+                <option value="Panas (Hot)">Panas (Hot Cup)</option>
+                <option value="Dingin & Panas">Bisa Dingin & Panas</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Status Operasional Kasir (POS)</label>
+              <select id="input-menu-status" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium text-emerald-800">
+                <option value="Aktif di Kasir">✓ Aktif di Kasir (Ready)</option>
+                <option value="Habis Sementara">✕ Habis Sementara (Sold Out)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Estimasi Waktu Seduh Barista</label>
+              <input type="text" id="input-menu-time" value="3 – 5 Menit" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Badge Rekomendasi Menu</label>
+              <select id="input-menu-badge" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+                <option value="Signature">Signature Kawan</option>
+                <option value="Best Seller">Best Seller</option>
+                <option value="Racikan Baru">Racikan Baru</option>
+                <option value="Favorit Barista">Favorit Barista</option>
+              </select>
+            </div>
+          </div>
+
         </div>
 
         <!-- Highlight Note -->
-        <div class="p-3 bg-blue-50/80 rounded-2xl border border-blue-100 flex items-center gap-2.5 text-blue-900 text-xs">
+        <div class="p-3 bg-blue-50/80 rounded-2xl border border-blue-100 flex items-center gap-2.5 text-blue-900 text-xs mt-4">
           <i data-lucide="check-circle-2" class="w-4 h-4 text-[#0038d2] shrink-0"></i>
           <span>Menu baru otomatis aktif di POS kasir dan terhubung dengan pelacakan HPP.</span>
         </div>
 
         <!-- Footer Buttons -->
-        <div class="flex items-center justify-end gap-2.5 pt-2">
-          <button type="button" onclick="closeAddMenuModal()" class="px-5 py-2.5 rounded-full text-slate-600 hover:bg-slate-100 font-semibold transition">
-            Batal
-          </button>
-          <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm active:scale-95">
-            Simpan Menu Baru
-          </button>
+        <div class="flex items-center justify-between pt-4 mt-2 border-t border-slate-100">
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-menu-prev" onclick="switchAddMenuTab('hpp')" class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition hidden">
+              &larr; Resep HPP
+            </button>
+            <button type="button" id="btn-menu-next" onclick="switchAddMenuTab('info')" class="px-4 py-2 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold transition">
+              Informasi & Foto &rarr;
+            </button>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <button type="button" onclick="closeAddMenuModal()" class="px-5 py-2.5 rounded-full text-slate-600 hover:bg-slate-100 font-semibold transition">
+              Batal
+            </button>
+            <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm active:scale-95">
+              Simpan Menu Baru
+            </button>
+          </div>
         </div>
 
       </form>

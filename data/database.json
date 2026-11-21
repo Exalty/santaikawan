@@ -456,7 +456,10 @@
         "sold": 0,
         "price": "Rp24.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop&q=80",
+        "description": "Espresso blend racikan dengan sirup pandan wangi dan susu segar.",
+        "serving_temp": "Dingin (Iced)"
       },
       {
         "sku": "SIG-01",
@@ -467,7 +470,10 @@
         "sold": 280,
         "price": "Rp23.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&auto=format&fit=crop&q=80",
+        "description": "Signature kopi susu gula aren organik racikan khas Santai Kawan.",
+        "serving_temp": "Dingin / Panas"
       },
       {
         "sku": "SIG-02",
@@ -478,7 +484,10 @@
         "sold": 195,
         "price": "Rp22.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400&auto=format&fit=crop&q=80",
+        "description": "Kopi susu lembut dengan sentuhan karamel manis gurih seimbang.",
+        "serving_temp": "Dingin (Iced)"
       },
       {
         "sku": "COF-01",
@@ -489,7 +498,10 @@
         "sold": 142,
         "price": "Rp23.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&auto=format&fit=crop&q=80",
+        "description": "Double shot espresso dengan steamed milk lembut dan latte art.",
+        "serving_temp": "Panas / Dingin"
       },
       {
         "sku": "RCB-01",
@@ -500,7 +512,10 @@
         "sold": 110,
         "price": "Rp22.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop&q=80",
+        "description": "Nasi goreng bumbu rempah spesial kawan dengan telur mata sapi.",
+        "serving_temp": "Sajian Utama"
       },
       {
         "sku": "SNK-01",
@@ -511,7 +526,10 @@
         "sold": 98,
         "price": "Rp17.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&auto=format&fit=crop&q=80",
+        "description": "Tahu renyah potongan dadu bertabur irisan cabai dan bawang gurih.",
+        "serving_temp": "Camilan Bar"
       },
       {
         "sku": "PST-01",
@@ -522,7 +540,10 @@
         "sold": 72,
         "price": "Rp20.000",
         "status": "Aktif di Kasir",
-        "stock": "Bahan aman"
+        "stock": "Bahan aman",
+        "image_url": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&auto=format&fit=crop&q=80",
+        "description": "Pastry mentega renyah berlapis khas Prancis, dipanggang harian.",
+        "serving_temp": "Freshly Baked"
       }
     ]
   },

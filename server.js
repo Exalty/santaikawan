@@ -68,7 +68,7 @@ app.get('/api/menu', (req, res) => {
 
 // POST Menu Baru (Katalog Hidangan & Racikan)
 app.post('/api/menu', (req, res) => {
-  const { name, category, sku, price, hpp, margin, status } = req.body;
+  const { name, category, sku, price, hpp, margin, status, image_url, description, serving_temp, recipe, prep_time, badge } = req.body;
   if (!name || !price) {
     return res.status(400).json({ error: 'Nama menu dan harga jual wajib diisi.' });
   }
@@ -91,7 +91,13 @@ app.post('/api/menu', (req, res) => {
     sold: 0,
     price: `Rp${numPrice.toLocaleString('id-ID')}`,
     status: status || 'Aktif di Kasir',
-    stock: 'Bahan aman'
+    stock: 'Bahan aman',
+    image_url: image_url || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80',
+    description: description || 'Racikan sajian kopi pilihan khas Santai Kawan Kopi.',
+    serving_temp: serving_temp || 'Dingin (Iced)',
+    recipe: recipe || '',
+    prep_time: prep_time || '3–5 Menit',
+    badge: badge || 'Signature'
   };
 
   if (!db.menu_catalog.items) db.menu_catalog.items = [];

@@ -929,6 +929,8 @@ function renderStockHistory(history) {
 // RESTOCK / CATAT BAHAN MASUK (HALAMAN 5 PROTOTYPE)
 // =============================================================================
 
+let currentRestockTab = 'hpp';
+
 function openRestockModal() {
   const modal = document.getElementById('modal-restock');
   if (modal) {
@@ -939,6 +941,8 @@ function openRestockModal() {
     document.getElementById('restock-code').value = '';
     document.getElementById('restock-name').value = '';
     document.getElementById('restock-qty').value = '';
+    switchRestockTab('hpp');
+    calcRestockHpp();
   }
 }
 
@@ -968,6 +972,92 @@ function closeRestockModal() {
   }
 }
 
+function switchRestockTab(tabName) {
+  currentRestockTab = tabName;
+  const panelHpp = document.getElementById('panel-restock-hpp');
+  const panelStorage = document.getElementById('panel-restock-storage');
+  const panelSupplier = document.getElementById('panel-restock-supplier');
+  const btnHpp = document.getElementById('tab-btn-restock-hpp');
+  const btnStorage = document.getElementById('tab-btn-restock-storage');
+  const btnSupplier = document.getElementById('tab-btn-restock-supplier');
+  const btnPrev = document.getElementById('btn-restock-prev');
+  const btnNext = document.getElementById('btn-restock-next');
+
+  // Hide all panels
+  if (panelHpp) panelHpp.classList.add('hidden');
+  if (panelStorage) panelStorage.classList.add('hidden');
+  if (panelSupplier) panelSupplier.classList.add('hidden');
+
+  // Reset button styles
+  const inactiveClass = 'pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition';
+  const activeClass = 'pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2] flex items-center gap-1.5 transition';
+  if (btnHpp) btnHpp.className = inactiveClass;
+  if (btnStorage) btnStorage.className = inactiveClass;
+  if (btnSupplier) btnSupplier.className = inactiveClass;
+
+  if (tabName === 'hpp') {
+    if (panelHpp) panelHpp.classList.remove('hidden');
+    if (btnHpp) btnHpp.className = activeClass;
+    if (btnPrev) btnPrev.classList.add('hidden');
+    if (btnNext) btnNext.classList.remove('hidden');
+  } else if (tabName === 'storage') {
+    if (panelStorage) panelStorage.classList.remove('hidden');
+    if (btnStorage) btnStorage.className = activeClass;
+    if (btnPrev) btnPrev.classList.remove('hidden');
+    if (btnNext) btnNext.classList.remove('hidden');
+  } else if (tabName === 'supplier') {
+    if (panelSupplier) panelSupplier.classList.remove('hidden');
+    if (btnSupplier) btnSupplier.className = activeClass;
+    if (btnPrev) btnPrev.classList.remove('hidden');
+    if (btnNext) btnNext.classList.add('hidden');
+  }
+
+  lucide.createIcons();
+}
+
+function navRestockTab(dir) {
+  const tabs = ['hpp', 'storage', 'supplier'];
+  const currentIndex = tabs.indexOf(currentRestockTab);
+  const nextIndex = currentIndex + dir;
+  if (nextIndex >= 0 && nextIndex < tabs.length) {
+    switchRestockTab(tabs[nextIndex]);
+  }
+}
+
+function calcRestockHpp() {
+  const priceInput = document.getElementById('restock-price');
+  const fakturEl = document.getElementById('calc-restock-faktur');
+  const perUnitEl = document.getElementById('calc-restock-per-unit');
+  const portionEl = document.getElementById('calc-restock-portion');
+  const unitSelect = document.getElementById('restock-unit');
+
+  if (!priceInput || !fakturEl) return;
+
+  const rawPrice = parseFloat(priceInput.value.replace(/[^0-9]/g, '')) || 42000;
+  const unit = unitSelect ? unitSelect.value : 'L';
+
+  fakturEl.innerText = `Rp${rawPrice.toLocaleString('id-ID')} / ${unit}`;
+
+  let perUnitVal = 0;
+  let portionVal = 0;
+  if (unit === 'L') {
+    perUnitVal = Math.round(rawPrice / 1000);
+    portionVal = perUnitVal * 200; // 200ml porsi racikan latte / sawan
+    perUnitEl.innerText = `Rp${perUnitVal} / ml`;
+    portionEl.innerText = `Rp${portionVal.toLocaleString('id-ID')} / 200ml`;
+  } else if (unit === 'kg') {
+    perUnitVal = Math.round(rawPrice / 1000);
+    portionVal = perUnitVal * 18; // 18gr espresso
+    perUnitEl.innerText = `Rp${perUnitVal} / gram`;
+    portionEl.innerText = `Rp${portionVal.toLocaleString('id-ID')} / 18gr`;
+  } else {
+    perUnitVal = rawPrice;
+    portionVal = rawPrice;
+    perUnitEl.innerText = `Rp${perUnitVal.toLocaleString('id-ID')} / ${unit}`;
+    portionEl.innerText = `Rp${portionVal.toLocaleString('id-ID')} / porsi`;
+  }
+}
+
 function onRestockItemSelect(val) {
   const selectEl = document.getElementById('restock-select-item');
   if (!selectEl) return;
@@ -989,6 +1079,7 @@ function onRestockItemSelect(val) {
       document.getElementById('restock-supplier').value = selectedOpt.dataset.supplier;
     }
   }
+  calcRestockHpp();
 }
 
 async function submitRestock(e) {
@@ -998,10 +1089,20 @@ async function submitRestock(e) {
   const qty = document.getElementById('restock-qty').value.trim();
   const unit = document.getElementById('restock-unit').value;
   const price = document.getElementById('restock-price').value.trim();
-  const storage_loc = document.getElementById('restock-location').value;
+  
+  // Storage tab fields
+  const storage_loc = document.getElementById('restock-location') ? document.getElementById('restock-location').value : 'Chiller Bar';
+  const min_stock = document.getElementById('restock-min-stock') ? document.getElementById('restock-min-stock').value.trim() : '';
+  const condition = document.getElementById('restock-condition') ? document.getElementById('restock-condition').value : '';
+  const exp_date = document.getElementById('restock-exp-date') ? document.getElementById('restock-exp-date').value : '';
+  const storage_notes = document.getElementById('restock-storage-notes') ? document.getElementById('restock-storage-notes').value.trim() : '';
+  
+  // Supplier tab fields
   const supplier = document.getElementById('restock-supplier').value.trim();
   const pic = document.getElementById('restock-pic').value.trim();
   const notes = document.getElementById('restock-notes').value.trim();
+  const pay_method = document.getElementById('restock-pay-method') ? document.getElementById('restock-pay-method').value : '';
+  const qc_note = document.getElementById('restock-qc-note') ? document.getElementById('restock-qc-note').value.trim() : '';
 
   if (!name || !qty) {
     alert('Nama bahan dan jumlah wajib diisi!');
@@ -1019,9 +1120,15 @@ async function submitRestock(e) {
         unit,
         price,
         storage_loc,
+        min_stock,
+        condition,
+        exp_date,
+        storage_notes,
         supplier,
         pic,
-        notes: notes || `Restock gudang (${storage_loc})`
+        notes: notes || `Restock gudang (${storage_loc})`,
+        pay_method,
+        qc_note
       })
     });
 
@@ -1100,14 +1207,25 @@ function renderMenuGrid(items) {
       ? '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Bahan aman</span>'
       : '<span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Bahan menipis</span>';
 
+    const imgHtml = item.image_url ? `
+      <div class="w-full h-36 rounded-2xl overflow-hidden mb-3 bg-slate-100 shadow-2xs relative">
+        <img src="${item.image_url}" alt="${item.name}" class="w-full h-full object-cover">
+        ${item.serving_temp ? `<span class="absolute bottom-2 left-2 bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-full">${item.serving_temp}</span>` : ''}
+      </div>
+    ` : '';
+
+    const descHtml = item.description ? `<p class="text-xs text-slate-500 line-clamp-1 mt-1">${item.description}</p>` : '';
+
     return `
-      <div class="bg-[#f8fafc] p-5 rounded-3xl border border-slate-100 flex flex-col justify-between hover:border-slate-200 hover:shadow-xs transition">
+      <div class="bg-[#f8fafc] p-4 sm:p-5 rounded-3xl border border-slate-100 flex flex-col justify-between hover:border-slate-200 hover:shadow-xs transition">
         <div>
+          ${imgHtml}
           <div class="flex items-center justify-between mb-2">
             <span class="text-[10px] font-bold ${catBadgeColor} px-2 py-0.5 rounded-full">${item.category || 'Menu'} &bull; ${item.sku || '-'}</span>
             ${stockBadge}
           </div>
           <h4 class="text-base font-bold text-slate-900 mt-1">${item.name}</h4>
+          ${descHtml}
           <div class="flex items-center gap-3 text-xs text-slate-500 mt-2">
             <span>HPP: ${item.hpp || 'Rp8.000'}</span>
             <span>&bull;</span>
@@ -1167,6 +1285,11 @@ function openAddMenuModal() {
   if (modal) {
     modal.classList.remove('hidden');
     document.getElementById('form-add-menu').reset();
+    switchAddMenuTab('hpp');
+    const preview = document.getElementById('preview-menu-img');
+    const inputUrl = document.getElementById('input-menu-image-url');
+    if (preview) preview.src = 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80';
+    if (inputUrl) inputUrl.value = 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80';
     autoGenerateSku();
     calcMenuMargin();
   }
@@ -1177,6 +1300,57 @@ function closeAddMenuModal() {
   if (modal) {
     modal.classList.add('hidden');
   }
+}
+
+function switchAddMenuTab(tabName) {
+  const panelHpp = document.getElementById('panel-menu-hpp');
+  const panelInfo = document.getElementById('panel-menu-info');
+  const btnHpp = document.getElementById('tab-btn-menu-hpp');
+  const btnInfo = document.getElementById('tab-btn-menu-info');
+  const btnPrev = document.getElementById('btn-menu-prev');
+  const btnNext = document.getElementById('btn-menu-next');
+
+  if (tabName === 'hpp') {
+    if (panelHpp) panelHpp.classList.remove('hidden');
+    if (panelInfo) panelInfo.classList.add('hidden');
+    if (btnHpp) btnHpp.className = 'pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2] flex items-center gap-1.5 transition';
+    if (btnInfo) btnInfo.className = 'pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition';
+    if (btnPrev) btnPrev.classList.add('hidden');
+    if (btnNext) btnNext.classList.remove('hidden');
+  } else {
+    if (panelHpp) panelHpp.classList.add('hidden');
+    if (panelInfo) panelInfo.classList.remove('hidden');
+    if (btnInfo) btnInfo.className = 'pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2] flex items-center gap-1.5 transition';
+    if (btnHpp) btnHpp.className = 'pb-2.5 px-3 text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition';
+    if (btnPrev) btnPrev.classList.remove('hidden');
+    if (btnNext) btnNext.classList.add('hidden');
+  }
+
+  lucide.createIcons();
+}
+
+function handleMenuPhotoUpload(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const dataUrl = evt.target.result;
+    const preview = document.getElementById('preview-menu-img');
+    const inputUrl = document.getElementById('input-menu-image-url');
+    if (preview) preview.src = dataUrl;
+    if (inputUrl) inputUrl.value = dataUrl;
+    showToast('✓ Foto sajian berhasil diunggah!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function setPresetMenuPhoto(url, name) {
+  const preview = document.getElementById('preview-menu-img');
+  const inputUrl = document.getElementById('input-menu-image-url');
+  if (preview) preview.src = url;
+  if (inputUrl) inputUrl.value = url;
+  showToast(`✓ Foto preset ${name} dipilih.`);
 }
 
 function autoGenerateSku() {
@@ -1225,6 +1399,15 @@ async function submitNewMenu(e) {
   const sku = document.getElementById('input-menu-sku').value.trim();
   const price = document.getElementById('input-menu-price').value.trim();
   const hpp = document.getElementById('input-menu-hpp').value.trim();
+  const recipe = document.getElementById('input-menu-recipe') ? document.getElementById('input-menu-recipe').value.trim() : '';
+
+  // Tab 2: Informasi & Foto
+  const image_url = document.getElementById('input-menu-image-url') ? document.getElementById('input-menu-image-url').value : '';
+  const description = document.getElementById('input-menu-desc') ? document.getElementById('input-menu-desc').value.trim() : '';
+  const serving_temp = document.getElementById('input-menu-temp') ? document.getElementById('input-menu-temp').value : 'Dingin (Iced)';
+  const status = document.getElementById('input-menu-status') ? document.getElementById('input-menu-status').value : 'Aktif di Kasir';
+  const prep_time = document.getElementById('input-menu-time') ? document.getElementById('input-menu-time').value : '3–5 Menit';
+  const badge = document.getElementById('input-menu-badge') ? document.getElementById('input-menu-badge').value : 'Signature';
 
   if (!name || !price) {
     alert('Nama menu dan harga jual wajib diisi!');
@@ -1235,7 +1418,20 @@ async function submitNewMenu(e) {
     const res = await fetch('/api/menu', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, category, sku, price, hpp })
+      body: JSON.stringify({
+        name,
+        category,
+        sku,
+        price,
+        hpp,
+        recipe,
+        image_url,
+        description,
+        serving_temp,
+        status,
+        prep_time,
+        badge
+      })
     });
 
     if (!res.ok) {

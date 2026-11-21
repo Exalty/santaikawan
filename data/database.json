@@ -133,24 +133,123 @@
       "menu_growth": "+12,0%",
       "menu_prev": "vs 750 item minggu lalu"
     },
-    "daily_revenue": [
-      { "day": "Sen", "val": 2.2, "height": 60 },
-      { "day": "Sel", "val": 2.4, "height": 66 },
-      { "day": "Rab", "val": 2.5, "height": 70 },
-      { "day": "Kam", "val": 2.3, "height": 64 },
-      { "day": "Jum", "val": 3.1, "height": 88 },
-      { "day": "Sab", "val": 3.6, "height": 110, "peak": true },
-      { "day": "Min", "val": 2.38, "height": 68 }
+    "daily_data": [
+      {
+        "day": "Sen",
+        "full_date": "Senin, 2 Nov 2026",
+        "revenue": 2200000,
+        "revenue_label": "2,20 jt",
+        "height_rev": 60,
+        "trans_this_week": 68,
+        "trans_last_week": 60,
+        "avg_basket": "Rp32.350",
+        "top_menu": "Kopi Susu Kawan",
+        "top_menu_qty": "28 cup",
+        "dine_in_pct": 60,
+        "takeaway_pct": 40
+      },
+      {
+        "day": "Sel",
+        "full_date": "Selasa, 3 Nov 2026",
+        "revenue": 2400000,
+        "revenue_label": "2,40 jt",
+        "height_rev": 66,
+        "trans_this_week": 74,
+        "trans_last_week": 68,
+        "avg_basket": "Rp32.430",
+        "top_menu": "Kopi Susu Kawan",
+        "top_menu_qty": "32 cup",
+        "dine_in_pct": 62,
+        "takeaway_pct": 38
+      },
+      {
+        "day": "Rab",
+        "full_date": "Rabu, 4 Nov 2026",
+        "revenue": 2500000,
+        "revenue_label": "2,50 jt",
+        "height_rev": 70,
+        "trans_this_week": 82,
+        "trans_last_week": 75,
+        "avg_basket": "Rp30.480",
+        "top_menu": "Kopi Aren Santai",
+        "top_menu_qty": "26 cup",
+        "dine_in_pct": 65,
+        "takeaway_pct": 35
+      },
+      {
+        "day": "Kam",
+        "full_date": "Kamis, 5 Nov 2026",
+        "revenue": 2300000,
+        "revenue_label": "2,30 jt",
+        "height_rev": 64,
+        "trans_this_week": 78,
+        "trans_last_week": 70,
+        "avg_basket": "Rp29.480",
+        "top_menu": "Caffe Latte",
+        "top_menu_qty": "24 cup",
+        "dine_in_pct": 58,
+        "takeaway_pct": 42
+      },
+      {
+        "day": "Jum",
+        "full_date": "Jumat, 6 Nov 2026",
+        "revenue": 3100000,
+        "revenue_label": "3,10 jt",
+        "height_rev": 88,
+        "trans_this_week": 104,
+        "trans_last_week": 92,
+        "avg_basket": "Rp29.800",
+        "top_menu": "Kopi Susu Kawan",
+        "top_menu_qty": "42 cup",
+        "dine_in_pct": 68,
+        "takeaway_pct": 32
+      },
+      {
+        "day": "Sab",
+        "full_date": "Sabtu, 7 Nov 2026",
+        "revenue": 3600000,
+        "revenue_label": "3,60 jt",
+        "height_rev": 110,
+        "trans_this_week": 120,
+        "trans_last_week": 110,
+        "avg_basket": "Rp30.000",
+        "top_menu": "Kopi Susu Kawan & Croissant",
+        "top_menu_qty": "55 cup",
+        "dine_in_pct": 72,
+        "takeaway_pct": 28,
+        "peak": true
+      },
+      {
+        "day": "Min",
+        "full_date": "Minggu, 8 Nov 2026",
+        "revenue": 2380000,
+        "revenue_label": "2,38 jt",
+        "height_rev": 68,
+        "trans_this_week": 90,
+        "trans_last_week": 85,
+        "avg_basket": "Rp26.440",
+        "top_menu": "Matcha Latte",
+        "top_menu_qty": "30 cup",
+        "dine_in_pct": 70,
+        "takeaway_pct": 30
+      }
     ],
     "top_menus": [
-      { "name": "Kopi Susu Kawan", "category": "Kopi", "price": "Rp24.000", "sold": 210, "revenue": "Rp5.040.000" },
-      { "name": "Kopi Aren Santai", "category": "Kopi", "price": "Rp30.000", "sold": 120, "revenue": "Rp3.600.000" },
-      { "name": "Matcha Latte", "category": "Non-kopi", "price": "Rp30.000", "sold": 84, "revenue": "Rp2.520.000" },
-      { "name": "Butter Croissant", "category": "Pastry", "price": "Rp20.000", "sold": 72, "revenue": "Rp1.440.000" }
+      { "name": "Kopi Susu Kawan", "category": "Kopi", "price": "Rp24.000", "sold": 210, "revenue": "Rp5.040.000", "bar_w": "85%" },
+      { "name": "Kopi Aren Santai", "category": "Kopi", "price": "Rp30.000", "sold": 120, "revenue": "Rp3.600.000", "bar_w": "55%" },
+      { "name": "Matcha Latte", "category": "Non-kopi", "price": "Rp30.000", "sold": 84, "revenue": "Rp2.520.000", "bar_w": "38%" },
+      { "name": "Butter Croissant", "category": "Pastry", "price": "Rp20.000", "sold": 72, "revenue": "Rp1.440.000", "bar_w": "30%" }
     ],
-    "target": {
-      "pct": 92.4,
-      "desc": "Kurang Rp1.520.000 menuju target Rp20.000.000 pekan ini."
+    "order_source": {
+      "dine_in_pct": 65,
+      "dine_in_amount": "Rp12.012.000",
+      "takeaway_pct": 35,
+      "takeaway_amount": "Rp6.468.000"
+    },
+    "branches": {
+      "Semua cabang": { "revenue": "Rp18.480.000", "trans": 616, "menu": 840, "margin": "Rp11.088.000" },
+      "Cabang Dago": { "revenue": "Rp10.250.000", "trans": 340, "menu": 470, "margin": "Rp6.150.000" },
+      "Cabang Sudirman": { "revenue": "Rp8.230.000", "trans": 276, "menu": 370, "margin": "Rp4.938.000" }
     }
   },
   "penjualan": {

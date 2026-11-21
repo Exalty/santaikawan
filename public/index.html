@@ -678,6 +678,7 @@
     <!-- ========================================================================= -->
     <main id="view-page-ringkasan" class="main-page-section hidden flex flex-col gap-6">
       
+      <!-- Sub-header & Filter Bar -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
         <div>
           <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1.5">
@@ -688,12 +689,34 @@
             Bisnis Lancar, kawan.
           </h2>
           <p class="text-slate-500 text-sm mt-1">
-            Secangkir insight untuk langkah cafe yang lebih baik.
+            Secangkir insight untuk langkah cafe yang lebih baik. Klik batang grafik untuk melihat analitik per hari.
           </p>
         </div>
 
         <div class="flex items-center gap-3">
-          <button onclick="exportReport()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+          <!-- Filter Periode -->
+          <div class="relative">
+            <select id="ringkasan-filter-date" onchange="filterRingkasanData()" class="appearance-none bg-white border border-slate-200 text-slate-700 font-medium pl-8 pr-7 py-2 rounded-full cursor-pointer hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20 text-xs shadow-xs">
+              <option value="current">2–8 Nov 2026 (Minggu Ini)</option>
+              <option value="prev">26 Okt – 1 Nov 2026 (Minggu Lalu)</option>
+              <option value="month">1–30 Nov 2026 (Bulan Ini)</option>
+            </select>
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <!-- Filter Cabang -->
+          <div class="relative">
+            <select id="ringkasan-filter-branch" onchange="filterRingkasanData()" class="appearance-none bg-white border border-slate-200 text-slate-700 font-medium pl-8 pr-7 py-2 rounded-full cursor-pointer hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20 text-xs shadow-xs">
+              <option value="Semua cabang">Semua cabang</option>
+              <option value="Cabang Dago">Cabang Dago</option>
+              <option value="Cabang Sudirman">Cabang Sudirman</option>
+            </select>
+            <i data-lucide="store" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <button onclick="exportReport()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-4 py-2 rounded-full flex items-center gap-1.5 transition active:scale-95 shadow-xs">
             <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
             <span>Unduh Laporan</span>
           </button>
@@ -702,161 +725,279 @@
 
       <!-- Ringkasan KPIs -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
-          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL PENDAPATAN</span>
-          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp18.480.000</span>
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-2">TOTAL PENDAPATAN</span>
+          <span id="rkpi-pendapatan" class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp18.480.000</span>
           <div class="flex items-center gap-2 mt-3 text-xs">
-            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
-            <span class="text-slate-500 text-[11px]">vs Rp16.500.000 minggu lalu</span>
+            <span id="rkpi-pendapatan-growth" class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span id="rkpi-pendapatan-prev" class="text-slate-500 text-[11px]">vs Rp16.500.000 minggu lalu</span>
           </div>
         </div>
 
-        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
-          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">LABA KOTOR</span>
-          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp11.088.000</span>
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-2">LABA KOTOR</span>
+          <span id="rkpi-laba" class="text-3xl font-extrabold text-slate-900 tracking-tight block">Rp11.088.000</span>
           <div class="flex items-center gap-2 mt-3 text-xs">
-            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +15,5%</span>
-            <span class="text-slate-500 text-[11px]">Margin 60% dari pendapatan</span>
+            <span id="rkpi-laba-growth" class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +15,5%</span>
+            <span id="rkpi-laba-desc" class="text-slate-500 text-[11px]">Margin 60% dari pendapatan</span>
           </div>
         </div>
 
-        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
-          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">TOTAL TRANSAKSI</span>
-          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">616</span>
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-2">TOTAL TRANSAKSI</span>
+          <span id="rkpi-transaksi" class="text-3xl font-extrabold text-slate-900 tracking-tight block">616</span>
           <div class="flex items-center gap-2 mt-3 text-xs">
-            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +10,0%</span>
-            <span class="text-slate-500 text-[11px]">vs 560 transaksi minggu lalu</span>
+            <span id="rkpi-transaksi-growth" class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +10,0%</span>
+            <span id="rkpi-transaksi-prev" class="text-slate-500 text-[11px]">vs 560 transaksi minggu lalu</span>
           </div>
         </div>
 
-        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5">
-          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-3">MENU TERJUAL</span>
-          <span class="text-3xl font-extrabold text-slate-900 tracking-tight block">840</span>
+        <div class="bg-[#f8fafc] border border-slate-100 rounded-3xl p-5 hover:border-slate-200 transition">
+          <span class="text-[11px] font-bold text-slate-500 tracking-wider uppercase block mb-2">MENU TERJUAL</span>
+          <span id="rkpi-menu" class="text-3xl font-extrabold text-slate-900 tracking-tight block">840</span>
           <div class="flex items-center gap-2 mt-3 text-xs">
-            <span class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
-            <span class="text-slate-500 text-[11px]">vs 750 item minggu lalu</span>
+            <span id="rkpi-menu-growth" class="bg-[#eafaf1] text-[#00875a] font-bold px-2 py-0.5 rounded-full">↗ +12,0%</span>
+            <span id="rkpi-menu-prev" class="text-slate-500 text-[11px]">vs 750 item minggu lalu</span>
           </div>
         </div>
       </div>
 
-      <!-- Ringkasan Charts & Tables -->
+      <!-- Reactive Selected Day Insight Drilldown (Muncul saat bar diklik) -->
+      <div id="ringkasan-drilldown" class="hidden bg-gradient-to-r from-blue-50/90 to-orange-50/90 border border-blue-200/80 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all shadow-xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[#0038d2] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-sm" id="dd-day-badge">
+            SAB
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 id="dd-day-title" class="text-sm font-extrabold text-slate-900">Sabtu, 7 Nov 2026 (Puncak Mingguan)</h4>
+              <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Hari Terpilih</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600 mt-1">
+              <span>Omzet: <strong id="dd-omzet" class="text-slate-900">Rp3.600.000</strong></span>
+              <span>&bull;</span>
+              <span>Transaksi: <strong id="dd-transaksi" class="text-slate-900">120 pesanan</strong></span>
+              <span>&bull;</span>
+              <span>Menu Terlaris: <strong id="dd-top-menu" class="text-[#0038d2]">Kopi Susu Kawan & Croissant</strong></span>
+              <span>&bull;</span>
+              <span>Rasio: <strong id="dd-ratio" class="text-slate-700">72% Di cafe / 28% Takeaway</strong></span>
+            </div>
+          </div>
+        </div>
+        <button onclick="resetDaySelection()" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold px-4 py-2 rounded-full shadow-2xs whitespace-nowrap active:scale-95 transition">
+          ✕ Reset ke 7 Hari
+        </button>
+      </div>
+
+      <!-- Two Main Charts Grid (Side-by-Side matching prototype page 37) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         
-        <!-- Daily revenue chart -->
+        <!-- CARD 1: PENDAPATAN HARIAN (WARM PEACH CARD) -->
+        <div class="lg:col-span-5 bg-[#fff8f0] border border-orange-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between shadow-2xs">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-base font-bold text-slate-900">Pendapatan harian</span>
+              <button onclick="selectDay('Sab')" title="Klik untuk fokus Sabtu" class="w-7 h-7 rounded-full bg-white text-orange-600 hover:bg-orange-50 flex items-center justify-center shadow-xs transition">
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="mb-4">
+              <span id="rev-card-val" class="text-2xl lg:text-3xl font-extrabold text-slate-900">Rp18,48 jt</span>
+              <span id="rev-card-sub" class="text-xs text-slate-500 font-medium ml-1">dalam 7 hari</span>
+            </div>
+
+            <!-- Interactive Bars (Sen to Min) -->
+            <div id="container-daily-rev" class="h-44 flex items-end justify-between gap-2 px-1 pb-2 pt-6">
+              <!-- Rendered reactively by JS -->
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-orange-200/60 flex items-center justify-between text-xs text-slate-600">
+            <span class="text-slate-500">Rata-rata per hari</span>
+            <span id="rev-footer-stat" class="font-bold text-slate-900 text-sm">Rp2.640.000</span>
+          </div>
+        </div>
+
+        <!-- CARD 2: RAMAINYA MINGGU INI (CLUSTER BAR CHART) -->
+        <div class="lg:col-span-7 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
+          <div>
+            
+            <!-- Header with Legends & Info -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+              <div>
+                <h3 class="text-lg font-bold text-slate-900">Ramainya minggu ini</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Jumlah transaksi &bull; 2–8 November 2026 (Klik batang bar untuk analisa)</p>
+              </div>
+
+              <!-- Legend (Minggu Ini vs Minggu Lalu) -->
+              <div class="flex items-center gap-3 text-xs font-semibold shrink-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#0038d2]"></span>
+                  <span class="text-slate-800">Minggu ini</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#cbd5e1]"></span>
+                  <span class="text-slate-500">Minggu lalu</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clustered Bar Chart Container -->
+            <div id="container-clustered-bars" class="h-44 flex items-end justify-between gap-3 px-2 pb-2 pt-4">
+              <!-- Rendered reactively by JS -->
+            </div>
+
+          </div>
+
+          <!-- Bottom 3 Stats Row (Interactive) -->
+          <div class="mt-4 pt-4 border-t border-slate-200/80 grid grid-cols-3 gap-3 text-xs">
+            <div>
+              <span class="text-[11px] text-slate-400 font-medium block">Rata-rata transaksi</span>
+              <span id="cluster-stat-avg" class="text-base font-extrabold text-slate-900">Rp30.000</span>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-medium block">Hari paling ramai</span>
+              <span id="cluster-stat-peak" class="text-base font-extrabold text-[#0038d2]">Sabtu &bull; 120 trx</span>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-medium block">Pertumbuhan transaksi</span>
+              <span id="cluster-stat-growth" class="text-base font-extrabold text-[#00875a]">+56 dari minggu lalu</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Lower Grid: Favorit Para Kawan & Dari Mana Pesananmu -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Favorit para kawan (Top Menus Table with popularity bars) -->
         <div class="lg:col-span-7 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
               <div>
-                <h3 class="text-lg font-bold text-slate-900">Pendapatan Harian</h3>
-                <p class="text-xs text-slate-500">Rp18,48 jt dalam 7 hari &bull; Rata-rata per hari: Rp2.640.000</p>
+                <h3 class="text-lg font-bold text-slate-900">Favorit para kawan</h3>
+                <p class="text-xs text-slate-500 mt-0.5">4 menu terlaris dari 18 menu aktif minggu ini</p>
               </div>
-              <span class="text-xs font-semibold text-[#0038d2] bg-[#eff4fc] px-3 py-1 rounded-full">7 Hari Terakhir</span>
+              <button onclick="switchMainPage('Menu')" class="text-xs font-bold text-[#0038d2] hover:underline flex items-center gap-1">
+                <span>Lihat semua menu</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </button>
             </div>
 
-            <div class="h-44 flex items-end justify-between gap-3 px-3 pb-2 pt-6">
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">2,2 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 60px;"></div>
-                <span class="text-xs font-bold text-slate-500">Sen</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">2,4 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 66px;"></div>
-                <span class="text-xs font-bold text-slate-500">Sel</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">2,5 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 70px;"></div>
-                <span class="text-xs font-bold text-slate-500">Rab</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">2,3 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 64px;"></div>
-                <span class="text-xs font-bold text-slate-500">Kam</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">3,1 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 88px;"></div>
-                <span class="text-xs font-bold text-slate-500">Jum</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-black text-[#0038d2]">⭐ 3,6 jt</span>
-                <div class="w-full bg-[#0038d2] rounded-t-xl shadow-md" style="height: 110px;"></div>
-                <span class="text-xs font-black text-[#0038d2]">Sab</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-2">
-                <span class="text-[11px] font-bold text-slate-500">2,4 jt</span>
-                <div class="w-full bg-[#e3e9f5] rounded-t-xl" style="height: 68px;"></div>
-                <span class="text-xs font-bold text-slate-500">Min</span>
-              </div>
-            </div>
-          </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-[10px] uppercase font-bold text-slate-400 tracking-wider border-b border-slate-200/60">
+                  <tr>
+                    <th class="pb-2.5">MENU</th>
+                    <th class="pb-2.5 text-center">TERJUAL</th>
+                    <th class="pb-2.5 text-right">PENDAPATAN</th>
+                    <th class="pb-2.5 pl-6">POPULARITAS</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100/80">
+                  <tr class="hover:bg-slate-100/60 transition cursor-pointer" onclick="showToast('Menu Kopi Susu Kawan terpilih')">
+                    <td class="py-3">
+                      <div class="font-bold text-slate-900 text-xs">Kopi Susu Kawan</div>
+                      <div class="text-[11px] text-slate-400">Kopi &bull; Rp24.000</div>
+                    </td>
+                    <td class="py-3 text-center font-bold text-slate-700">210 item</td>
+                    <td class="py-3 text-right font-bold text-slate-900">Rp5.040.000</td>
+                    <td class="py-3 pl-6">
+                      <div class="w-28 bg-slate-200/80 h-2 rounded-full overflow-hidden">
+                        <div class="bg-[#0038d2] h-full rounded-full" style="width: 85%"></div>
+                      </div>
+                    </td>
+                  </tr>
 
-          <div class="mt-4 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
-            <span>Hari paling ramai: <strong>Sabtu (120 transaksi)</strong></span>
-            <span class="text-[#00875a] font-bold">+56 transaksi dari minggu lalu</span>
+                  <tr class="hover:bg-slate-100/60 transition cursor-pointer" onclick="showToast('Menu Kopi Aren Santai terpilih')">
+                    <td class="py-3">
+                      <div class="font-bold text-slate-900 text-xs">Kopi Aren Santai</div>
+                      <div class="text-[11px] text-slate-400">Kopi &bull; Rp30.000</div>
+                    </td>
+                    <td class="py-3 text-center font-bold text-slate-700">120 item</td>
+                    <td class="py-3 text-right font-bold text-slate-900">Rp3.600.000</td>
+                    <td class="py-3 pl-6">
+                      <div class="w-28 bg-slate-200/80 h-2 rounded-full overflow-hidden">
+                        <div class="bg-[#0038d2] h-full rounded-full" style="width: 55%"></div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-slate-100/60 transition cursor-pointer" onclick="showToast('Menu Matcha Latte terpilih')">
+                    <td class="py-3">
+                      <div class="font-bold text-slate-900 text-xs">Matcha Latte</div>
+                      <div class="text-[11px] text-slate-400">Non-kopi &bull; Rp30.000</div>
+                    </td>
+                    <td class="py-3 text-center font-bold text-slate-700">84 item</td>
+                    <td class="py-3 text-right font-bold text-slate-900">Rp2.520.000</td>
+                    <td class="py-3 pl-6">
+                      <div class="w-28 bg-slate-200/80 h-2 rounded-full overflow-hidden">
+                        <div class="bg-[#0038d2] h-full rounded-full" style="width: 38%"></div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-slate-100/60 transition cursor-pointer" onclick="showToast('Menu Butter Croissant terpilih')">
+                    <td class="py-3">
+                      <div class="font-bold text-slate-900 text-xs">Butter Croissant</div>
+                      <div class="text-[11px] text-slate-400">Pastry &bull; Rp20.000</div>
+                    </td>
+                    <td class="py-3 text-center font-bold text-slate-700">72 item</td>
+                    <td class="py-3 text-right font-bold text-slate-900">Rp1.440.000</td>
+                    <td class="py-3 pl-6">
+                      <div class="w-28 bg-slate-200/80 h-2 rounded-full overflow-hidden">
+                        <div class="bg-[#0038d2] h-full rounded-full" style="width: 30%"></div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <!-- Favorit para kawan (Top menus) -->
+        <!-- Dari mana pesananmu? (Stacked Bar Dine-in vs Takeaway) -->
         <div class="lg:col-span-5 bg-[#f8fafc] border border-slate-100 rounded-3xl p-6 lg:p-7 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="text-lg font-bold text-slate-900">Favorit Para Kawan</h3>
-                <p class="text-xs text-slate-500">4 menu terlaris dari 18 menu aktif minggu ini</p>
-              </div>
-              <button onclick="switchMainPage('Menu')" class="text-xs font-bold text-[#0038d2] hover:underline">Lihat semua ↗</button>
+              <h3 class="text-lg font-bold text-slate-900">Dari mana pesananmu?</h3>
+              <i data-lucide="store" class="w-4 h-4 text-slate-400"></i>
+            </div>
+
+            <!-- Stacked bar -->
+            <div class="h-3.5 w-full bg-[#ff8030] rounded-full overflow-hidden flex shadow-inner mb-6">
+              <div id="bar-dinein" class="bg-[#0038d2] h-full transition-all duration-300" style="width: 65%;"></div>
             </div>
 
             <div class="space-y-3">
-              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="font-bold text-slate-900 text-xs">Kopi Susu Kawan</div>
-                  <div class="text-[11px] text-slate-400">Kopi &bull; Rp24.000</div>
+              <div onclick="selectOrderSource('dinein')" class="p-3 bg-white hover:bg-blue-50/50 rounded-2xl border border-slate-100 flex items-center justify-between cursor-pointer transition">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-3 h-3 rounded-full bg-[#0038d2]"></span>
+                  <span class="text-xs font-bold text-slate-800">Di cafe</span>
                 </div>
                 <div class="text-right">
-                  <div class="font-bold text-[#0038d2] text-xs">210 item</div>
-                  <div class="text-[10px] text-slate-500">Rp5.040.000</div>
+                  <span id="src-dinein-pct" class="text-xs font-extrabold text-slate-900">65%</span>
+                  <span id="src-dinein-amt" class="text-[11px] text-slate-400 ml-1.5">Rp12.012.000</span>
                 </div>
               </div>
 
-              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="font-bold text-slate-900 text-xs">Kopi Aren Santai</div>
-                  <div class="text-[11px] text-slate-400">Kopi &bull; Rp30.000</div>
+              <div onclick="selectOrderSource('takeaway')" class="p-3 bg-white hover:bg-orange-50/50 rounded-2xl border border-slate-100 flex items-center justify-between cursor-pointer transition">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-3 h-3 rounded-full bg-[#ff8030]"></span>
+                  <span class="text-xs font-bold text-slate-800">Bawa pulang</span>
                 </div>
                 <div class="text-right">
-                  <div class="font-bold text-[#0038d2] text-xs">120 item</div>
-                  <div class="text-[10px] text-slate-500">Rp3.600.000</div>
-                </div>
-              </div>
-
-              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="font-bold text-slate-900 text-xs">Matcha Latte</div>
-                  <div class="text-[11px] text-slate-400">Non-kopi &bull; Rp30.000</div>
-                </div>
-                <div class="text-right">
-                  <div class="font-bold text-[#0038d2] text-xs">84 item</div>
-                  <div class="text-[10px] text-slate-500">Rp2.520.000</div>
-                </div>
-              </div>
-
-              <div class="bg-white p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="font-bold text-slate-900 text-xs">Butter Croissant</div>
-                  <div class="text-[11px] text-slate-400">Pastry &bull; Rp20.000</div>
-                </div>
-                <div class="text-right">
-                  <div class="font-bold text-[#0038d2] text-xs">72 item</div>
-                  <div class="text-[10px] text-slate-500">Rp1.440.000</div>
+                  <span id="src-takeaway-pct" class="text-xs font-extrabold text-slate-900">35%</span>
+                  <span id="src-takeaway-amt" class="text-[11px] text-slate-400 ml-1.5">Rp6.468.000</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="mt-4 pt-3 border-t border-slate-200/80 bg-white p-3.5 rounded-2xl border border-slate-100">
+          <div class="mt-4 pt-3.5 border-t border-slate-200/80">
             <div class="flex items-center justify-between text-xs font-bold mb-1.5">
               <span class="text-slate-800">Target Mingguan</span>
               <span class="text-[#0038d2]">92,4%</span>

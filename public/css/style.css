@@ -50,8 +50,56 @@ body {
   transition: all 0.25s ease;
 }
 .chart-bar-item:hover .bar-pill {
-  transform: scaleY(1.03);
+  transform: scaleY(1.04);
   filter: brightness(0.95);
+}
+
+/* Clustered Bar Styling */
+.clustered-bar-group {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.clustered-bar-group:hover {
+  transform: translateY(-2px);
+}
+.clustered-bar-group.is-selected {
+  position: relative;
+}
+.clustered-bar-group.is-selected .bar-this-week {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0038d2;
+  filter: brightness(1.05);
+}
+.clustered-bar-group.is-selected .bar-last-week {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #94a3b8;
+}
+
+/* Single Daily Bar in Pendapatan Harian */
+.daily-rev-bar {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.daily-rev-bar:hover {
+  transform: scaleY(1.05);
+  filter: brightness(0.92);
+}
+.daily-rev-bar.is-selected {
+  background-color: #ff8030 !important;
+  box-shadow: 0 4px 12px rgba(255, 128, 48, 0.35);
+  transform: scaleY(1.05);
+}
+
+/* Dim other bars when one is selected */
+.has-selection .daily-rev-bar:not(.is-selected) {
+  opacity: 0.45;
+}
+.has-selection .clustered-bar-group:not(.is-selected) {
+  opacity: 0.45;
+}
+
+/* Tooltip animation */
+.chart-tooltip {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
 }
 
 /* Modal animation */

@@ -284,8 +284,8 @@ function filterRingkasanData() {
   if (!ringkasanData) return;
 
   let multiplier = 1.0;
-  if (branch === 'Cabang Dago') multiplier = 0.55;
-  else if (branch === 'Cabang Sudirman') multiplier = 0.45;
+  if (branch.includes('Kledokan') || branch === 'Cabang Dago') multiplier = 0.88;
+  else if (branch.includes('Bantul') || branch === 'Cabang Sudirman') multiplier = 0.12;
 
   if (period === 'prev') multiplier *= 0.89;
   else if (period === 'month') multiplier *= 4.1;

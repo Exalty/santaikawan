@@ -331,17 +331,17 @@
         "menu": 840,
         "margin": "Rp11.088.000"
       },
-      "Cabang Dago": {
-        "revenue": "Rp10.250.000",
-        "trans": 340,
-        "menu": 470,
-        "margin": "Rp6.150.000"
+      "Cabang Kledokan (EasyEat)": {
+        "revenue": "Rp16.240.000",
+        "trans": 542,
+        "menu": 740,
+        "margin": "Rp9.744.000"
       },
-      "Cabang Sudirman": {
-        "revenue": "Rp8.230.000",
-        "trans": 276,
-        "menu": 370,
-        "margin": "Rp4.938.000"
+      "Cabang Bantul (Nuta POS)": {
+        "revenue": "Rp2.240.000",
+        "trans": 74,
+        "menu": 100,
+        "margin": "Rp1.344.000"
       }
     }
   },

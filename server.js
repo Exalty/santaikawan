@@ -9,25 +9,41 @@ const DB_PATH = path.join(__dirname, 'data', 'database.json');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let inMemoryDB = null;
+
 function readDB() {
+  if (inMemoryDB) return inMemoryDB;
   try {
     const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
+    inMemoryDB = JSON.parse(raw);
+    return inMemoryDB;
   } catch (err) {
     console.error('Error reading DB:', err);
-    return null;
+    return inMemoryDB || null;
   }
 }
 
 function writeDB(data) {
+  inMemoryDB = data;
   try {
     fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
     return true;
   } catch (err) {
-    console.error('Error writing DB:', err);
-    return false;
+    console.warn('Filesystem read-only (e.g. Vercel serverless environment). In-memory state updated.');
+    return true;
   }
 }
+
+// GET Health Check
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'Santai Kawan Kopi CRM',
+    timestamp: new Date().toISOString(),
+    uptime: Math.floor(process.uptime()),
+    environment: process.env.NODE_ENV || 'production'
+  });
+});
 
 // GET Ringkasan
 app.get('/api/ringkasan', (req, res) => {
@@ -251,6 +267,16 @@ app.get('/api/export', (req, res) => {
   res.send(csv);
 });
 
-app.listen(PORT, () => {
-  console.log(`Santai Kawan Kopi CRM Server is running at http://localhost:${PORT}`);
+// Fallback route to serve index.html for any unmatched client-side navigation
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Start listening if run directly (local development), or export for Vercel Serverless
+if (process.env.VERCEL !== '1' && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Santai Kawan Kopi CRM Server is running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

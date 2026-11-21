@@ -57,6 +57,79 @@ app.get('/api/inventori', (req, res) => {
   res.json(db.inventori);
 });
 
+// GET Riwayat Stok (Stock Mutation History)
+app.get('/api/inventori/history', (req, res) => {
+  const db = readDB();
+  if (!db) return res.status(500).json({ error: 'Database error' });
+  res.json(db.inventori.history || []);
+});
+
+// POST Catat Bahan Masuk / Restock
+app.post('/api/inventori/restock', (req, res) => {
+  const { code, name, qty, unit, supplier, pic, notes, storage_loc } = req.body;
+  if (!name || !qty) {
+    return res.status(400).json({ error: 'Nama bahan dan jumlah wajib diisi.' });
+  }
+
+  const db = readDB();
+  if (!db) return res.status(500).json({ error: 'Database error' });
+
+  const mutId = `MUT-${(db.inventori.history ? db.inventori.history.length + 101 : 101)}`;
+  const now = new Date();
+  const dateStr = `${now.getDate()} Nov 2026 · ${now.getHours().toString().padStart(2, '0')}.${now.getMinutes().toString().padStart(2, '0')}`;
+
+  // Find item in inventori
+  let targetItem = db.inventori.items.find(i => i.code === code || i.name.toLowerCase() === name.toLowerCase());
+  let newBalance = `${qty} ${unit || ''}`;
+
+  if (targetItem) {
+    const currentNum = parseFloat(targetItem.stock) || 0;
+    const addNum = parseFloat(qty) || 0;
+    const updatedNum = (currentNum + addNum).toFixed(1).replace('.0', '');
+    targetItem.stock = `${updatedNum} ${targetItem.unit}`;
+    targetItem.status = 'Aman';
+    newBalance = targetItem.stock;
+  } else {
+    // Add new item if not exists
+    const newCode = code || `BBI-${(db.inventori.items.length + 1).toString().padStart(3, '0')}`;
+    targetItem = {
+      code: newCode,
+      name,
+      supplier: supplier || 'Supplier Lokal',
+      category: 'Bahan Baku',
+      stock: `${qty} ${unit || 'satuan'}`,
+      unit: unit || 'satuan',
+      status: 'Aman'
+    };
+    db.inventori.items.push(targetItem);
+    newBalance = targetItem.stock;
+    db.inventori.kpi.total_bahan = `${db.inventori.items.length} Item`;
+  }
+
+  const newMutation = {
+    id: mutId,
+    date: dateStr,
+    code: targetItem.code,
+    name: targetItem.name,
+    type: 'Masuk',
+    qty: `+${qty} ${unit || targetItem.unit}`,
+    balance: newBalance,
+    pic: pic || 'Barista Lead',
+    notes: notes || `Restock gudang (${storage_loc || 'Bar'})`
+  };
+
+  if (!db.inventori.history) db.inventori.history = [];
+  db.inventori.history.unshift(newMutation);
+
+  writeDB(db);
+
+  res.status(201).json({
+    message: 'Bahan masuk berhasil dicatat ke kartu inventori!',
+    mutation: newMutation,
+    item: targetItem
+  });
+});
+
 // GET Laporan
 app.get('/api/laporan', (req, res) => {
   const db = readDB();

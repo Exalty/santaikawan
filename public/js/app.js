@@ -2,6 +2,10 @@
 let dashboardData = null;
 let ringkasanData = null;
 let membersList = [];
+let inventoriList = [];
+let stockHistoryList = [];
+let activeHistTab = 'all';
+let selectedInvCategory = 'Semua';
 let selectedDay = null;
 
 const PAGES = ['Ringkasan', 'Penjualan', 'Member', 'Menu', 'Inventori', 'Laporan'];
@@ -11,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDashboardData();
   loadRingkasanData();
   loadMembers();
+  loadInventori();
 
   // Handle URL hash on load (e.g. #ringkasan, #penjualan, #member)
   const hash = window.location.hash.replace('#', '').toLowerCase();
@@ -609,4 +614,356 @@ function showToast(message) {
     toast.classList.add('hidden');
     toast.classList.remove('flex');
   }, 3500);
+}
+
+// =============================================================================
+// INVENTORI & PUSAT LOGISTIK (HALAMAN 40 PROTOTYPE)
+// =============================================================================
+
+async function loadInventori() {
+  try {
+    const res = await fetch('/api/inventori');
+    if (!res.ok) throw new Error('Gagal memuat inventori');
+    const data = await res.json();
+    inventoriList = data.items || [];
+    renderInventoriTable(inventoriList);
+  } catch (err) {
+    console.error('Error fetching inventori:', err);
+  }
+}
+
+function renderInventoriTable(items) {
+  const tbody = document.getElementById('inventori-table-body');
+  if (!tbody) return;
+
+  if (items.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="p-8 text-center text-slate-400">
+          Tidak ada bahan baku yang cocok dengan filter.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = items.map(item => {
+    let statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Aman</span>';
+    let stockClass = 'text-slate-800 font-bold';
+
+    if (item.status && item.status.toLowerCase().includes('kritis')) {
+      statusBadge = '<span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Kritis (&lt;2 hari)</span>';
+      stockClass = 'text-red-600 font-bold';
+    } else if (item.status && item.status.toLowerCase().includes('menipis')) {
+      statusBadge = '<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Menipis</span>';
+      stockClass = 'text-amber-600 font-bold';
+    }
+
+    const safeSupplier = (item.supplier || '').replace(/'/g, "\\'");
+    const safeName = (item.name || '').replace(/'/g, "\\'");
+    const safeCode = (item.code || '').replace(/'/g, "\\'");
+    const safeUnit = (item.unit || '').replace(/'/g, "\\'");
+
+    return `
+      <tr class="hover:bg-slate-50 transition">
+        <td class="p-3 pl-4 font-mono font-bold text-slate-800">${item.code}</td>
+        <td class="p-3">
+          <div class="font-bold text-slate-900">${item.name}</div>
+          <div class="text-[11px] text-slate-400">Supplier: ${item.supplier || '-'}</div>
+        </td>
+        <td class="p-3 text-slate-600">${item.category || 'Bahan Baku'}</td>
+        <td class="p-3 ${stockClass}">${item.stock}</td>
+        <td class="p-3">${statusBadge}</td>
+        <td class="p-3 pr-4 text-right">
+          <button onclick="openRestockModalFor('${safeCode}', '${safeName}', '${safeUnit}', '${safeSupplier}')" class="px-3 py-1 bg-blue-50 hover:bg-[#0038d2] text-[#0038d2] hover:text-white rounded-full font-bold text-[11px] transition inline-flex items-center gap-1 active:scale-95 shadow-2xs">
+            <i data-lucide="plus" class="w-3 h-3"></i>
+            <span>+ Tambah</span>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  lucide.createIcons();
+}
+
+function setInventoriCategory(category) {
+  selectedInvCategory = category;
+  const categories = ['Semua', 'Kopi & Biji', 'Susu & Dairy', 'Sirup & Gula', 'Kemasan'];
+  categories.forEach(cat => {
+    const btn = document.getElementById(`btn-inv-cat-${cat}`);
+    if (btn) {
+      if (cat === category) {
+        btn.className = 'px-3.5 py-1 rounded-full bg-[#0038d2] text-white';
+      } else {
+        btn.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900';
+      }
+    }
+  });
+  filterInventori();
+}
+
+function filterInventori() {
+  const searchInput = document.getElementById('inventori-search');
+  const statusSelect = document.getElementById('inventori-status-filter');
+  const search = searchInput ? searchInput.value.toLowerCase() : '';
+  const status = statusSelect ? statusSelect.value : 'Semua';
+
+  const filtered = inventoriList.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search) ||
+                        item.code.toLowerCase().includes(search) ||
+                        (item.supplier && item.supplier.toLowerCase().includes(search));
+    
+    let matchCat = true;
+    if (selectedInvCategory !== 'Semua') {
+      matchCat = item.category.toLowerCase().includes(selectedInvCategory.toLowerCase());
+    }
+
+    let matchStatus = true;
+    if (status === 'Kritis') matchStatus = item.status && item.status.includes('Kritis');
+    else if (status === 'Menipis') matchStatus = item.status && item.status.includes('Menipis');
+    else if (status === 'Aman') matchStatus = item.status && item.status.includes('Aman');
+
+    return matchSearch && matchCat && matchStatus;
+  });
+
+  renderInventoriTable(filtered);
+}
+
+// =============================================================================
+// RIWAYAT STOK (KARTU MUTASI GUDANG)
+// =============================================================================
+
+function openStockHistoryModal() {
+  const modal = document.getElementById('modal-stock-history');
+  if (modal) {
+    modal.classList.remove('hidden');
+    loadStockHistory();
+  }
+}
+
+function closeStockHistoryModal() {
+  const modal = document.getElementById('modal-stock-history');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+}
+
+async function loadStockHistory() {
+  try {
+    const res = await fetch('/api/inventori/history');
+    if (!res.ok) throw new Error('Gagal memuat riwayat stok');
+    stockHistoryList = await res.json();
+    renderStockHistory(stockHistoryList);
+  } catch (err) {
+    console.error('Error fetching stock history:', err);
+  }
+}
+
+function filterHistoryTab(type) {
+  activeHistTab = type;
+  const tabs = {
+    'all': document.getElementById('btn-hist-all'),
+    'Masuk': document.getElementById('btn-hist-masuk'),
+    'Keluar': document.getElementById('btn-hist-keluar')
+  };
+
+  Object.keys(tabs).forEach(k => {
+    const btn = tabs[k];
+    if (btn) {
+      if (k === type) {
+        btn.className = 'px-4 py-1.5 rounded-full bg-white text-slate-900 shadow-xs';
+      } else {
+        btn.className = 'px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900';
+      }
+    }
+  });
+
+  searchHistoryList();
+}
+
+function searchHistoryList() {
+  const searchInput = document.getElementById('input-search-history');
+  const query = searchInput ? searchInput.value.toLowerCase() : '';
+
+  let filtered = stockHistoryList;
+  if (activeHistTab !== 'all') {
+    filtered = filtered.filter(h => h.type === activeHistTab);
+  }
+
+  if (query) {
+    filtered = filtered.filter(h => 
+      h.id.toLowerCase().includes(query) ||
+      h.name.toLowerCase().includes(query) ||
+      h.code.toLowerCase().includes(query) ||
+      (h.pic && h.pic.toLowerCase().includes(query)) ||
+      (h.notes && h.notes.toLowerCase().includes(query))
+    );
+  }
+
+  renderStockHistory(filtered);
+}
+
+function renderStockHistory(history) {
+  const tbody = document.getElementById('stock-history-table-body');
+  if (!tbody) return;
+
+  if (history.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="p-8 text-center text-slate-400">
+          Belum ada riwayat mutasi stok yang sesuai.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = history.map(h => {
+    const isMasuk = h.type === 'Masuk';
+    const typeBadge = isMasuk
+      ? '<span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full"><i data-lucide="arrow-down-left" class="w-3 h-3"></i>Masuk</span>'
+      : '<span class="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full"><i data-lucide="arrow-up-right" class="w-3 h-3"></i>Keluar</span>';
+
+    const qtyClass = isMasuk ? 'text-emerald-700 font-bold' : 'text-slate-700 font-bold';
+
+    return `
+      <tr class="hover:bg-slate-50 transition">
+        <td class="p-3 pl-4 font-mono font-bold text-slate-800">${h.id}</td>
+        <td class="p-3 text-[11px] text-slate-500 whitespace-nowrap">${h.date}</td>
+        <td class="p-3">
+          <div class="font-bold text-slate-900">${h.name}</div>
+          <div class="text-[10px] font-mono text-slate-400">${h.code}</div>
+        </td>
+        <td class="p-3 text-center">${typeBadge}</td>
+        <td class="p-3 text-right ${qtyClass}">${h.qty}</td>
+        <td class="p-3 text-right font-bold text-slate-900">${h.balance}</td>
+        <td class="p-3 text-slate-700 font-medium">${h.pic || '-'}</td>
+        <td class="p-3 pr-4 text-slate-500 text-[11px]">${h.notes || '-'}</td>
+      </tr>
+    `;
+  }).join('');
+
+  lucide.createIcons();
+}
+
+// =============================================================================
+// RESTOCK / CATAT BAHAN MASUK (HALAMAN 5 PROTOTYPE)
+// =============================================================================
+
+function openRestockModal() {
+  const modal = document.getElementById('modal-restock');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.getElementById('restock-modal-title').innerText = 'Catat Pengadaan & Bahan Masuk';
+    document.getElementById('form-restock').reset();
+    document.getElementById('restock-select-item').value = '';
+    document.getElementById('restock-code').value = '';
+    document.getElementById('restock-name').value = '';
+    document.getElementById('restock-qty').value = '';
+  }
+}
+
+function openRestockModalFor(code, name, unit, supplier) {
+  openRestockModal();
+  document.getElementById('restock-modal-title').innerText = `Restock: ${name}`;
+  
+  const selectEl = document.getElementById('restock-select-item');
+  if (selectEl) {
+    selectEl.value = code || 'custom';
+  }
+  document.getElementById('restock-code').value = code || '';
+  document.getElementById('restock-name').value = name || '';
+  if (unit) document.getElementById('restock-unit').value = unit;
+  if (supplier) document.getElementById('restock-supplier').value = supplier;
+  
+  setTimeout(() => {
+    const qtyInput = document.getElementById('restock-qty');
+    if (qtyInput) qtyInput.focus();
+  }, 100);
+}
+
+function closeRestockModal() {
+  const modal = document.getElementById('modal-restock');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+}
+
+function onRestockItemSelect(val) {
+  const selectEl = document.getElementById('restock-select-item');
+  if (!selectEl) return;
+
+  if (val === 'custom' || val === '') {
+    document.getElementById('restock-code').value = '';
+    document.getElementById('restock-name').value = '';
+    return;
+  }
+
+  const selectedOpt = selectEl.options[selectEl.selectedIndex];
+  if (selectedOpt) {
+    document.getElementById('restock-code').value = val;
+    document.getElementById('restock-name').value = selectedOpt.dataset.name || '';
+    if (selectedOpt.dataset.unit) {
+      document.getElementById('restock-unit').value = selectedOpt.dataset.unit;
+    }
+    if (selectedOpt.dataset.supplier) {
+      document.getElementById('restock-supplier').value = selectedOpt.dataset.supplier;
+    }
+  }
+}
+
+async function submitRestock(e) {
+  e.preventDefault();
+  const code = document.getElementById('restock-code').value.trim();
+  const name = document.getElementById('restock-name').value.trim();
+  const qty = document.getElementById('restock-qty').value.trim();
+  const unit = document.getElementById('restock-unit').value;
+  const price = document.getElementById('restock-price').value.trim();
+  const storage_loc = document.getElementById('restock-location').value;
+  const supplier = document.getElementById('restock-supplier').value.trim();
+  const pic = document.getElementById('restock-pic').value.trim();
+  const notes = document.getElementById('restock-notes').value.trim();
+
+  if (!name || !qty) {
+    alert('Nama bahan dan jumlah wajib diisi!');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/inventori/restock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        code,
+        name,
+        qty,
+        unit,
+        price,
+        storage_loc,
+        supplier,
+        pic,
+        notes: notes || `Restock gudang (${storage_loc})`
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.error || 'Gagal mencatat bahan masuk');
+      return;
+    }
+
+    const data = await res.json();
+    closeRestockModal();
+    showToast(`✓ Berhasil mencatat ${qty} ${unit} ${name}! Saldo stok telah diperbarui.`);
+
+    // Refresh inventori table and history
+    loadInventori();
+    if (stockHistoryList.length > 0) {
+      loadStockHistory();
+    }
+  } catch (err) {
+    console.error('Error submitting restock:', err);
+    alert('Gagal menghubungi server.');
+  }
 }

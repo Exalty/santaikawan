@@ -32,18 +32,52 @@
       }
     },
     "weekly_traffic": [
-      { "day": "SEN", "count": 32 },
-      { "day": "SEL", "count": 38 },
-      { "day": "RAB", "count": 45 },
-      { "day": "KAM", "count": 41 },
-      { "day": "JUM", "count": 56 },
-      { "day": "SAB", "count": 72, "peak": true },
-      { "day": "MIN", "count": 59 }
+      {
+        "day": "SEN",
+        "count": 32
+      },
+      {
+        "day": "SEL",
+        "count": 38
+      },
+      {
+        "day": "RAB",
+        "count": 45
+      },
+      {
+        "day": "KAM",
+        "count": 41
+      },
+      {
+        "day": "JUM",
+        "count": 56
+      },
+      {
+        "day": "SAB",
+        "count": 72,
+        "peak": true
+      },
+      {
+        "day": "MIN",
+        "count": 59
+      }
     ],
     "frequency_dist": [
-      { "label": "1x Kunjungan", "pct": 28, "count": "89 kwn" },
-      { "label": "2–3x Kunjungan", "pct": 48, "count": "153 kwn" },
-      { "label": "4x+ Kunjungan (Intens)", "pct": 24, "count": "76 kwn" }
+      {
+        "label": "1x Kunjungan",
+        "pct": 28,
+        "count": "89 kwn"
+      },
+      {
+        "label": "2–3x Kunjungan",
+        "pct": 48,
+        "count": "153 kwn"
+      },
+      {
+        "label": "4x+ Kunjungan (Intens)",
+        "pct": 24,
+        "count": "76 kwn"
+      }
     ],
     "revenue": {
       "total": 18480000,
@@ -101,10 +135,26 @@
       "badge": "Butuh sapaan",
       "desc": "Pelanggan rutin yang biasanya datang minimal 3x seminggu, kini sudah lebih dari 14 hari tidak bertransaksi di cafe.",
       "avatars": [
-        { "initials": "DR", "name": "Dimas Raditya", "days_absent": 16 },
-        { "initials": "AS", "name": "Alya Safitri", "days_absent": 18 },
-        { "initials": "BM", "name": "Bima Maulana", "days_absent": 21 },
-        { "initials": "+9", "name": "9 Kawan Lainnya", "days_absent": 15 }
+        {
+          "initials": "DR",
+          "name": "Dimas Raditya",
+          "days_absent": 16
+        },
+        {
+          "initials": "AS",
+          "name": "Alya Safitri",
+          "days_absent": 18
+        },
+        {
+          "initials": "BM",
+          "name": "Bima Maulana",
+          "days_absent": 21
+        },
+        {
+          "initials": "+9",
+          "name": "9 Kawan Lainnya",
+          "days_absent": 15
+        }
       ]
     },
     "loyalty_target": {
@@ -235,10 +285,38 @@
       }
     ],
     "top_menus": [
-      { "name": "Kopi Susu Kawan", "category": "Kopi", "price": "Rp24.000", "sold": 210, "revenue": "Rp5.040.000", "bar_w": "85%" },
-      { "name": "Kopi Aren Santai", "category": "Kopi", "price": "Rp30.000", "sold": 120, "revenue": "Rp3.600.000", "bar_w": "55%" },
-      { "name": "Matcha Latte", "category": "Non-kopi", "price": "Rp30.000", "sold": 84, "revenue": "Rp2.520.000", "bar_w": "38%" },
-      { "name": "Butter Croissant", "category": "Pastry", "price": "Rp20.000", "sold": 72, "revenue": "Rp1.440.000", "bar_w": "30%" }
+      {
+        "name": "Kopi Susu Kawan",
+        "category": "Kopi",
+        "price": "Rp24.000",
+        "sold": 210,
+        "revenue": "Rp5.040.000",
+        "bar_w": "85%"
+      },
+      {
+        "name": "Kopi Aren Santai",
+        "category": "Kopi",
+        "price": "Rp30.000",
+        "sold": 120,
+        "revenue": "Rp3.600.000",
+        "bar_w": "55%"
+      },
+      {
+        "name": "Matcha Latte",
+        "category": "Non-kopi",
+        "price": "Rp30.000",
+        "sold": 84,
+        "revenue": "Rp2.520.000",
+        "bar_w": "38%"
+      },
+      {
+        "name": "Butter Croissant",
+        "category": "Pastry",
+        "price": "Rp20.000",
+        "sold": 72,
+        "revenue": "Rp1.440.000",
+        "bar_w": "30%"
+      }
     ],
     "order_source": {
       "dine_in_pct": 65,
@@ -247,9 +325,24 @@
       "takeaway_amount": "Rp6.468.000"
     },
     "branches": {
-      "Semua cabang": { "revenue": "Rp18.480.000", "trans": 616, "menu": 840, "margin": "Rp11.088.000" },
-      "Cabang Dago": { "revenue": "Rp10.250.000", "trans": 340, "menu": 470, "margin": "Rp6.150.000" },
-      "Cabang Sudirman": { "revenue": "Rp8.230.000", "trans": 276, "menu": 370, "margin": "Rp4.938.000" }
+      "Semua cabang": {
+        "revenue": "Rp18.480.000",
+        "trans": 616,
+        "menu": 840,
+        "margin": "Rp11.088.000"
+      },
+      "Cabang Dago": {
+        "revenue": "Rp10.250.000",
+        "trans": 340,
+        "menu": 470,
+        "margin": "Rp6.150.000"
+      },
+      "Cabang Sudirman": {
+        "revenue": "Rp8.230.000",
+        "trans": 276,
+        "menu": 370,
+        "margin": "Rp4.938.000"
+      }
     }
   },
   "penjualan": {
@@ -266,14 +359,78 @@
       "menu_growth": "+12,0%"
     },
     "transactions": [
-      { "id": "SKK-0616", "time": "8 Nov 2026 · 21.48", "customer": "Novaldo", "type": "Di cafe · Meja 05", "payment": "QRIS", "total": "Rp72.000", "status": "Lunas" },
-      { "id": "SKK-0615", "time": "8 Nov 2026 · 21.35", "customer": "Ariel Saputra", "type": "Bawa pulang", "payment": "Tunai", "total": "Rp54.000", "status": "Lunas" },
-      { "id": "SKK-0614", "time": "8 Nov 2026 · 21.21", "customer": "Azzaky Raihan", "type": "Di cafe · Meja 02", "payment": "QRIS", "total": "Rp30.000", "status": "Lunas" },
-      { "id": "SKK-0613", "time": "8 Nov 2026 · 21.08", "customer": "Gabriel Bukit", "type": "Bawa pulang", "payment": "Debit", "total": "Rp45.000", "status": "Lunas" },
-      { "id": "SKK-0612", "time": "8 Nov 2026 · 20.54", "customer": "Sinta Ayu", "type": "Di cafe · Meja 08", "payment": "QRIS", "total": "Rp68.000", "status": "Lunas" },
-      { "id": "SKK-0611", "time": "8 Nov 2026 · 20.42", "customer": "Dimas Rhito", "type": "Bawa pulang", "payment": "Tunai", "total": "Rp24.000", "status": "Lunas" },
-      { "id": "SKK-0610", "time": "8 Nov 2026 · 20.30", "customer": "Sigma Hebat", "type": "Di cafe · Meja 03", "payment": "QRIS", "total": "Rp39.000", "status": "Lunas" },
-      { "id": "SKK-0609", "time": "8 Nov 2026 · 20.18", "customer": "Fajar Hidayat", "type": "Bawa pulang", "payment": "QRIS", "total": "Rp28.000", "status": "Lunas" }
+      {
+        "id": "SKK-0616",
+        "time": "8 Nov 2026 · 21.48",
+        "customer": "Novaldo",
+        "type": "Di cafe · Meja 05",
+        "payment": "QRIS",
+        "total": "Rp72.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0615",
+        "time": "8 Nov 2026 · 21.35",
+        "customer": "Ariel Saputra",
+        "type": "Bawa pulang",
+        "payment": "Tunai",
+        "total": "Rp54.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0614",
+        "time": "8 Nov 2026 · 21.21",
+        "customer": "Azzaky Raihan",
+        "type": "Di cafe · Meja 02",
+        "payment": "QRIS",
+        "total": "Rp30.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0613",
+        "time": "8 Nov 2026 · 21.08",
+        "customer": "Gabriel Bukit",
+        "type": "Bawa pulang",
+        "payment": "Debit",
+        "total": "Rp45.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0612",
+        "time": "8 Nov 2026 · 20.54",
+        "customer": "Sinta Ayu",
+        "type": "Di cafe · Meja 08",
+        "payment": "QRIS",
+        "total": "Rp68.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0611",
+        "time": "8 Nov 2026 · 20.42",
+        "customer": "Dimas Rhito",
+        "type": "Bawa pulang",
+        "payment": "Tunai",
+        "total": "Rp24.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0610",
+        "time": "8 Nov 2026 · 20.30",
+        "customer": "Sigma Hebat",
+        "type": "Di cafe · Meja 03",
+        "payment": "QRIS",
+        "total": "Rp39.000",
+        "status": "Lunas"
+      },
+      {
+        "id": "SKK-0609",
+        "time": "8 Nov 2026 · 20.18",
+        "customer": "Fajar Hidayat",
+        "type": "Bawa pulang",
+        "payment": "QRIS",
+        "total": "Rp28.000",
+        "status": "Lunas"
+      }
     ]
   },
   "menu_catalog": {
@@ -290,12 +447,72 @@
       "perhatian_desc": "Espresso & Matcha tipis"
     },
     "items": [
-      { "sku": "SIG-01", "name": "Sawan (Signature)", "category": "Signature", "hpp": "Rp8.000", "margin": "65,2%", "sold": 280, "price": "Rp23.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
-      { "sku": "SIG-02", "name": "Misoka (Aren Santai)", "category": "Signature", "hpp": "Rp7.500", "margin": "65,9%", "sold": 195, "price": "Rp22.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
-      { "sku": "COF-01", "name": "Caffe Latte", "category": "Coffee-Based", "hpp": "Rp7.500", "margin": "67,4%", "sold": 142, "price": "Rp23.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
-      { "sku": "RCB-01", "name": "Nasi Goreng SKK", "category": "Noodles, Rice & Pasta", "hpp": "Rp9.000", "margin": "59,1%", "sold": 110, "price": "Rp22.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
-      { "sku": "SNK-01", "name": "Tahu Cabai Garam", "category": "Snacks & Toast", "hpp": "Rp5.500", "margin": "67,6%", "sold": 98, "price": "Rp17.000", "status": "Aktif di Kasir", "stock": "Bahan aman" },
-      { "sku": "PST-01", "name": "Butter Croissant", "category": "Snacks & Toast", "hpp": "Rp6.000", "margin": "70,0%", "sold": 72, "price": "Rp20.000", "status": "Aktif di Kasir", "stock": "Bahan aman" }
+      {
+        "sku": "SIG-01",
+        "name": "Sawan (Signature)",
+        "category": "Signature",
+        "hpp": "Rp8.000",
+        "margin": "65,2%",
+        "sold": 280,
+        "price": "Rp23.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
+      {
+        "sku": "SIG-02",
+        "name": "Misoka (Aren Santai)",
+        "category": "Signature",
+        "hpp": "Rp7.500",
+        "margin": "65,9%",
+        "sold": 195,
+        "price": "Rp22.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
+      {
+        "sku": "COF-01",
+        "name": "Caffe Latte",
+        "category": "Coffee-Based",
+        "hpp": "Rp7.500",
+        "margin": "67,4%",
+        "sold": 142,
+        "price": "Rp23.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
+      {
+        "sku": "RCB-01",
+        "name": "Nasi Goreng SKK",
+        "category": "Noodles, Rice & Pasta",
+        "hpp": "Rp9.000",
+        "margin": "59,1%",
+        "sold": 110,
+        "price": "Rp22.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
+      {
+        "sku": "SNK-01",
+        "name": "Tahu Cabai Garam",
+        "category": "Snacks & Toast",
+        "hpp": "Rp5.500",
+        "margin": "67,6%",
+        "sold": 98,
+        "price": "Rp17.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
+      {
+        "sku": "PST-01",
+        "name": "Butter Croissant",
+        "category": "Snacks & Toast",
+        "hpp": "Rp6.000",
+        "margin": "70,0%",
+        "sold": 72,
+        "price": "Rp20.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      }
     ]
   },
   "inventori": {
@@ -315,12 +532,139 @@
       "message": "Perhatian kawan! Biji Kopi House Blend & Sirup Aren tersisa < 2 hari operasional. Disarankan buat pesanan ke supplier langganan hari ini sebelum pukul 15.00 WIB untuk jadwal kirim besok pagi."
     },
     "items": [
-      { "code": "BBI-001", "name": "Biji Kopi House Blend Arabica", "supplier": "Tani Kopi Malabar", "category": "Kopi & Biji", "stock": "3.2 kg", "unit": "kg", "status": "Kritis (<2 hari)" },
-      { "code": "BBI-002", "name": "Susu Fresh Milk Diamond", "supplier": "PT Sukanda Djaya", "category": "Susu & Dairy", "stock": "18.0 L", "unit": "Liter", "status": "Aman" },
-      { "code": "BBI-003", "name": "Sirup Gula Aren Organik", "supplier": "Aren Nusantara Craft", "category": "Sirup & Gula", "stock": "2.5 L", "unit": "Liter", "status": "Kritis (<2 hari)" },
-      { "code": "BBI-004", "name": "Pure Matcha Powder Uji", "supplier": "Kyoto Direct Import", "category": "Bubuk & Rasa", "stock": "1.1 kg", "unit": "kg", "status": "Menipis" },
-      { "code": "BBI-005", "name": "Cup Cold 16oz + Tutup Lid", "supplier": "Kemasan Jaya Abadi", "category": "Kemasan", "stock": "420 pcs", "unit": "pcs", "status": "Aman" },
-      { "code": "BBI-006", "name": "Sedotan Kertas Ramah Lingkungan", "supplier": "Green Packaging ID", "category": "Kemasan", "stock": "600 pcs", "unit": "pcs", "status": "Aman" }
+      {
+        "code": "BBI-001",
+        "name": "Biji Kopi House Blend Arabica",
+        "supplier": "Tani Kopi Malabar",
+        "category": "Kopi & Biji",
+        "stock": "8.2 kg",
+        "unit": "kg",
+        "status": "Aman"
+      },
+      {
+        "code": "BBI-002",
+        "name": "Susu Fresh Milk Diamond",
+        "supplier": "PT Sukanda Djaya",
+        "category": "Susu & Dairy",
+        "stock": "18.0 L",
+        "unit": "Liter",
+        "status": "Aman"
+      },
+      {
+        "code": "BBI-003",
+        "name": "Sirup Gula Aren Organik",
+        "supplier": "Aren Nusantara Craft",
+        "category": "Sirup & Gula",
+        "stock": "2.5 L",
+        "unit": "Liter",
+        "status": "Kritis (<2 hari)"
+      },
+      {
+        "code": "BBI-004",
+        "name": "Pure Matcha Powder Uji",
+        "supplier": "Kyoto Direct Import",
+        "category": "Bubuk & Rasa",
+        "stock": "1.1 kg",
+        "unit": "kg",
+        "status": "Menipis"
+      },
+      {
+        "code": "BBI-005",
+        "name": "Cup Cold 16oz + Tutup Lid",
+        "supplier": "Kemasan Jaya Abadi",
+        "category": "Kemasan",
+        "stock": "420 pcs",
+        "unit": "pcs",
+        "status": "Aman"
+      },
+      {
+        "code": "BBI-006",
+        "name": "Sedotan Kertas Ramah Lingkungan",
+        "supplier": "Green Packaging ID",
+        "category": "Kemasan",
+        "stock": "600 pcs",
+        "unit": "pcs",
+        "status": "Aman"
+      }
+    ],
+    "history": [
+      {
+        "id": "MUT-107",
+        "date": "21 Nov 2026 · 11.03",
+        "code": "BBI-001",
+        "name": "Biji Kopi House Blend Arabica",
+        "type": "Masuk",
+        "qty": "+5 kg",
+        "balance": "8.2 kg",
+        "pic": "Barista Lead",
+        "notes": "Restock gudang (Chiller Bar Kiri (Kulkas Utama))"
+      },
+      {
+        "id": "MUT-108",
+        "date": "8 Nov 2026 · 17.30",
+        "code": "BBI-002",
+        "name": "Susu Fresh Milk Diamond",
+        "type": "Masuk",
+        "qty": "+12 L",
+        "balance": "24 L",
+        "pic": "Admin Gudang",
+        "notes": "Faktur PO-2026-1108 PT Sukanda Djaya"
+      },
+      {
+        "id": "MUT-107",
+        "date": "8 Nov 2026 · 14.15",
+        "code": "BBI-001",
+        "name": "Biji Kopi House Blend Arabica",
+        "type": "Keluar",
+        "qty": "-1.8 kg",
+        "balance": "3.2 kg",
+        "pic": "Barista Lead",
+        "notes": "Pemakaian Bar Shift Siang (100 cup)"
+      },
+      {
+        "id": "MUT-106",
+        "date": "8 Nov 2026 · 11.00",
+        "code": "BBI-003",
+        "name": "Sirup Gula Aren Organik",
+        "type": "Keluar",
+        "qty": "-1.5 L",
+        "balance": "2.5 L",
+        "pic": "Barista Lead",
+        "notes": "Pemakaian Bar Shift Pagi"
+      },
+      {
+        "id": "MUT-105",
+        "date": "7 Nov 2026 · 09.00",
+        "code": "BBI-005",
+        "name": "Cup Cold 16oz + Tutup Lid",
+        "type": "Masuk",
+        "qty": "+300 pcs",
+        "balance": "450 pcs",
+        "pic": "Admin Gudang",
+        "notes": "Restock Kemasan Jaya Abadi"
+      },
+      {
+        "id": "MUT-104",
+        "date": "6 Nov 2026 · 22.00",
+        "code": "BBI-001",
+        "name": "Biji Kopi House Blend Arabica",
+        "type": "Keluar",
+        "qty": "-2.2 kg",
+        "balance": "5.0 kg",
+        "pic": "Barista Closing",
+        "notes": "Pemakaian Bar Shift Malam"
+      },
+      {
+        "id": "MUT-103",
+        "date": "6 Nov 2026 · 10.30",
+        "code": "BBI-010",
+        "name": "Oat Milk Barista Edition 1L",
+        "type": "Masuk",
+        "qty": "+24 L",
+        "balance": "24 L",
+        "pic": "Admin Gudang",
+        "notes": "Faktur BBI-010 PT Sumber Dairy Kawan"
+      }
     ]
   },
   "laporan": {

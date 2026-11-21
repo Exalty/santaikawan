@@ -1300,11 +1300,11 @@
         </div>
 
         <div class="flex items-center gap-3">
-          <button onclick="showToast('Riwayat Stok Masuk/Keluar')" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95">
+          <button onclick="openStockHistoryModal()" class="bg-[#f1f4f9] hover:bg-slate-200 text-slate-800 text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition active:scale-95 shadow-xs">
             <i data-lucide="history" class="w-4 h-4 text-slate-600"></i>
             <span>Riwayat Stok</span>
           </button>
-          <button onclick="showToast('Modal Catat Bahan Masuk')" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
+          <button onclick="openRestockModal()" class="bg-[#0038d2] hover:bg-[#002bb0] text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 transition shadow-sm active:scale-95">
             <i data-lucide="plus-circle" class="w-4 h-4"></i>
             <span>Catat Bahan Masuk</span>
           </button>
@@ -1351,45 +1351,48 @@
         </button>
       </div>
 
-      <!-- Inventory Table -->
-      <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100">
+      <!-- Inventory Table with Search & Category Filters (Design Page 40) -->
+      <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100 flex flex-col gap-4">
+        
+        <!-- Filter Bar -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+          <div class="relative flex-1 max-w-md">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="inventori-search" oninput="filterInventori()" placeholder="Cari nama bahan, kode SKU, atau supplier..." class="w-full pl-9 pr-4 py-2 text-xs bg-white border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20">
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center bg-white p-1 rounded-full border border-slate-200 text-xs font-semibold">
+              <button onclick="setInventoriCategory('Semua')" id="btn-inv-cat-Semua" class="px-3.5 py-1 rounded-full bg-[#0038d2] text-white">Semua (48)</button>
+              <button onclick="setInventoriCategory('Kopi & Biji')" id="btn-inv-cat-Kopi & Biji" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">Kopi & Biji</button>
+              <button onclick="setInventoriCategory('Susu & Dairy')" id="btn-inv-cat-Susu & Dairy" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">Susu & Dairy</button>
+              <button onclick="setInventoriCategory('Sirup & Gula')" id="btn-inv-cat-Sirup & Gula" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">Sirup & Gula</button>
+              <button onclick="setInventoriCategory('Kemasan')" id="btn-inv-cat-Kemasan" class="px-3 py-1 rounded-full text-slate-600 hover:text-slate-900">Kemasan & Cup</button>
+            </div>
+
+            <select id="inventori-status-filter" onchange="filterInventori()" class="px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-full font-semibold text-slate-700 focus:outline-none">
+              <option value="Semua">Semua Status</option>
+              <option value="Kritis">Kritis Terlebih Dahulu</option>
+              <option value="Menipis">Menipis</option>
+              <option value="Aman">Aman</option>
+            </select>
+          </div>
+        </div>
+
         <div class="overflow-x-auto rounded-2xl border border-slate-200/60 bg-white">
           <table class="w-full text-left text-xs text-slate-600">
             <thead class="bg-[#f1f4f9] text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200/60">
               <tr>
                 <th class="p-3 pl-4">Kode</th>
-                <th class="p-3">Nama Bahan</th>
-                <th class="p-3">Supplier</th>
+                <th class="p-3">Nama Bahan & Supplier</th>
                 <th class="p-3">Kategori</th>
                 <th class="p-3">Sisa Stok</th>
-                <th class="p-3 pr-4 text-right">Status</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 pr-4 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-001</td>
-                <td class="p-3 font-bold text-slate-900">Biji Kopi House Blend Arabica</td>
-                <td class="p-3 text-slate-500">Tani Kopi Malabar</td>
-                <td class="p-3">Kopi & Biji</td>
-                <td class="p-3 font-bold text-red-600">3.2 kg</td>
-                <td class="p-3 pr-4 text-right"><span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Kritis (&lt;2 hari)</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-002</td>
-                <td class="p-3 font-bold text-slate-900">Susu Fresh Milk Diamond</td>
-                <td class="p-3 text-slate-500">PT Sukanda Djaya</td>
-                <td class="p-3">Susu & Dairy</td>
-                <td class="p-3 font-bold text-slate-800">18.0 L</td>
-                <td class="p-3 pr-4 text-right"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Aman</span></td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 pl-4 font-mono font-bold text-slate-800">BBI-003</td>
-                <td class="p-3 font-bold text-slate-900">Sirup Gula Aren Organik</td>
-                <td class="p-3 text-slate-500">Aren Nusantara Craft</td>
-                <td class="p-3">Sirup & Gula</td>
-                <td class="p-3 font-bold text-red-600">2.5 L</td>
-                <td class="p-3 pr-4 text-right"><span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Kritis (&lt;2 hari)</span></td>
-              </tr>
+            <tbody id="inventori-table-body" class="divide-y divide-slate-100">
+              <!-- Dynamically populated by app.js -->
             </tbody>
           </table>
         </div>
@@ -1624,6 +1627,217 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: RIWAYAT STOK (KARTU MUTASI) ==================== -->
+  <div id="modal-stock-history" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 lg:p-7 max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-100 modal-content">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#eff4fc] text-[#0038d2] flex items-center justify-center">
+            <i data-lucide="history" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-bold text-slate-900">Kartu Stok & Riwayat Mutasi</h3>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#0038d2]">Log Gudang Barista</span>
+            </div>
+            <p class="text-xs text-slate-500">Rekap transaksi bahan masuk (restock) dan pemakaian operasional POS cafe</p>
+          </div>
+        </div>
+        <button onclick="closeStockHistoryModal()" class="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 py-4">
+        <!-- Filter Tabs -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-full text-xs font-semibold">
+          <button id="btn-hist-all" onclick="filterHistoryTab('all')" class="px-4 py-1.5 rounded-full bg-white text-slate-900 shadow-xs">Semua Mutasi</button>
+          <button id="btn-hist-masuk" onclick="filterHistoryTab('Masuk')" class="px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900">Bahan Masuk (+)</button>
+          <button id="btn-hist-keluar" onclick="filterHistoryTab('Keluar')" class="px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900">Pemakaian (-)</button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full sm:w-72">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="input-search-history" oninput="searchHistoryList()" placeholder="Cari kode, nama bahan, PIC..." class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-full focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0038d2]/20">
+        </div>
+      </div>
+
+      <!-- Table Body with scroll -->
+      <div class="overflow-y-auto flex-1 rounded-2xl border border-slate-200/60 bg-white min-h-[220px]">
+        <table class="w-full text-left text-xs text-slate-600">
+          <thead class="bg-[#f1f4f9] text-slate-500 uppercase tracking-wider text-[10px] font-bold sticky top-0 border-b border-slate-200/60 z-10">
+            <tr>
+              <th class="p-3 pl-4">ID Mutasi</th>
+              <th class="p-3">Waktu</th>
+              <th class="p-3">Bahan Baku</th>
+              <th class="p-3 text-center">Jenis</th>
+              <th class="p-3 text-right">Jumlah</th>
+              <th class="p-3 text-right">Saldo Sisa</th>
+              <th class="p-3">PIC / Petugas</th>
+              <th class="p-3 pr-4">Keterangan / Faktur</th>
+            </tr>
+          </thead>
+          <tbody id="stock-history-table-body" class="divide-y divide-slate-100">
+            <!-- Dynamically populated by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between pt-4 mt-2 border-t border-slate-100 text-xs">
+        <div class="text-slate-400 text-[11px] flex items-center gap-1.5">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span>Data terintegrasi realtime dengan transaksi kasir & penerimaan barang.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="closeStockHistoryModal()" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 font-semibold">
+            Tutup
+          </button>
+          <button onclick="closeStockHistoryModal(); openRestockModal()" class="px-4 py-2 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>+ Catat Bahan Masuk</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CATAT BAHAN MASUK (HALAMAN 5 PROTOTYPE) ==================== -->
+  <div id="modal-restock" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 lg:p-7 max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-100 modal-content">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div>
+          <div class="flex items-center gap-2 text-[10px] font-bold text-[#0038d2] tracking-wider uppercase mb-1">
+            <span>TAMBAH BAHAN BAKU · INVENTORI GUDANG</span>
+            <span class="bg-blue-100 text-[#0038d2] px-2 py-0.5 rounded-full">Baru Masuk</span>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 tracking-tight" id="restock-modal-title">Catat Pengadaan & Bahan Masuk</h3>
+        </div>
+        <button onclick="closeRestockModal()" class="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Navigation tabs like Page 5 -->
+      <div class="flex items-center border-b border-slate-200 mt-4 text-xs font-bold text-slate-500">
+        <button type="button" class="pb-2.5 px-3 border-b-2 border-[#0038d2] text-[#0038d2]">Rincian Pengadaan & HPP</button>
+        <button type="button" class="pb-2.5 px-3 hover:text-slate-800">Stok & Penempatan Bar</button>
+        <button type="button" class="pb-2.5 px-3 hover:text-slate-800">Riwayat & Supplier</button>
+      </div>
+
+      <!-- Form -->
+      <form id="form-restock" onsubmit="submitRestock(event)" class="space-y-4 pt-4 text-xs">
+        
+        <!-- Pilihan Bahan -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Pilih Bahan Baku *</label>
+            <select id="restock-select-item" onchange="onRestockItemSelect(this.value)" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
+              <option value="">-- Pilih dari Daftar Bahan --</option>
+              <option value="BBI-001" data-name="Biji Kopi House Blend Arabica" data-unit="kg" data-supplier="Tani Kopi Malabar">BBI-001 · Biji Kopi House Blend Arabica</option>
+              <option value="BBI-002" data-name="Susu Fresh Milk Diamond" data-unit="L" data-supplier="PT Sukanda Djaya">BBI-002 · Susu Fresh Milk Diamond</option>
+              <option value="BBI-003" data-name="Sirup Gula Aren Organik" data-unit="L" data-supplier="Aren Nusantara Craft">BBI-003 · Sirup Gula Aren Organik</option>
+              <option value="BBI-004" data-name="Pure Matcha Powder Uji" data-unit="kg" data-supplier="Kyoto Direct Import">BBI-004 · Pure Matcha Powder Uji</option>
+              <option value="BBI-005" data-name="Cup Cold 16oz + Tutup Lid" data-unit="pcs" data-supplier="Kemasan Jaya Abadi">BBI-005 · Cup Cold 16oz + Tutup Lid</option>
+              <option value="BBI-006" data-name="Sedotan Kertas Ramah Lingkungan" data-unit="pcs" data-supplier="Green Packaging ID">BBI-006 · Sedotan Kertas Ramah Lingkungan</option>
+              <option value="custom">+ Bahan Baru Lainnya...</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Kode SKU / Kode Bahan</label>
+            <input type="text" id="restock-code" placeholder="Contoh: BBI-001" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-mono text-slate-800 bg-slate-50">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nama Bahan Baku *</label>
+          <input type="text" id="restock-name" required placeholder="Contoh: Susu Fresh Milk Diamond" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+        </div>
+
+        <!-- Jumlah & Satuan & Harga (Page 5 Style) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Jumlah Bahan Masuk *</label>
+            <input type="number" step="0.1" id="restock-qty" required placeholder="Contoh: 12" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-bold text-slate-900">
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Satuan Beli Gudang</label>
+            <select id="restock-unit" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none bg-white font-medium">
+              <option value="kg">kg (Kilogram)</option>
+              <option value="L">L (Liter)</option>
+              <option value="pcs">pcs (Pieces / Buah)</option>
+              <option value="karton">karton (Karton Box)</option>
+              <option value="pack">pack (Kemasan Pack)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Harga Beli per Satuan (Rp)</label>
+            <input type="text" id="restock-price" placeholder="42.000" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl font-medium focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Penempatan Bar & Supplier (Page 5: Stok Fisik & Penempatan Bar) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Lokasi Simpan di Bar / Cafe</label>
+            <select id="restock-location" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none font-medium">
+              <option value="Chiller Bar Kiri (Kulkas Utama)">Chiller Bar Kiri (Kulkas Utama)</option>
+              <option value="Chiller Bar Bawah Espresso">Chiller Bar Bawah Espresso</option>
+              <option value="Rak Biji Kopi Bar Atas">Rak Biji Kopi Bar Atas</option>
+              <option value="Gudang Kering Belakang">Gudang Kering Belakang</option>
+              <option value="Lemari Sirup & Powder">Lemari Sirup & Powder</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Supplier / Vendor</label>
+            <input type="text" id="restock-supplier" placeholder="Contoh: PT Sukanda Djaya" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- PIC & Faktur -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Petugas Penerima (PIC)</label>
+            <input type="text" id="restock-pic" value="Barista Lead" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Nomor Faktur / Catatan PO</label>
+            <input type="text" id="restock-notes" placeholder="Contoh: Faktur PO-2026-1108" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0038d2]/20 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Highlight Note matching Page 5 -->
+        <div class="p-3 bg-blue-50/80 rounded-2xl border border-blue-100 flex items-center gap-2.5 text-blue-900 text-xs">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#0038d2] shrink-0"></i>
+          <span>Perubahan stok akan tercatat otomatis di kartu inventori & laporan HPP.</span>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeRestockModal()" class="px-5 py-2.5 rounded-full text-slate-600 hover:bg-slate-100 font-semibold transition">
+            Batal
+          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0038d2] text-white font-bold hover:bg-[#002bb0] transition shadow-sm active:scale-95">
+            Simpan Bahan Baku
+          </button>
+        </div>
+
+      </form>
     </div>
   </div>
 

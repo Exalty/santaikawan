@@ -66,6 +66,49 @@ app.get('/api/menu', (req, res) => {
   res.json(db.menu_catalog);
 });
 
+// POST Menu Baru (Katalog Hidangan & Racikan)
+app.post('/api/menu', (req, res) => {
+  const { name, category, sku, price, hpp, margin, status } = req.body;
+  if (!name || !price) {
+    return res.status(400).json({ error: 'Nama menu dan harga jual wajib diisi.' });
+  }
+
+  const db = readDB();
+  if (!db) return res.status(500).json({ error: 'Database error' });
+
+  const numPrice = parseInt(price.toString().replace(/[^0-9]/g, '')) || 20000;
+  const numHpp = parseInt((hpp || '').toString().replace(/[^0-9]/g, '')) || Math.round(numPrice * 0.35);
+  const calculatedMargin = margin || `${(((numPrice - numHpp) / numPrice) * 100).toFixed(1)}%`;
+
+  const newSku = sku || `${(category || 'COF').substring(0, 3).toUpperCase()}-${(db.menu_catalog.items.length + 1).toString().padStart(2, '0')}`;
+
+  const newMenuItem = {
+    sku: newSku,
+    name,
+    category: category || 'Signature',
+    hpp: `Rp${numHpp.toLocaleString('id-ID')}`,
+    margin: calculatedMargin,
+    sold: 0,
+    price: `Rp${numPrice.toLocaleString('id-ID')}`,
+    status: status || 'Aktif di Kasir',
+    stock: 'Bahan aman'
+  };
+
+  if (!db.menu_catalog.items) db.menu_catalog.items = [];
+  db.menu_catalog.items.unshift(newMenuItem);
+
+  if (db.menu_catalog.kpi) {
+    db.menu_catalog.kpi.total_menu = `${db.menu_catalog.items.length} Sajian`;
+  }
+
+  writeDB(db);
+
+  res.status(201).json({
+    message: 'Menu baru berhasil ditambahkan ke katalog!',
+    item: newMenuItem
+  });
+});
+
 // GET Inventori
 app.get('/api/inventori', (req, res) => {
   const db = readDB();

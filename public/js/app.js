@@ -4,6 +4,8 @@ let ringkasanData = null;
 let membersList = [];
 let inventoriList = [];
 let stockHistoryList = [];
+let menuList = [];
+let selectedMenuCategory = 'Semua';
 let activeHistTab = 'all';
 let selectedInvCategory = 'Semua';
 let selectedDay = null;
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadRingkasanData();
   loadMembers();
   loadInventori();
+  loadMenu();
 
   // Handle URL hash on load (e.g. #ringkasan, #penjualan, #member)
   const hash = window.location.hash.replace('#', '').toLowerCase();
@@ -1040,5 +1043,215 @@ async function submitRestock(e) {
   } catch (err) {
     console.error('Error submitting restock:', err);
     alert('Gagal menghubungi server.');
+  }
+}
+
+// =============================================================================
+// KATALOG HIDANGAN & RACIKAN MENU (HALAMAN 39 PROTOTYPE)
+// =============================================================================
+
+async function loadMenu() {
+  try {
+    const res = await fetch('/api/menu');
+    if (!res.ok) throw new Error('Gagal memuat katalog menu');
+    const data = await res.json();
+    menuList = data.items || [];
+
+    if (data.kpi) {
+      const tm = document.getElementById('kpi-total-menu');
+      if (tm) tm.innerText = data.kpi.total_menu || `${menuList.length} Sajian`;
+      const mt = document.getElementById('kpi-menu-terlaris');
+      if (mt) mt.innerText = data.kpi.terlaris || 'Sawan';
+      const mm = document.getElementById('kpi-menu-margin');
+      if (mm) mm.innerText = data.kpi.margin || '68,5%';
+    }
+
+    renderMenuGrid(menuList);
+  } catch (err) {
+    console.error('Error fetching menu catalog:', err);
+  }
+}
+
+function renderMenuGrid(items) {
+  const container = document.getElementById('menu-grid-container');
+  if (!container) return;
+
+  if (items.length === 0) {
+    container.innerHTML = `
+      <div class="col-span-full p-10 text-center text-slate-400 bg-white rounded-3xl border border-slate-100">
+        Belum ada menu yang sesuai dengan pencarian atau filter.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = items.map(item => {
+    let catBadgeColor = 'bg-slate-100 text-slate-700';
+    if (item.category && item.category.toLowerCase().includes('signature')) {
+      catBadgeColor = 'bg-[#eff4fc] text-[#0038d2]';
+    } else if (item.category && item.category.toLowerCase().includes('coffee')) {
+      catBadgeColor = 'bg-amber-50 text-amber-800';
+    } else if (item.category && item.category.toLowerCase().includes('meal')) {
+      catBadgeColor = 'bg-orange-50 text-orange-800';
+    }
+
+    const isStockSafe = item.stock && item.stock.toLowerCase().includes('aman');
+    const stockBadge = isStockSafe
+      ? '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Bahan aman</span>'
+      : '<span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Bahan menipis</span>';
+
+    return `
+      <div class="bg-[#f8fafc] p-5 rounded-3xl border border-slate-100 flex flex-col justify-between hover:border-slate-200 hover:shadow-xs transition">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold ${catBadgeColor} px-2 py-0.5 rounded-full">${item.category || 'Menu'} &bull; ${item.sku || '-'}</span>
+            ${stockBadge}
+          </div>
+          <h4 class="text-base font-bold text-slate-900 mt-1">${item.name}</h4>
+          <div class="flex items-center gap-3 text-xs text-slate-500 mt-2">
+            <span>HPP: ${item.hpp || 'Rp8.000'}</span>
+            <span>&bull;</span>
+            <span class="text-[#00875a] font-bold">Margin ${item.margin || '65%'}</span>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
+          <span class="text-sm font-extrabold text-slate-900">${item.price}</span>
+          <span class="text-xs text-slate-500 font-medium">${item.sold || 0} terjual</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  lucide.createIcons();
+}
+
+function setMenuCategory(cat) {
+  selectedMenuCategory = cat;
+  const cats = ['Semua', 'Signature', 'Coffee', 'Meals'];
+  cats.forEach(c => {
+    const btn = document.getElementById(`btn-menu-cat-${c}`);
+    if (btn) {
+      if (c === cat) {
+        btn.className = 'px-3.5 py-1 rounded-full bg-[#0038d2] text-white';
+      } else {
+        btn.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900';
+      }
+    }
+  });
+  filterMenuCatalog();
+}
+
+function filterMenuCatalog() {
+  const searchInput = document.getElementById('menu-search-input');
+  const search = searchInput ? searchInput.value.toLowerCase() : '';
+
+  const filtered = menuList.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search) ||
+                        (item.sku && item.sku.toLowerCase().includes(search)) ||
+                        (item.category && item.category.toLowerCase().includes(search));
+
+    let matchCat = true;
+    if (selectedMenuCategory === 'Signature') matchCat = item.category && item.category.includes('Signature');
+    else if (selectedMenuCategory === 'Coffee') matchCat = item.category && item.category.includes('Coffee');
+    else if (selectedMenuCategory === 'Meals') matchCat = item.category && (item.category.includes('Meal') || item.category.includes('Snack') || item.category.includes('Pastry'));
+
+    return matchSearch && matchCat;
+  });
+
+  renderMenuGrid(filtered);
+}
+
+// Modal Add Menu
+function openAddMenuModal() {
+  const modal = document.getElementById('modal-add-menu');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.getElementById('form-add-menu').reset();
+    autoGenerateSku();
+    calcMenuMargin();
+  }
+}
+
+function closeAddMenuModal() {
+  const modal = document.getElementById('modal-add-menu');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+}
+
+function autoGenerateSku() {
+  const cat = document.getElementById('input-menu-category').value;
+  let prefix = 'SIG';
+  if (cat.includes('Coffee')) prefix = 'COF';
+  else if (cat.includes('Tea')) prefix = 'TEA';
+  else if (cat.includes('Meal')) prefix = 'MEL';
+  else if (cat.includes('Snack')) prefix = 'SNK';
+
+  const count = menuList.length + 1;
+  const skuInput = document.getElementById('input-menu-sku');
+  if (skuInput) {
+    skuInput.value = `${prefix}-${count.toString().padStart(2, '0')}`;
+  }
+}
+
+function calcMenuMargin() {
+  const priceInput = document.getElementById('input-menu-price');
+  const hppInput = document.getElementById('input-menu-hpp');
+  const marginDisplay = document.getElementById('display-menu-margin');
+
+  if (!priceInput || !hppInput || !marginDisplay) return;
+
+  const price = parseFloat(priceInput.value) || 0;
+  const hpp = parseFloat(hppInput.value) || 0;
+
+  if (price > 0 && hpp >= 0) {
+    const margin = (((price - hpp) / price) * 100).toFixed(1);
+    const isHealthy = margin >= 60;
+    marginDisplay.innerHTML = `
+      <span>${margin}%</span>
+      <span class="text-[10px] font-bold ${isHealthy ? 'text-emerald-600 bg-emerald-100' : 'text-amber-600 bg-amber-100'} px-1.5 py-0.5 rounded">
+        ${isHealthy ? 'Sehat (>60%)' : 'Tipis (<60%)'}
+      </span>
+    `;
+  } else {
+    marginDisplay.innerHTML = `<span>65.0%</span><span class="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Sehat</span>`;
+  }
+}
+
+async function submitNewMenu(e) {
+  e.preventDefault();
+  const name = document.getElementById('input-menu-name').value.trim();
+  const category = document.getElementById('input-menu-category').value;
+  const sku = document.getElementById('input-menu-sku').value.trim();
+  const price = document.getElementById('input-menu-price').value.trim();
+  const hpp = document.getElementById('input-menu-hpp').value.trim();
+
+  if (!name || !price) {
+    alert('Nama menu dan harga jual wajib diisi!');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/menu', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, category, sku, price, hpp })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.error || 'Gagal menambahkan menu baru');
+      return;
+    }
+
+    const data = await res.json();
+    closeAddMenuModal();
+    showToast(`✓ Menu ${name} berhasil ditambahkan ke katalog & POS!`);
+
+    // Reload menu catalog
+    loadMenu();
+  } catch (err) {
+    console.error('Error submitting new menu:', err);
+    alert('Terjadi kesalahan koneksi.');
   }
 }

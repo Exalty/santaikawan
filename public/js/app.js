@@ -1255,3 +1255,114 @@ async function submitNewMenu(e) {
     alert('Terjadi kesalahan koneksi.');
   }
 }
+
+// ==================== LAPORAN: TARIK DATA KASIR (POS SYNC) ====================
+
+function openSyncKasirModal() {
+  const modal = document.getElementById('modal-sync-kasir');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+
+  // Reset progress and success states
+  const progressBox = document.getElementById('sync-progress-box');
+  const successBox = document.getElementById('sync-success-box');
+  if (progressBox) progressBox.classList.add('hidden');
+  if (successBox) successBox.classList.add('hidden');
+
+  const btnText = document.getElementById('btn-execute-sync-text');
+  const btnIcon = document.getElementById('btn-execute-sync-icon');
+  const btn = document.getElementById('btn-execute-sync');
+  if (btn) btn.disabled = false;
+  if (btnText) btnText.textContent = 'Tarik Data Sekarang (Sync)';
+  if (btnIcon) {
+    btnIcon.classList.remove('animate-spin');
+    btnIcon.setAttribute('data-lucide', 'refresh-cw');
+  }
+
+  lucide.createIcons();
+}
+
+function closeSyncKasirModal() {
+  const modal = document.getElementById('modal-sync-kasir');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function executeSyncKasir() {
+  const btn = document.getElementById('btn-execute-sync');
+  const btnText = document.getElementById('btn-execute-sync-text');
+  const btnIcon = document.getElementById('btn-execute-sync-icon');
+  const progressBox = document.getElementById('sync-progress-box');
+  const progressBar = document.getElementById('sync-progress-bar');
+  const progressPct = document.getElementById('sync-progress-pct');
+  const progressLabel = document.getElementById('sync-progress-label');
+  const successBox = document.getElementById('sync-success-box');
+
+  if (btn) btn.disabled = true;
+  if (btnIcon) btnIcon.classList.add('animate-spin');
+  if (btnText) btnText.textContent = 'Menghubungkan POS...';
+
+  if (progressBox) progressBox.classList.remove('hidden');
+  if (successBox) successBox.classList.add('hidden');
+
+  // Step 1: Connecting
+  if (progressBar) progressBar.style.width = '25%';
+  if (progressPct) progressPct.textContent = '25%';
+  if (progressLabel) progressLabel.textContent = 'Menghubungkan ke API EasyEat & Nuta POS...';
+
+  await new Promise(r => setTimeout(r, 400));
+
+  // Step 2: Fetching
+  if (progressBar) progressBar.style.width = '65%';
+  if (progressPct) progressPct.textContent = '65%';
+  if (progressLabel) progressLabel.textContent = 'Mengambil 616 struk transaksi & settlement QRIS...';
+
+  try {
+    const res = await fetch('/api/laporan/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pic: 'Owner Santai Kawan' })
+    });
+
+    const result = await res.json();
+
+    // Step 3: Complete
+    if (progressBar) progressBar.style.width = '100%';
+    if (progressPct) progressPct.textContent = '100%';
+    if (progressLabel) progressLabel.textContent = 'Rekonsiliasi selesai 100%! Data terverifikasi.';
+
+    await new Promise(r => setTimeout(r, 350));
+
+    if (progressBox) progressBox.classList.add('hidden');
+    if (successBox) {
+      successBox.classList.remove('hidden');
+      const detail = document.getElementById('sync-success-detail');
+      if (detail && result.data) {
+        detail.textContent = `${result.data.total_transactions} transaksi (${result.data.total_omzet}) telah dicocokkan otomatis pada ${result.data.timestamp}.`;
+      }
+    }
+
+    if (btnText) btnText.textContent = 'Sinkronisasi Selesai ✓';
+    if (btnIcon) {
+      btnIcon.classList.remove('animate-spin');
+      btnIcon.setAttribute('data-lucide', 'check-circle-2');
+    }
+
+    // Update header time indicator
+    const lastTime = document.getElementById('sync-last-time');
+    if (lastTime && result.data) {
+      lastTime.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Terakhir sync: ${result.data.timestamp} · 616 Transaksi Klop</span>
+      `;
+    }
+
+    showToast('✓ Berhasil menarik 616 transaksi dari POS EasyEat & Nuta POS!');
+    lucide.createIcons();
+  } catch (err) {
+    console.error('Error syncing POS:', err);
+    alert('Gagal menyinkronkan data kasir. Silakan coba lagi.');
+    if (btn) btn.disabled = false;
+    if (btnText) btnText.textContent = 'Tarik Data Sekarang (Sync)';
+    if (btnIcon) btnIcon.classList.remove('animate-spin');
+  }
+}

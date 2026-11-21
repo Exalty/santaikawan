@@ -437,7 +437,7 @@
     "headline": "Daftar Menu Kawan",
     "subtitle": "Kelola sajian kopi, non-kopi, dan pastry favorit para kawan.",
     "kpi": {
-      "total_menu": "32 Sajian",
+      "total_menu": "7 Sajian",
       "total_desc": "840 porsi terjual pekan ini (+12,4%)",
       "terlaris": "Sawan (Signature)",
       "terlaris_desc": "280 terjual · Rp6.440.000",
@@ -447,6 +447,17 @@
       "perhatian_desc": "Espresso & Matcha tipis"
     },
     "items": [
+      {
+        "sku": "SIG-07",
+        "name": "Kopi Susu Pandan Santai",
+        "category": "Signature",
+        "hpp": "Rp8.000",
+        "margin": "66.7%",
+        "sold": 0,
+        "price": "Rp24.000",
+        "status": "Aktif di Kasir",
+        "stock": "Bahan aman"
+      },
       {
         "sku": "SIG-01",
         "name": "Sawan (Signature)",
@@ -717,7 +728,15 @@
         "stat3_label": "VARIAN AKTIF",
         "stat3_val": "32 Sajian"
       }
-    ]
+    ],
+    "sync_history": [
+      {
+        "time": "21 Nov 2026 · 21.52 WIB",
+        "pic": "Owner Santai Kawan",
+        "details": "616 transaksi ditarik dari EasyEat & Nuta POS"
+      }
+    ],
+    "last_sync": "21 Nov 2026 · 21.52 WIB"
   },
   "members": [
     {

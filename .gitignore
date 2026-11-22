@@ -3,6 +3,7 @@ node_modules/
 
 # Large binary / PDF design assets (>100MB exceeds GitHub limit)
 *.pdf
+!public/downloads/*.pdf
 
 # Logs
 logs

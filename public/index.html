@@ -771,30 +771,205 @@
 
       <!-- Subview: Segmen Detail -->
       <div id="view-segmen" class="hidden flex flex-col gap-5">
-        <div class="bg-[#f8fafc] p-6 rounded-3xl border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-900 mb-1">Analisis Mendalam 4 Segmen Pelanggan</h3>
-          <p class="text-xs text-slate-500 mb-4">Strategi peningkatan retensi dan rekomendasi menu per segmen pelanggan cafe.</p>
+        <div class="bg-[#f8fafc] p-6 lg:p-7 rounded-3xl border border-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-slate-200/70">
+            <div>
+              <div class="flex items-center gap-2 text-xs font-bold text-[#0038d2] tracking-wider uppercase mb-1">
+                <span class="w-2 h-2 rounded-full bg-[#0038d2]"></span>
+                <span>CUSTOMER STRATEGY CUBE & ANALISIS BEHAVIOR</span>
+              </div>
+              <h3 class="text-xl font-extrabold text-slate-900 tracking-tight">Analisis Mendalam 4 Segmen Pelanggan</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Karakteristik perilaku, jam ramai, menu favorit, dan strategi peningkatan retensi per segmen (Total 482 Member).</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="bg-blue-50 text-[#0038d2] text-xs font-bold px-3 py-1.5 rounded-full border border-blue-100">
+                Total 482 Kawan Terpetakan
+              </span>
+            </div>
+          </div>
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-bold text-slate-900 text-sm">💻 Anak nugas / laptopan (34%)</span>
-                <span class="text-xs text-[#0038d2] font-bold">164 Member</span>
+            
+            <!-- Segmen 1: Anak Nugas -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-slate-300 transition">
+              <div>
+                <div class="flex items-start justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-[#eff4fc] text-[#0038d2] flex items-center justify-center font-bold text-base shrink-0 shadow-2xs">
+                      💻
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">Anak Nugas & WFC</h4>
+                      <span class="text-[11px] text-slate-400">Mahasiswa & Freelancer Kampus</span>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-[#eff4fc] text-[#0038d2] text-xs font-extrabold px-2.5 py-1 rounded-full">34% · 164 Member</span>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                  Durasi duduk rata-rata 3–4 jam. Sangat sensitif terhadap stabilitas koneksi Wi-Fi kafe, ketersediaan colokan, dan musik santai tidak bising.
+                </p>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-3">
+                  <div>
+                    <span class="text-slate-400 block font-medium">Jam Ramai:</span>
+                    <span class="font-bold text-slate-800">13.00 – 18.00 WIB</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block font-medium">Menu Favorit:</span>
+                    <span class="font-bold text-slate-800">Americano & French Fries</span>
+                  </div>
+                </div>
               </div>
-              <p class="text-xs text-slate-600 mb-2">Durasi duduk rata-rata 3,5 jam. Sangat sensitif terhadap kecepatan WiFi dan ketersediaan stopkontak.</p>
-              <div class="bg-blue-50 text-blue-700 text-[11px] p-2.5 rounded-xl font-medium">
-                💡 <strong>Rekomendasi:</strong> Tawarkan paket "Refill Americano Hemat" setelah 2 jam & combo snack kering.
+
+              <div class="bg-blue-50/90 text-blue-900 text-xs p-3 rounded-2xl border border-blue-100">
+                <div class="flex items-center gap-1.5 font-bold text-[#0038d2] mb-0.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Strategi Retensi & Promo:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed text-blue-800">
+                  Paket <strong>"Refill Americano Hemat"</strong> setelah 2 jam kerja dan program loyalitas stamp kelompok meja (Kawan Circle).
+                </p>
               </div>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-100">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-bold text-slate-900 text-sm">☀️ Langganan harian / ngopi pagi (28%)</span>
-                <span class="text-xs text-[#ff8030] font-bold">135 Member</span>
+
+            <!-- Segmen 2: Langganan Harian / Pagi -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-slate-300 transition">
+              <div>
+                <div class="flex items-start justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-base shrink-0 shadow-2xs">
+                      ☀️
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">Langganan Harian / Ngopi Pagi</h4>
+                      <span class="text-[11px] text-slate-400">Pekerja & Dosen / Rutinitas Pagi</span>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-amber-50 text-amber-800 text-xs font-extrabold px-2.5 py-1 rounded-full">28% · 135 Member</span>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                  Kecepatan layanan barista dan konsistensi rasa kopi sangat krusial. Transaksi terjadi cepat sebelum masuk jam kerja atau kuliah.
+                </p>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-3">
+                  <div>
+                    <span class="text-slate-400 block font-medium">Jam Ramai:</span>
+                    <span class="font-bold text-slate-800">08.00 – 11.00 WIB</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block font-medium">Menu Favorit:</span>
+                    <span class="font-bold text-slate-800">Kopi Susu Kawan & Croissant</span>
+                  </div>
+                </div>
               </div>
-              <p class="text-xs text-slate-600 mb-2">Kecepatan barista sangat krusial. Rata-rata transaksi 08.00–10.30 WIB sebelum jam kantor.</p>
-              <div class="bg-orange-50 text-orange-800 text-[11px] p-2.5 rounded-xl font-medium">
-                💡 <strong>Rekomendasi:</strong> Fitur 'Quick Order Barista' & promo roti pagi bundling Kopi Susu Kawan.
+
+              <div class="bg-amber-50/90 text-amber-950 text-xs p-3 rounded-2xl border border-amber-200/80">
+                <div class="flex items-center gap-1.5 font-bold text-amber-800 mb-0.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Strategi Retensi & Promo:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed text-amber-900">
+                  Implementasi fitur kasir <strong>"Sapaan Profil Rasa"</strong> (&lt;30 detik) dan paket bundling sarapan pagi hemat Kopi + Roti.
+                </p>
               </div>
             </div>
+
+            <!-- Segmen 3: Pengunjung Malam & Nongkrong -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-slate-300 transition">
+              <div>
+                <div class="flex items-start justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-base shrink-0 shadow-2xs">
+                      🌙
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">Pengunjung Malam & Komunitas</h4>
+                      <span class="text-[11px] text-slate-400">Grup Mahasiswa, Musik & Nongkrong</span>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-purple-50 text-purple-800 text-xs font-extrabold px-2.5 py-1 rounded-full">22% · 106 Member</span>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                  Datang berombongan 3–6 orang. Rata-rata duduk santai di area outdoor menikmati suasana malam dan camilan porsi berbagi (sharing).
+                </p>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-3">
+                  <div>
+                    <span class="text-slate-400 block font-medium">Jam Ramai:</span>
+                    <span class="font-bold text-slate-800">19.00 – 23.30 WIB</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block font-medium">Menu Favorit:</span>
+                    <span class="font-bold text-slate-800">Signature Sawan & Tahu Cabai Garam</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-purple-50/90 text-purple-950 text-xs p-3 rounded-2xl border border-purple-200/80">
+                <div class="flex items-center gap-1.5 font-bold text-purple-800 mb-0.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Strategi Retensi & Promo:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed text-purple-900">
+                  Paket <strong>"Santai Slot Sunset & Malam"</strong> (sharing platter) dan aktivasi stamp Kawan Circle rombongan (8 stamp = 1 snack).
+                </p>
+              </div>
+            </div>
+
+            <!-- Segmen 4: Pembeli Sesekali / Take-away & GoFood -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-slate-300 transition">
+              <div>
+                <div class="flex items-start justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-base shrink-0 shadow-2xs">
+                      ☕
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">Pembeli Sesekali / Take-away & Delivery</h4>
+                      <span class="text-[11px] text-slate-400">Pelanggan Bawa Pulang & GoFood</span>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="bg-emerald-50 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full">16% · 77 Member</span>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                  Fokus pada efisiensi waktu, kemasan aman anti tumpah, dan sajian dingin botolan. Jarang duduk berlama-lama di dalam kafe.
+                </p>
+
+                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-3">
+                  <div>
+                    <span class="text-slate-400 block font-medium">Jam Ramai:</span>
+                    <span class="font-bold text-slate-800">Fleksibel / Jam Makan Siang</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block font-medium">Menu Favorit:</span>
+                    <span class="font-bold text-slate-800">Cold Brew Bottle & Kopsu Literan</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-emerald-50/90 text-emerald-950 text-xs p-3 rounded-2xl border border-emerald-200/80">
+                <div class="flex items-center gap-1.5 font-bold text-emerald-800 mb-0.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Strategi Retensi & Promo:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed text-emerald-900">
+                  Penyematan <strong>stiker QR Kawan Circle</strong> pada cup takeaway dan GoFood untuk mengonversi pelanggan delivery ke WhatsApp kafe.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

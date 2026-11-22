@@ -1,0 +1,35 @@
+﻿REKAPITULASI PENJUALAN HARIAN - SANTAI KAWAN KOPI
+Periode: 2 - 8 November 2026 | Rekonsiliasi: 100% Klop EasyEat (Kledokan) & Nuta POS (Bantul)
+
+Hari,Tanggal,Jumlah Transaksi,Total Omzet (Rp),Rata-rata Basket,Menu Terlaris,Qty Menu Terlaris,Dine-In (%),Takeaway (%)
+"Sen","Senin, 2 Nov 2026",68,2200000,"Rp32.350","Kopi Susu Kawan","28 cup","60%","40%"
+"Sel","Selasa, 3 Nov 2026",74,2400000,"Rp32.430","Kopi Susu Kawan","32 cup","62%","38%"
+"Rab","Rabu, 4 Nov 2026",82,2500000,"Rp30.480","Kopi Aren Santai","26 cup","65%","35%"
+"Kam","Kamis, 5 Nov 2026",78,2300000,"Rp29.480","Caffe Latte","24 cup","58%","42%"
+"Jum","Jumat, 6 Nov 2026",104,3100000,"Rp29.800","Kopi Susu Kawan","42 cup","68%","32%"
+"Sab","Sabtu, 7 Nov 2026",120,3600000,"Rp30.000","Kopi Susu Kawan & Croissant","55 cup","72%","28%"
+"Min","Minggu, 8 Nov 2026",90,2380000,"Rp26.440","Matcha Latte","30 cup","70%","30%"
+"TOTAL","2 - 8 Nov 2026",616,18480000,"Rp30.000","Kopi Susu Kawan","280 cup","65%","35%"
+
+LOG AUDIT TRANSAKSI KASIR
+No. Struk,Waktu,Nama Pelanggan,Tipe Layanan,Metode Bayar,Total Belanja,Status,Cabang POS
+"SKK-0616","8 Nov 2026 · 21.48","Novaldo","Di cafe · Meja 05","QRIS","Rp72.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0615","8 Nov 2026 · 21.35","Ariel Saputra","Bawa pulang","Tunai","Rp54.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0614","8 Nov 2026 · 21.21","Azzaky Raihan","Di cafe · Meja 02","QRIS","Rp30.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0613","8 Nov 2026 · 21.05","Dian Sastrowardoyo","Di cafe · Meja 07","QRIS","Rp46.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0612","8 Nov 2026 · 20.40","Budi Pratama","Bawa pulang","Kartu Debit","Rp65.000","Lunas","Cabang Bantul (Nuta POS)"
+"SKK-0611","8 Nov 2026 · 20.15","Cindy Claudia","Di cafe · Meja 04","QRIS","Rp38.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0610","8 Nov 2026 · 19.50","Eko Wijaya","Di cafe · Meja 09","Tunai","Rp24.000","Lunas","Cabang Bantul (Nuta POS)"
+"SKK-0609","8 Nov 2026 · 19.30","Fajar Nugraha","Di cafe · Meja 01","QRIS","Rp50.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0608","8 Nov 2026 · 18.55","Gita Gutawa","Di cafe · Meja 06","QRIS","Rp68.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0607","8 Nov 2026 · 18.20","Hendra Setiawan","Bawa pulang","Tunai","Rp23.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0606","8 Nov 2026 · 17.45","Indah Permata","Di cafe · Meja 03","QRIS","Rp45.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0605","8 Nov 2026 · 17.10","Joko Widodo","Di cafe · Meja 08","Kartu Debit","Rp82.000","Lunas","Cabang Bantul (Nuta POS)"
+"SKK-0604","8 Nov 2026 · 16.30","Kartika Putri","Di cafe · Meja 11","QRIS","Rp35.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0603","8 Nov 2026 · 15.45","Lukman Hakim","Bawa pulang","QRIS","Rp22.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0602","8 Nov 2026 · 15.10","Maya Miranda","Di cafe · Meja 05","Tunai","Rp40.000","Lunas","Cabang Bantul (Nuta POS)"
+"SKK-0601","8 Nov 2026 · 14.30","Nadia Saphira","Di cafe · Meja 10","QRIS","Rp58.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0600","8 Nov 2026 · 13.50","Oki Setiana","Bawa pulang","QRIS","Rp24.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0599","8 Nov 2026 · 13.15","Pratama Arhan","Di cafe · Meja 02","Tunai","Rp30.000","Lunas","Cabang Kledokan (EasyEat)"
+"SKK-0598","8 Nov 2026 · 12.30","Rizky Febian","Di cafe · Meja 04","QRIS","Rp47.000","Lunas","Cabang Bantul (Nuta POS)"
+"SKK-0597","8 Nov 2026 · 11.45","Siti Badriah","Bawa pulang","Kartu Debit","Rp62.000","Lunas","Cabang Kledokan (EasyEat)"

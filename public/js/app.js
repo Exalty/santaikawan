@@ -582,10 +582,94 @@ async function sendBroadcastReengage() {
   }
 }
 
-// Export CSV
-function exportReport() {
-  window.location.href = '/api/export';
-  showToast('📥 Mengunduh Laporan_CRM_SantaiKawanKopi.csv...');
+// Download & Export Report (PDF, XLSX, CSV)
+function downloadReport(type = 'penjualan', format = 'pdf', btnElement = null) {
+  let filename = '';
+  let docTitle = '';
+
+  if (type === 'penjualan') {
+    filename = `Laporan_Penjualan_SantaiKawan_Nov2026.${format}`;
+    docTitle = 'Laporan Penjualan Lengkap';
+  } else if (type === 'labarugi') {
+    filename = `Laporan_Laba_Rugi_HPP_SantaiKawan_Nov2026.${format}`;
+    docTitle = 'Laporan Laba Rugi & HPP';
+  } else if (type === 'menu') {
+    filename = `Laporan_Performa_Menu_SantaiKawan_Nov2026.${format}`;
+    docTitle = 'Laporan Performa Menu';
+  } else if (type === 'member') {
+    filename = `Laporan_CRM_Member_SantaiKawan_Nov2026.${format}`;
+    docTitle = 'Laporan Member & 4 Segmen CRM';
+  } else {
+    filename = `Laporan_Penjualan_SantaiKawan_Nov2026.${format}`;
+    docTitle = 'Laporan Finansial Santai Kawan';
+  }
+
+  // Visual UI button feedback
+  let originalHTML = '';
+  if (btnElement) {
+    originalHTML = btnElement.innerHTML;
+    btnElement.disabled = true;
+    btnElement.classList.add('opacity-80', 'cursor-wait');
+    btnElement.innerHTML = `
+      <svg class="animate-spin -ml-0.5 mr-1.5 h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span>Mengunduh...</span>
+    `;
+  }
+
+  showToast(`📥 Menyiapkan ${docTitle} (${format.toUpperCase()})...`);
+
+  // Trigger browser download via native anchor
+  setTimeout(() => {
+    try {
+      const downloadUrl = `/downloads/${filename}`;
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Success feedback
+      setTimeout(() => {
+        if (btnElement) {
+          btnElement.innerHTML = `
+            <svg class="w-3.5 h-3.5 text-emerald-500 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>Terunduh!</span>
+          `;
+        }
+        showToast(`✅ Berhasil mengunduh ${filename}`);
+
+        setTimeout(() => {
+          if (btnElement) {
+            btnElement.disabled = false;
+            btnElement.classList.remove('opacity-80', 'cursor-wait');
+            btnElement.innerHTML = originalHTML;
+            if (window.lucide) lucide.createIcons();
+          }
+        }, 1400);
+      }, 400);
+
+    } catch (err) {
+      console.error('Download error:', err);
+      // Fallback to direct navigation / API
+      window.location.href = `/api/export?type=${type}&format=${format}`;
+      if (btnElement) {
+        btnElement.disabled = false;
+        btnElement.classList.remove('opacity-80', 'cursor-wait');
+        btnElement.innerHTML = originalHTML;
+      }
+    }
+  }, 350);
+}
+
+// Export Report legacy alias
+function exportReport(type = 'penjualan', format = 'pdf') {
+  downloadReport(type, format);
 }
 
 // Notification Dropdown Panel

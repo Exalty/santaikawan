@@ -366,7 +366,8 @@
         "type": "Di cafe · Meja 05",
         "payment": "QRIS",
         "total": "Rp72.000",
-        "status": "Lunas"
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       },
       {
         "id": "SKK-0615",
@@ -375,7 +376,8 @@
         "type": "Bawa pulang",
         "payment": "Tunai",
         "total": "Rp54.000",
-        "status": "Lunas"
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       },
       {
         "id": "SKK-0614",
@@ -384,52 +386,178 @@
         "type": "Di cafe · Meja 02",
         "payment": "QRIS",
         "total": "Rp30.000",
-        "status": "Lunas"
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       },
       {
         "id": "SKK-0613",
-        "time": "8 Nov 2026 · 21.08",
-        "customer": "Gabriel Bukit",
-        "type": "Bawa pulang",
-        "payment": "Debit",
-        "total": "Rp45.000",
-        "status": "Lunas"
+        "time": "8 Nov 2026 · 21.05",
+        "customer": "Dian Sastrowardoyo",
+        "type": "Di cafe · Meja 07",
+        "payment": "QRIS",
+        "total": "Rp46.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       },
       {
         "id": "SKK-0612",
-        "time": "8 Nov 2026 · 20.54",
-        "customer": "Sinta Ayu",
-        "type": "Di cafe · Meja 08",
-        "payment": "QRIS",
-        "total": "Rp68.000",
-        "status": "Lunas"
+        "time": "8 Nov 2026 · 20.40",
+        "customer": "Budi Pratama",
+        "type": "Bawa pulang",
+        "payment": "Kartu Debit",
+        "total": "Rp65.000",
+        "status": "Lunas",
+        "branch": "Cabang Bantul (Nuta POS)"
       },
       {
         "id": "SKK-0611",
-        "time": "8 Nov 2026 · 20.42",
-        "customer": "Dimas Rhito",
-        "type": "Bawa pulang",
-        "payment": "Tunai",
-        "total": "Rp24.000",
-        "status": "Lunas"
+        "time": "8 Nov 2026 · 20.15",
+        "customer": "Cindy Claudia",
+        "type": "Di cafe · Meja 04",
+        "payment": "QRIS",
+        "total": "Rp38.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       },
       {
         "id": "SKK-0610",
-        "time": "8 Nov 2026 · 20.30",
-        "customer": "Sigma Hebat",
-        "type": "Di cafe · Meja 03",
-        "payment": "QRIS",
-        "total": "Rp39.000",
-        "status": "Lunas"
+        "time": "8 Nov 2026 · 19.50",
+        "customer": "Eko Wijaya",
+        "type": "Di cafe · Meja 09",
+        "payment": "Tunai",
+        "total": "Rp24.000",
+        "status": "Lunas",
+        "branch": "Cabang Bantul (Nuta POS)"
       },
       {
         "id": "SKK-0609",
-        "time": "8 Nov 2026 · 20.18",
-        "customer": "Fajar Hidayat",
+        "time": "8 Nov 2026 · 19.30",
+        "customer": "Fajar Nugraha",
+        "type": "Di cafe · Meja 01",
+        "payment": "QRIS",
+        "total": "Rp50.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0608",
+        "time": "8 Nov 2026 · 18.55",
+        "customer": "Gita Gutawa",
+        "type": "Di cafe · Meja 06",
+        "payment": "QRIS",
+        "total": "Rp68.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0607",
+        "time": "8 Nov 2026 · 18.20",
+        "customer": "Hendra Setiawan",
+        "type": "Bawa pulang",
+        "payment": "Tunai",
+        "total": "Rp23.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0606",
+        "time": "8 Nov 2026 · 17.45",
+        "customer": "Indah Permata",
+        "type": "Di cafe · Meja 03",
+        "payment": "QRIS",
+        "total": "Rp45.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0605",
+        "time": "8 Nov 2026 · 17.10",
+        "customer": "Joko Widodo",
+        "type": "Di cafe · Meja 08",
+        "payment": "Kartu Debit",
+        "total": "Rp82.000",
+        "status": "Lunas",
+        "branch": "Cabang Bantul (Nuta POS)"
+      },
+      {
+        "id": "SKK-0604",
+        "time": "8 Nov 2026 · 16.30",
+        "customer": "Kartika Putri",
+        "type": "Di cafe · Meja 11",
+        "payment": "QRIS",
+        "total": "Rp35.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0603",
+        "time": "8 Nov 2026 · 15.45",
+        "customer": "Lukman Hakim",
         "type": "Bawa pulang",
         "payment": "QRIS",
-        "total": "Rp28.000",
-        "status": "Lunas"
+        "total": "Rp22.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0602",
+        "time": "8 Nov 2026 · 15.10",
+        "customer": "Maya Miranda",
+        "type": "Di cafe · Meja 05",
+        "payment": "Tunai",
+        "total": "Rp40.000",
+        "status": "Lunas",
+        "branch": "Cabang Bantul (Nuta POS)"
+      },
+      {
+        "id": "SKK-0601",
+        "time": "8 Nov 2026 · 14.30",
+        "customer": "Nadia Saphira",
+        "type": "Di cafe · Meja 10",
+        "payment": "QRIS",
+        "total": "Rp58.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0600",
+        "time": "8 Nov 2026 · 13.50",
+        "customer": "Oki Setiana",
+        "type": "Bawa pulang",
+        "payment": "QRIS",
+        "total": "Rp24.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0599",
+        "time": "8 Nov 2026 · 13.15",
+        "customer": "Pratama Arhan",
+        "type": "Di cafe · Meja 02",
+        "payment": "Tunai",
+        "total": "Rp30.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
+      },
+      {
+        "id": "SKK-0598",
+        "time": "8 Nov 2026 · 12.30",
+        "customer": "Rizky Febian",
+        "type": "Di cafe · Meja 04",
+        "payment": "QRIS",
+        "total": "Rp47.000",
+        "status": "Lunas",
+        "branch": "Cabang Bantul (Nuta POS)"
+      },
+      {
+        "id": "SKK-0597",
+        "time": "8 Nov 2026 · 11.45",
+        "customer": "Siti Badriah",
+        "type": "Bawa pulang",
+        "payment": "Kartu Debit",
+        "total": "Rp62.000",
+        "status": "Lunas",
+        "branch": "Cabang Kledokan (EasyEat)"
       }
     ]
   },

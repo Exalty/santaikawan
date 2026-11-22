@@ -1,0 +1,10 @@
+﻿LAPORAN PERFORMA MENU & KATALOG SAJIAN - SANTAI KAWAN KOPI
+
+SKU,Nama Menu,Kategori,Harga Jual,HPP Porsi,Laba Kotor,Margin,Terjual,Total Omzet,Total HPP,Status Kasir
+"SIG-07","Kopi Susu Pandan Santai","Signature",24000,8000,16000,"66.7%",0,0,0,"Aktif di Kasir"
+"SIG-01","Sawan (Signature)","Signature",23000,8000,15000,"65,2%",280,6440000,2240000,"Aktif di Kasir"
+"SIG-02","Misoka (Aren Santai)","Signature",22000,7500,14500,"65,9%",195,4290000,1462500,"Aktif di Kasir"
+"COF-01","Caffe Latte","Coffee-Based",23000,7500,15500,"67,4%",142,3266000,1065000,"Aktif di Kasir"
+"RCB-01","Nasi Goreng SKK","Noodles, Rice & Pasta",22000,9000,13000,"59,1%",110,2420000,990000,"Aktif di Kasir"
+"SNK-01","Tahu Cabai Garam","Snacks & Toast",17000,5500,11500,"67,6%",98,1666000,539000,"Aktif di Kasir"
+"PST-01","Butter Croissant","Snacks & Toast",20000,6000,14000,"70,0%",72,1440000,432000,"Aktif di Kasir"

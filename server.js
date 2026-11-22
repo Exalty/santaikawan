@@ -341,19 +341,101 @@ app.post('/api/re-engage', (req, res) => {
   });
 });
 
-// GET Export Report CSV
+// GET Export Report (PDF, XLSX, CSV)
 app.get('/api/export', (req, res) => {
-  const db = readDB();
-  if (!db) return res.status(500).send('Error');
+  const type = req.query.type || 'penjualan';
+  const format = req.query.format || 'csv';
 
-  let csv = 'ID,Nama,No. HP,Email,Segmen,Tier,Kunjungan,Poin,Status,Menu Favorit\n';
-  db.members.forEach(m => {
-    csv += `"${m.id}","${m.name}","${m.phone}","${m.email}","${m.segment}","${m.tier}",${m.visits},${m.points},"${m.status}","${m.fav_menu}"\n`;
-  });
+  let filename = '';
+  if (type === 'penjualan') {
+    filename = `Laporan_Penjualan_SantaiKawan_Nov2026.${format}`;
+  } else if (type === 'labarugi') {
+    filename = `Laporan_Laba_Rugi_HPP_SantaiKawan_Nov2026.${format}`;
+  } else if (type === 'menu') {
+    filename = `Laporan_Performa_Menu_SantaiKawan_Nov2026.${format}`;
+  } else if (type === 'member') {
+    filename = `Laporan_CRM_Member_SantaiKawan_Nov2026.${format}`;
+  } else {
+    filename = `Laporan_Penjualan_SantaiKawan_Nov2026.${format}`;
+  }
 
-  res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="Laporan_CRM_SantaiKawanKopi.csv"');
-  res.send(csv);
+  const filePath = path.join(__dirname, 'public', 'downloads', filename);
+  if (fs.existsSync(filePath)) {
+    if (format === 'pdf') {
+      res.setHeader('Content-Type', 'application/pdf');
+    } else if (format === 'xlsx') {
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    } else {
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    }
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    return res.sendFile(filePath);
+  }
+
+  // Fallback dynamic generation if not pre-rendered
+  try {
+    const builder = require('./scripts/build_reports');
+    if (type === 'penjualan') {
+      if (format === 'pdf') {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildPenjualanPDF());
+      }
+      if (format === 'xlsx') {
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildPenjualanXLSX());
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return res.send(builder.buildPenjualanCSV());
+    } else if (type === 'labarugi') {
+      if (format === 'pdf') {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildLabaRugiPDF());
+      }
+      if (format === 'xlsx') {
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildLabaRugiXLSX());
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return res.send(builder.buildLabaRugiCSV());
+    } else if (type === 'menu') {
+      if (format === 'pdf') {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildMenuPDF());
+      }
+      if (format === 'xlsx') {
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildMenuXLSX());
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return res.send(builder.buildMenuCSV());
+    } else {
+      if (format === 'pdf') {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildMemberPDF());
+      }
+      if (format === 'xlsx') {
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(builder.buildMemberXLSX());
+      }
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return res.send(builder.buildMemberCSV());
+    }
+  } catch (err) {
+    console.error('Export error:', err);
+    res.status(500).send('Export generation failed');
+  }
 });
 
 // Fallback route to serve index.html for any unmatched client-side navigation

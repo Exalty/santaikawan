@@ -1,0 +1,12 @@
+﻿DATABASE LOYALTY MEMBER & 4 SEGMEN CRM - SANTAI KAWAN KOPI
+Total: 482 Member (Anak Nugas 34%, Ngopi Pagi 28%, Komunitas Malam 22%, Take-away 16%)
+
+ID,Nama,No. HP,Email,Segmen,Tier,Kunjungan,Poin,Status,Menu Favorit
+"SKK-001","Dimas Raditya","0812-3498-1122","dimas.raditya@gmail.com","Anak nugas / laptopan","Kawan Akrab",24,340,"Butuh Sapaan","Americano Dingin"
+"SKK-002","Alya Safitri","0813-8821-4433","alya.safitri@yahoo.com","Langganan harian / ngopi pagi","Kawan Akrab",31,410,"Butuh Sapaan","Kopi Susu Kawan"
+"SKK-003","Bima Maulana","0857-1920-5544","bima.maulana@outlook.com","Pengunjung malam & nongkrong","Kawan Dekat",15,180,"Butuh Sapaan","Manual Brew V60"
+"SKK-004","Reza Pratama","0878-1122-3344","reza.pratama@gmail.com","Anak nugas / laptopan","Kawan Akrab",42,520,"Aktif","Americano Dingin"
+"SKK-005","Sarah Amalia","0821-5566-7788","sarah.amalia@gmail.com","Langganan harian / ngopi pagi","Kawan Dekat",18,210,"Aktif","Kopi Susu Kawan"
+"SKK-006","Farhan Alamsyah","0813-9988-7766","farhan.alam@gmail.com","Pengunjung malam & nongkrong","Kawan Baru",6,80,"Aktif","Manual Brew & Croissant"
+"SKK-007","Nadia Putri","0856-3344-5566","nadia.putri@hotmail.com","Pembeli sesekali / take-away","Kawan Baru",5,60,"Aktif","Cold Brew Bottle"
+"SKK-008","Hendra Wijaya","0819-2233-4455","hendra.w@gmail.com","Anak nugas / laptopan","Kawan Akrab",35,460,"Aktif","Americano Dingin"
